@@ -1,0 +1,2 @@
+# Ignorování všech výstupních JSON souborů pro jejich velikost
+*.json
