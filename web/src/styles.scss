@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  /* Zkusíme rovnou aplikovat barvu pozadí a textu z vašeho tématu */
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+}
