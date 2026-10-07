@@ -32,7 +32,6 @@
             ],
             "styles": [
               "src/light.css",
-              "src/dark.css",
               "src/styles.scss"
             ]
           },

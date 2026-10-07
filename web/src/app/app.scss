@@ -1,7 +1,7 @@
 .testovaci-box {
   /* Zde voláme CSS proměnné z vašeho nahraného souboru light.css */
   background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-secondary);
+  color: var(--md-sys-color-on-primary);
 
   /* Jen trocha formátování, aby to vypadalo jako hezká karta */
   padding: 30px;
