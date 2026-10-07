@@ -11,13 +11,16 @@
         Long status_id FK
         Long nhm_id FK "Odkaz na typ nákladu z číselníku"
         Long route_id FK "Přiřazená trasa přepravy"
+        String name "Název objednávky"
         Float volume "Objem konkrétního nákladu (m3)"
         Float weight "Hmotnost konkrétního nákladu (t)"
         Timestamp startLoadTime "Začátek doby nakládání"
         Timestamp endLoadTime "Konec doby nakládání"
         Timestamp startUnloadTime "Začátek doby vykládání"
         Timestamp endUnloadTime "Konec doby vykládání"
-        Float price "Cena přepravy"
+        Timestamp preferredDepartureTime "Preferovaný čas odjezdu"
+        Timestamp preferredArrivalTime "Preferovaný čas příjezdu"
+        Float price "Cena přepravy (Kč)"
     }
     
     USER {
@@ -33,6 +36,7 @@
         Float netCapacityWeight "Netto - maximální nosnost nákladu (t)"
         Float grossWeightLimit "Brutto - maximální celková hmotnost (t)"
         Float volumeCapacity "Maximální objem nákladu (m3)"
+        Float rent "Cena za pronájem vagónu (Kč)"
     }
 
     ORDER_WAGON {
