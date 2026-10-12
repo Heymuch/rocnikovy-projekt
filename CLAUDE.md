@@ -38,7 +38,7 @@ Python 3 stdlib only. Default paths are relative (`./json/`, `./csv/`) and scrip
 ```sh
 python3 get_stations.py        # Overpass → json/railway_stations.json
 python3 get_rails.py           # Overpass → json/railway_rails.json (rail + narrow_gauge, no service tracks)
-python3 rail_segments.py       # rails → csv/rail_segments.csv (point-to-point edges, both directions, metres)
+python3 rail_segments.py       # rails → csv/rail_segments.csv (undirected point-to-point edges, each stored once, metres)
 python3 station_segments.py --max-distance 60   # splices stations into rail_segments.csv IN PLACE
 python3 station_path.py --from "Cheb" --to node/3036772660   # Dijkstra shortest path; prompts if args omitted
 ```
