@@ -7,13 +7,13 @@
 
     ORDER {
         uuid id PK
-        Long user_id FK
+        long user_id FK
         uuid? train_set_id FK "Vlaková souprava (může být null, pokud je ve frontě)"
         long cargo_type_id FK "Odkaz na typ nákladu z číselníku"
-        Long route_id FK "Přiřazená trasa přepravy"
         uuid station_from FK "Počáteční stanice (místo nakládky)"
         uuid station_to FK "Konečná stanice (místo vykládky)"
-        String status "Stav objednávky, enum (Čeká ve frontě, Potvrzená, V přepravě, Dokončena)"
+        uuid[] route "Sled bodů trasy"
+        string status "Stav objednávky, enum (Čeká ve frontě, Potvrzená, V přepravě, Dokončena)"
         String name "Název objednávky"
         Float volume "Objem konkrétního nákladu (m3)"
         Float weight "Hmotnost konkrétního nákladu (t)"
