@@ -14,38 +14,28 @@
         uuid station_to FK "Konečná stanice (místo vykládky)"
         uuid[] route "Sled bodů trasy"
         string status "Stav objednávky, enum (Čeká ve frontě, Potvrzená, V přepravě, Dokončena)"
-        String name "Název objednávky"
-        Float volume "Objem konkrétního nákladu (m3)"
-        Float weight "Hmotnost konkrétního nákladu (t)"
-        Timestamp startLoadTime "Začátek doby nakládání"
-        Timestamp endLoadTime "Konec doby nakládání"
-        Timestamp startUnloadTime "Začátek doby vykládání"
-        Timestamp endUnloadTime "Konec doby vykládání"
-        Timestamp preferredDepartureTime "Preferovaný čas odjezdu"
-        Timestamp preferredArrivalTime "Preferovaný čas příjezdu"
-        Float price "Cena přepravy (Kč)"
-    }
-    
-    USER {
-        Long id PK
-        String username UK
-        String password
+        string code "Kód objednávky"
+        float volume "Objem konkrétního nákladu (m3)"
+        float weight "Hmotnost konkrétního nákladu (t)"
+        long wagon_id FK "Typ wagónu"
+        int wagon_count "Počet potřebných wagónů"
+        string customer_email "E-mail zákazníka"
+        string customer_name "Jméno zákazníka"
+        date load_date "Začátek nakládání"
+        date unload_date "Začátek doby vykládání"
+        date preferred_departure "Preferovaný odjezd"
+        date preferred_arrival "Preferovaný příjezd"
+        date total_price "Cena přepravy (Kč)"
     }
 
     WAGON {
-        Long id PK
-        String name "Označení vagónu"
-        Float tareWeight "Tara - vlastní hmotnost prázdného vagónu (t)"
-        Float netCapacityWeight "Netto - maximální nosnost nákladu (t)"
-        Float grossWeightLimit "Brutto - maximální celková hmotnost (t)"
-        Float volumeCapacity "Maximální objem nákladu (m3)"
-        Float rent "Cena za pronájem vagónu (Kč)"
-    }
-
-    ORDER_WAGON {
-        Long id PK
-        Long order_id FK
-        Long wagon_id FK
+        long id PK
+        string name "Označení vagónu"
+        float tare_weight "Tara - vlastní hmotnost prázdného vagónu (t)"
+        float net_capacity_weight "Netto - maximální nosnost nákladu (t)"
+        float gross_weight_limit "Brutto - maximální celková hmotnost (t)"
+        float volume_capacity "Maximální objem nákladu (m3)"
+        float rent_price "Cena za pronájem (Kč/km)"
     }
 
     TRAIN {
@@ -53,6 +43,7 @@
         string name "Název/označení lokomotivy"
         integer max_towing_weight "Maximální tažená hmotnost (t)"
         integer max_speed "Maximální rychlost v km/h"
+        float rent_price "Cena za pronájem (Kč/km)"
     }
 
     TRAIN_SET {
@@ -67,19 +58,6 @@
     STATION {
         uuid id PK, FK
         varchar name UK
-    }
-
-    ROUTE {
-        uuid id PK
-        Float length "Délka trasy v km"
-        Integer estimatedTime "Odhadovaný čas projetí (např. v minutách)"
-    }
-
-    ROUTE_STATION {
-        Long id PK
-        Long route_id FK
-        Long station_id FK
-        Integer stationOrder "Pořadí stanice na trase (1, 2, 3...)"
     }
 
     CARGO_TYPE {
@@ -102,25 +80,16 @@
 
 %% Vztahy
 
-%% USER má nula až víc ORDER. ORDER má právě jednoho USER.
-    USER ||--o{ ORDER : "vytváří"
-
 %% TRAIN má nula až víc TRAIN SET. TRAIN SET má vždy jednu TRAIN.
     TRAIN ||--o{ TRAIN_SET : "táhne"
 
 %% ROUTE má dvě až více stanic (značeno jako 1..N), STATION má nula až více ROUTE
-    ROUTE ||--|{ ROUTE_STATION : "skládá se z"
-    STATION ||--o{ ROUTE_STATION : "je bodem na"
+    STATION ||--o{ ORDER : "nakládá se v"
+    STATION ||--o{ ORDER : "vykládá se v"
 
 %% CARGO_TYPE má nula nebo více ORDER. ORDER má právě jednu CARGO_TYPE.
     CARGO_TYPE ||--o{ ORDER : "kategorizuje náklad"
-
-%% ORDER má právě jednu ROUTE. ROUTE má jednu až víc ORDER.
-    ROUTE ||--|{ ORDER : "je naplánována pro"
-
-%% ORDER má jeden až více WAGON a WAGON má nula až více ORDER
-    ORDER ||--|{ ORDER_WAGON : "má přidělené"
-    WAGON ||--o{ ORDER_WAGON : "je součástí"
+    WAGON ||--o{ ORDER : ""
 
 %% TRAIN SET má jedna až více ORDER, ORDER má nula až jeden TRAIN SET.
     TRAIN_SET |o--|{ ORDER : "převáží"
