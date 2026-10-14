@@ -4,15 +4,16 @@
 Reads stations from railway_stations.json and rail segments from
 rail_segments.csv. For every station finds all segments (pairs of points
 A, B) not farther than --max-distance, removes each of them and replaces it
-with segments A - station and station - B (there and back). Linking to every
-nearby segment (not only the nearest one) connects the station to all its
-tracks, so the graph is not split at stations with several parallel tracks.
+with segments A - station and station - B. Linking to every nearby segment
+(not only the nearest one) connects the station to all its tracks, so the
+graph is not split at stations with several parallel tracks.
 Several stations on the same segment are chained in order along it. When the
 nearest place of a segment is its end point, the station is only linked to
 that point and the segment is kept.
 
 The CSV file is rewritten in place in the format:
 lat_of_a,lon_of_a,lat_of_b,lon_of_b,distance_in_meters
+Segments are undirected, each one is stored only once (A - B, never also B - A).
 """
 import argparse
 import csv
@@ -25,7 +26,7 @@ from pathlib import Path
 from rail_lengths import EARTH_RADIUS, haversine
 
 DEFAULT_STATIONS = "./json/railway_stations.json"
-DEFAULT_SEGMENTS = "./csv/rail_segments.csv"
+DEFAULT_SEGMENTS = "./csv/segments.csv"
 
 # Velikost buňky prostorového indexu ve stupních
 CELL = 0.01
@@ -40,7 +41,7 @@ def cell_of(lat: float, lon: float) -> tuple[int, int]:
 
 
 def segment_of(row: list[str]) -> Segment:
-    """Neorientovaný úsek z řádku CSV (každý je v CSV dvakrát, tam a zpět)."""
+    """Neorientovaný úsek z řádku CSV (body seřazené, aby A - B a B - A byl tentýž úsek)."""
     a = (float(row[0]), float(row[1]))
     b = (float(row[2]), float(row[3]))
     return min(a, b), max(a, b)
@@ -158,20 +159,25 @@ def main() -> int:
         new_segments.update(dict.fromkeys(zip(chain, chain[1:])))
     new_segments.update(dict.fromkeys(endpoint_links))
 
+    # Každý neorientovaný úsek se zapíše jen jednou, bez ohledu na směr
+    stored = set(removed)
     written = 0
     with args.input.open("w", encoding="utf-8", newline="") as file:
         writer = csv.writer(file, lineterminator="\n")
         writer.writerow(header)
         for row in rows:
-            if segment_of(row) not in removed:
+            segment = segment_of(row)
+            if segment not in stored:
+                stored.add(segment)
                 writer.writerow(row)
         for a, b in new_segments:
-            if a == b:
+            segment = (min(a, b), max(a, b))
+            if a == b or segment in stored:
                 continue
+            stored.add(segment)
             distance = round(haversine(*a, *b), 2)
             writer.writerow([*a, *b, distance])
-            writer.writerow([*b, *a, distance])
-            written += 2
+            written += 1
 
     print("Farthest stations from their nearest segment:", file=sys.stderr)
     for distance, _, name in sorted(matches, reverse=True)[:10]:

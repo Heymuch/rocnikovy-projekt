@@ -2,7 +2,8 @@
 """Find the shortest rail path between two railway stations.
 
 Reads stations from railway_stations.json and the rail graph from
-rail_segments.csv (edges between GPS points weighted by distance in meters).
+rail_segments.csv (undirected edges between GPS points weighted by distance
+in meters, each stored only once and usable in both directions).
 A station is a graph node identified by its GPS location. Stations can be
 given by name or OSM node id (e.g. "Cheb", "node/3036772660"); when omitted,
 the user is asked for them interactively.
@@ -19,7 +20,7 @@ from collections import defaultdict
 from pathlib import Path
 
 DEFAULT_STATIONS = "./json/railway_stations.json"
-DEFAULT_SEGMENTS = "./csv/rail_segments.csv"
+DEFAULT_SEGMENTS = "./csv/segments.csv"
 
 Point = tuple[float, float]
 
@@ -39,7 +40,10 @@ def load_graph(path: Path) -> dict[Point, list[tuple[Point, float]]]:
         for row in csv.DictReader(file):
             a = (float(row["lat_of_a"]), float(row["lon_of_a"]))
             b = (float(row["lat_of_b"]), float(row["lon_of_b"]))
-            graph[a].append((b, float(row["distance_in_meters"])))
+            distance = float(row["distance_in_meters"])
+            # Úsek je v CSV jen jednou (A - B), po trati se ale dá jet oběma směry
+            graph[a].append((b, distance))
+            graph[b].append((a, distance))
     return graph
 
 
