@@ -70,11 +70,11 @@
     TRAIN_SET {
         uuid id PK
         long locomotive_id FK
+        string code UK "Kód soupravy"
         date departure_date "Čas odjezdu"
         date arrival_date "Čas příjezdu"
         date expiration_date "Expirace soupravy"
     }
-
 
     STATION {
         uuid id PK, FK
