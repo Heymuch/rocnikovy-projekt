@@ -1,0 +1,20 @@
+{
+  "home": {
+    "title": "Nákladní železniční doprava",
+    "description": "Vítejte v oficiálním portálu pro efektivní správu, plánování a optimalizaci přepravy zboží nákladní vlakovou dopravou.",
+    "features": {
+      "routeOptimization": {
+        "title": "Optimalizace tras",
+        "description": "Využíváme data o železniční síti k nalezení nejvýhodnějších tras a výpočtu orientačních cen přepravy."
+      },
+      "smartGrouping": {
+        "title": "Chytré spojování",
+        "description": "Kombinujeme menší objednávky do společných vlaků pomocí inteligentní fronty pro maximální efektivitu."
+      },
+      "clearSystem": {
+        "title": "Přehledný systém",
+        "description": "Sledujte harmonogramy naložení, vyložení a aktuální stavy vašich zásilek na jednom místě."
+      }
+    }
+  }
+}

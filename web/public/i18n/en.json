@@ -1,0 +1,20 @@
+{
+  "home": {
+    "title": "Rail Freight Transport",
+    "description": "Welcome to the official portal for efficient management, planning, and optimization of rail freight transport.",
+    "features": {
+      "routeOptimization": {
+        "title": "Route Optimization",
+        "description": "We utilize railway network data to find the most cost-effective routes and calculate estimated shipping prices."
+      },
+      "smartGrouping": {
+        "title": "Smart Grouping",
+        "description": "We combine smaller orders into shared trains using an intelligent queue for maximum efficiency."
+      },
+      "clearSystem": {
+        "title": "Clear Overview",
+        "description": "Track loading and unloading schedules as well as real-time statuses of your shipments all in one place."
+      }
+    }
+  }
+}
