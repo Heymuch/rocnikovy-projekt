@@ -1,0 +1,54 @@
+<div class="table-container">
+  <table mat-table [dataSource]="orders()" class="md-table">
+
+    <!-- Sloupec: Kód / Název objednávky -->
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef> Kód objednávky </th>
+      <td mat-cell *matCellDef="let order"> {{ order.code }} </td>
+    </ng-container>
+
+    <!-- Sloupec: Stav objednávky -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Stav </th>
+      <td mat-cell *matCellDef="let order">
+        <span class="status-chip" [ngClass]="'status-' + order.status.toLowerCase()">
+          {{ getStatusLabel(order.status) }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Sloupec: Typ zboží -->
+    <ng-container matColumnDef="cargoType">
+      <th mat-header-cell *matHeaderCellDef> Typ zboží </th>
+      <td mat-cell *matCellDef="let order"> {{ order.cargoType }} </td>
+    </ng-container>
+
+    <!-- Sloupec: Odkud a kam -->
+    <ng-container matColumnDef="route">
+      <th mat-header-cell *matHeaderCellDef> Trasa (Odkud - Kam) </th>
+      <!-- Použití stationFrom a stationTo -->
+      <td mat-cell *matCellDef="let order"> {{ order.stationFrom }} &rarr; {{ order.stationTo }} </td>
+    </ng-container>
+
+    <!-- Sloupec: Od kdy do kdy -->
+    <ng-container matColumnDef="dates">
+      <th mat-header-cell *matHeaderCellDef> Termín (Od - Do) </th>
+      <!-- Použití preferredDeparture a preferredArrival -->
+      <td mat-cell *matCellDef="let order">
+        {{ order.preferredDeparture | date:'dd.MM.yyyy HH:mm' }} -
+        {{ order.preferredArrival | date:'dd.MM.yyyy HH:mm' }}
+      </td>
+    </ng-container>
+
+    <!-- Definice hlavičky a řádků pomocí struktury Angular Material -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Fallback při prázdných datech -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell empty-state" [attr.colspan]="displayedColumns.length">
+        Zatím nemáte žádné objednávky.
+      </td>
+    </tr>
+  </table>
+</div>
