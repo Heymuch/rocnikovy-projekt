@@ -1,6 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+/* Základní styly celé stránky */
 body {
-  /* Zkusíme rovnou aplikovat barvu pozadí a textu z vašeho tématu */
   background-color: var(--md-sys-color-background);
   color: var(--md-sys-color-on-background);
+  margin: 0;
+  font-family: sans-serif; /* Výchozí bezpatkové písmo bez řešení importů */
+}
+
+/* Základní styly nadpisů, ať je nemusíte stylovat zvlášť */
+h1, h2, h3 {
+  color: var(--md-sys-color-primary);
+  margin-top: 0;
+}
+
+/* Univerzální tlačítko (můžete použít kdekoli jako class="btn-primary") */
+.btn-primary {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+/* Univerzální karta (pro bloky obsahu) */
+.app-card {
+  background-color: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Základní kontejner pro vycentrování stránek */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
