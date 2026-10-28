@@ -58,13 +58,13 @@ export class OrderDetail {
   private location = inject(Location);
 
   // Přepínač pro testování admin zobrazení
-  isAdmin = true;
+  isAdmin = false;
 
   // Pro otestování jiného zobrazení stačí změnit status na 'Potvrzená'
   order: OrderMock = {
     id: '123e4567-e89b-12d3-a456-426614174000',
     code: 'ORD-2026-001',
-    status: OrderStatus.IN_QUEUE, // Zkuste změnit na OrderStatus.CONFIRMED
+    status: OrderStatus.COMPLETED, // Zkuste změnit na OrderStatus.In_QUEUE
     total_price: 45000,
     cargo: {
       cargo_type_name: 'Dřevo',
