@@ -1,0 +1,132 @@
+<!-- Horní lišta s navigací a akcemi -->
+<!--TODO chce to secondary barvu-->
+<mat-toolbar>
+  <button mat-icon-button (click)="goBack()" aria-label="Zpět">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span class="order-code">{{ order.code }}</span>
+
+  <!-- TODO nahradit chipsem ze styles -->
+  <span class="mock-chip">{{ order.status }}</span>
+
+  <!-- Pružná mezera, která odtlačí tlačítka doprava - momentálně nefunguje (klaun) -->
+<!--  TODO vyhodit class do styles-->
+  <span class="spacer"></span>
+
+  <button mat-button [disabled]="order.status !== OrderStatus.IN_QUEUE">EDITOVAT</button>
+  <button mat-button color="warn" [disabled]="order.status !== OrderStatus.IN_QUEUE">ZRUŠIT</button>
+</mat-toolbar>
+
+<!-- Hlavní kontejner pro karty -->
+<!--TODO vyhodit styly do styles / local css-->
+<div class="content-container">
+
+  <!-- Admin karta - viditelná jen pro isAdmin -->
+  @if (isAdmin) {
+    <mat-card class="admin-card">
+      <mat-card-header>
+        <mat-card-title>Administrátorské informace</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <dl class="data-list">
+          <div class="data-row">
+            <dt>Zadavatel:</dt>
+            <dd>{{ order.user?.name }} ({{ order.user?.email }})</dd>
+          </div>
+          <div class="data-row">
+            <dt>Přiřazený vlak (ID):</dt>
+            <dd>
+              @if (order.train_set_id) {
+                <!-- Zde pak bude routerLink na detail vlaku -->
+                <a href="#">{{ order.train_set_id }}</a>
+              } @else {
+                Nepřiřazeno
+              }
+            </dd>
+          </div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Karta: Náklad -->
+<!--  TODO styl karet? Má KK z home?-->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Informace o nákladu</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <dl class="data-list">
+        <div class="data-row">
+          <dt>Typ zboží:</dt>
+          <dd>{{ order.cargo.cargo_type_name }}</dd>
+        </div>
+        <div class="data-row">
+          <dt>Objem:</dt>
+          <dd>{{ order.cargo.volume }} m&sup3;</dd>
+        </div>
+        <div class="data-row">
+          <dt>Hmotnost:</dt>
+          <dd>{{ order.cargo.weight }} t</dd>
+        </div>
+        <div class="data-row price">
+          <dt>Cena přepravy:</dt>
+          <dd>{{ order.total_price }} Kč</dd>
+        </div>
+      </dl>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Karta: Trasa a časy -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Trasa a logistika</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="route-header">
+        <div class="station">{{ order.route.station_from_name }}</div>
+        <mat-icon>arrow_right_alt</mat-icon>
+        <div class="station">{{ order.route.station_to_name }}</div>
+      </div>
+
+      <mat-divider class="my-3"></mat-divider>
+
+      <dl class="data-list">
+        @if (order.status === OrderStatus.IN_QUEUE) {
+          <div class="data-row">
+            <dt>Preferovaný odjezd:</dt>
+            <!-- Využití naší nové roury -->
+            <dd>{{ order.preferred_departure | daytimeDisplay }}</dd>
+          </div>
+          <div class="data-row">
+            <dt>Preferovaný příjezd:</dt>
+            <dd>{{ order.preferred_arrival | daytimeDisplay }}</dd>
+          </div>
+        } @else {
+          <div class="data-row">
+            <dt>Odjezd vlaku:</dt>
+            <dd>{{ order.actual_departure | daytimeDisplay }}</dd>
+          </div>
+          <div class="data-row">
+            <dt>Příjezd vlaku:</dt>
+            <dd>{{ order.actual_arrival | daytimeDisplay }}</dd>
+          </div>
+          <div class="data-row">
+            <dt>Začátek nakládání:</dt>
+            <dd>{{ order.load_date | daytimeDisplay }}</dd>
+          </div>
+          <div class="data-row">
+            <dt>Začátek vykládání:</dt>
+            <dd>{{ order.unload_date | daytimeDisplay }}</dd>
+          </div>
+          <div class="data-row mt-2">
+            <dt>Přiřazené vagóny:</dt>
+            <dd>{{ order.cargo.wagon_count }}x {{ order.cargo.wagon_type_name }}</dd>
+          </div>
+        }
+      </dl>
+    </mat-card-content>
+  </mat-card>
+
+</div>

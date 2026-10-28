@@ -1,0 +1,91 @@
+/* Reset okrajů pro description list */
+.data-list {
+  margin: 0;
+  padding: 0;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  dt {
+    font-weight: 500;
+    margin: 0;
+  }
+
+  dd {
+    margin: 0;
+    text-align: right;
+  }
+}
+
+.admin-card {
+  flex-basis: 100%; /* Admin karta zabere celý řádek nad ostatními kartami */
+  background-color: #f8f9fa; /* Lehké odlišení barvou pozadí */
+}
+
+/* --- ZBYTEK STYLŮ Z MINULA --- */
+.order-code {
+  font-weight: 500;
+  margin-left: 8px;
+  margin-right: 16px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mock-chip {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  background-color: #e0e0e0;
+  color: rgba(0,0,0,0.87);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.content-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+mat-card {
+  flex: 1 1 400px;
+}
+
+.price {
+  font-size: 1.1em;
+  color: #1976d2;
+}
+
+.route-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  font-size: 1.2em;
+  font-weight: 500;
+
+  mat-icon {
+    color: rgba(0,0,0,0.54);
+    transform: scale(1.5);
+  }
+}
+
+.my-3 {
+  margin: 16px 0;
+}
+.mt-2 {
+  margin-top: 16px;
+}
