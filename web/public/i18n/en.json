@@ -16,5 +16,12 @@
         "description": "Track loading and unloading schedules as well as real-time statuses of your shipments all in one place."
       }
     }
+  },
+  "menu": {
+    "myOrders": "My Orders",
+    "newOrder": "New Order",
+    "trainOverview": "Train Overview",
+    "logout": "Log Out",
+    "login": "Log In"
   }
 }

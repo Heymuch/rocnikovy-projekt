@@ -1,0 +1,25 @@
+<mat-toolbar class="app-toolbar-sticky">
+  <a routerLink="/" class="logo-link">
+    <img src="logo.png" alt="Logo aplikace" class="app-logo">
+  </a>
+  <button type="button" mat-button (click)="toggleLanguage()">
+    <mat-icon>language</mat-icon>
+    {{ currentLanguage === 'cs' ? 'EN' : 'CS' }}
+  </button>
+  @if (isAuthenticated) {
+    <a mat-button routerLink="/my-orders">{{ 'menu.myOrders' | translate }}</a>
+    <a mat-button routerLink="/new-order">{{ 'menu.newOrder' | translate }}</a>
+    @if (isAdmin) {
+      <a mat-button routerLink="/train-overview">{{ 'menu.trainOverview' | translate }}</a>
+    }
+
+    <button type="button" mat-icon-button [matTooltip]="'menu.logout' | translate" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+
+  } @else {
+    <button type="button" mat-button [matTooltip]="'menu.login' | translate" (click)="login()">
+      <mat-icon>login</mat-icon>
+    </button>
+  }
+</mat-toolbar>
