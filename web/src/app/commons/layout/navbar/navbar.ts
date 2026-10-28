@@ -21,7 +21,7 @@ import {RouterLink} from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  /*readonly*/ isAuthenticated = false //Později nějak zjistit jestli je přihlášený nebo ne
+  /*readonly*/ isAuthenticated = true //Později nějak zjistit jestli je přihlášený nebo ne
   readonly isAdmin = true // Později z rolí
   currentLanguage = 'cs';
 
