@@ -16,5 +16,12 @@
         "description": "Sledujte harmonogramy naložení, vyložení a aktuální stavy vašich zásilek na jednom místě."
       }
     }
+  },
+  "menu": {
+    "myOrders": "Přehled objednávek",
+    "newOrder": "Nová objednávka",
+    "trainOverview": "Přehled vlaků",
+    "logout": "Odhlásit se",
+    "login": "Přihlásit se"
   }
 }
