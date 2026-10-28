@@ -1,41 +1,39 @@
-<div class="page-container" style="text-align: center;">
+<div class="page-container">
 
-  <!-- Hlavní uvítací karta s logem -->
-  <div class="app-card hero-card" style="padding: 3rem 2rem; margin-bottom: 2rem;">
-    <!-- Zobrazení loga -->
-    <img src="logo.png" alt="Logo projektu" style="max-height: 80px; width: auto; margin-bottom: 1.5rem;" />
-
-    <h1>{{ 'home.title' | translate }}</h1>
-    <p>{{ 'home.description' | translate }}</p>
-  </div>
-
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; text-align: left;">
-
-    <!-- Karta 1 -->
-    <div class="app-card">
-      <h3>{{ 'home.features.routeOptimization.title' | translate }}</h3>
-      <p>
-        {{ 'home.features.routeOptimization.description' | translate }}
-      </p>
+  <!-- Hlavní uvítací sekce -->
+  <section class="hero-section">
+    <!-- Obsah (logo, nadpis, popisek) -->
+    <div class="hero-content">
+      <img src="logo.png" alt="Logo projektu" class="hero-logo" />
+      <h1>{{ 'home.title' | translate }}</h1>
+      <p class="hero-description">{{ 'home.description' | translate }}</p>
     </div>
 
-    <!-- Karta 2 -->
-    <div class="app-card">
-      <h3>{{ 'home.features.smartGrouping.title' | translate }}</h3>
-      <p>
-        {{ 'home.features.smartGrouping.description' | translate }}
-      </p>
+    <!-- Vlak v pozadí dole -->
+    <div class="bg-train-wrapper">
+      <img src="/vlak.png" alt="Vlaková souprava" class="bg-train-image" />
+    </div>
+  </section>
+
+  <!-- Mřížka s vlastnostmi aplikace -->
+  <section class="grid-cards">
+    <div class="app-card app-card-interactive feature-card-content">
+      <span class="material-icons feature-icon">map</span>
+      <h3 class="card-title">{{ 'home.features.routeOptimization.title' | translate }}</h3>
+      <p class="card-description">{{ 'home.features.routeOptimization.description' | translate }}</p>
     </div>
 
-    <!-- Karta 3 -->
-    <div class="app-card">
-      <h3>{{ 'home.features.clearSystem.title' | translate }}</h3>
-      <p>
-        {{ 'home.features.clearSystem.description' | translate }}
-      </p>
+    <div class="app-card app-card-interactive feature-card-content">
+      <span class="material-icons feature-icon">train</span>
+      <h3 class="card-title">{{ 'home.features.smartGrouping.title' | translate }}</h3>
+      <p class="card-description">{{ 'home.features.smartGrouping.description' | translate }}</p>
     </div>
 
-  </div>
+    <div class="app-card app-card-interactive feature-card-content">
+      <span class="material-icons feature-icon">dashboard</span>
+      <h3 class="card-title">{{ 'home.features.clearSystem.title' | translate }}</h3>
+      <p class="card-description">{{ 'home.features.clearSystem.description' | translate }}</p>
+    </div>
+  </section>
 
 </div>
-

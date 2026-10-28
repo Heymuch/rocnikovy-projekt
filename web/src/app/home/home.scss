@@ -1,0 +1,60 @@
+/* Hlavní uvítací sekce */
+.hero-section {
+  position: relative;
+  width: 100%;
+  /* Zvětšili jsme spodní padding na 16rem, aby měl velký vlak dostatek prostoru pod textem */
+  padding: 4rem 2rem 16rem 2rem;
+  text-align: center;
+  overflow: hidden; /* Skryje případný přesah mimo zaoblené rohy karty */
+  margin-bottom: 3rem;
+  border-radius: 1rem;
+  background-color: var(--md-sys-color-surface-container-low);
+  box-sizing: border-box;
+}
+
+/* Obsah (logo, nadpis, popisek) zůstává nahoře */
+.hero-content {
+  position: relative;
+  z-index: 2; /* Vrstva nahoře, aby byl text vždy perfektně čitelný */
+}
+
+.hero-logo {
+  max-height: 120px;
+  width: auto;
+  margin-bottom: 2rem;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  color: var(--md-sys-color-on-surface-variant);
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Kontejner pro obrázek v pozadí - posunutý níže do levého dolního rohu */
+.bg-train-wrapper {
+  position: absolute;
+
+  /* Posunuli jsme ho hlouběji dolů (více do mínusu) */
+  bottom: -60px;
+
+  /* Přilepení k levému okraji */
+  left: -40px;
+  transform: none;
+
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  pointer-events: none; /* Myš proklikne skrz na případné prvky pod ním */
+  z-index: 1;           /* Vrstvově pod textem (z-index 2) */
+  opacity: 0.22;        /* Jemný průhledný vodoznak */
+}
+
+/* Velikost obrázku vlaku */
+.bg-train-image {
+  max-width: 850px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}

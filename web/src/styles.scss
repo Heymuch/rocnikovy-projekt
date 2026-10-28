@@ -1,18 +1,74 @@
+// Include theming for Angular Material
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+      (
+        color: (
+          primary: mat.$magenta-palette,
+          tertiary: mat.$violet-palette,
+        ),
+        typography: 'sans-serif',
+        density: 0,
+      )
+  );
+}
+
 /* Základní styly celé stránky */
 body {
+  color-scheme: light;
   background-color: var(--md-sys-color-background);
   color: var(--md-sys-color-on-background);
   margin: 0;
-  font-family: sans-serif; /* Výchozí bezpatkové písmo bez řešení importů */
+  height: 100%;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Základní styly nadpisů, ať je nemusíte stylovat zvlášť */
-h1, h2, h3 {
+/* =========================================
+   Základní styly nadpisů (Minimalistická typografie)
+   ========================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  /* Všechny nadpisy používají tvou primární barvu pro konzistenci */
   color: var(--md-sys-color-primary);
   margin-top: 0;
+  margin-bottom: 1rem;
+
+  /* Sjednocená font-family (dědí ze základního nastavení), ale mírně sražené mezery mezi písmeny pro modernější vzhled */
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
 }
 
-/* Univerzální tlačítko (můžete použít kdekoli jako class="btn-primary") */
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  /* Hlavní nadpis může mít tmavší barvu na povrchu, nebo tvou primární */
+  color: var(--md-sys-color-primary);
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  /* Sekundární nadpis využívá trochu tlumenější barvu pro vytvoření hierarchie */
+  color: var(--md-sys-color-on-surface-variant);
+  border-bottom: 1px solid var(--md-sys-color-surface-variant);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Univerzální tlačítko */
 .btn-primary {
   background-color: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
@@ -29,6 +85,17 @@ h1, h2, h3 {
   }
 }
 
+/* Základní kontejner pro vycentrování stránek */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* =========================================
+   Mřížky a Karty (Globální znovupoužitelné styly)
+   ========================================= */
+
 /* Univerzální karta (pro bloky obsahu) */
 .app-card {
   background-color: var(--md-sys-color-surface-container-low);
@@ -39,9 +106,142 @@ h1, h2, h3 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Základní kontejner pro vycentrování stránek */
-.page-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Univerzální responzivní mřížka pro karty */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: stretch;
+}
+
+/* Interaktivní varianta karty (s efektem po najetí myší) */
+.app-card-interactive {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+    background-color: var(--md-sys-color-surface-container);
+  }
+}
+
+/* Sjednocený vzhled nadpisů a textů uvnitř karet */
+.card-title {
+  font-size: 1.25rem;
+  color: var(--md-sys-color-on-surface);
+  margin-bottom: 0.75rem;
+}
+
+.card-description {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* =========================================
+   Tabulky (.table-container & .md-table)
+   ========================================= */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--md-sys-color-surface-container-lowest);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: transparent;
+
+  th[mat-header-cell],
+  .mat-mdc-header-cell {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid var(--md-sys-color-surface-container-high);
+    text-align: left;
+  }
+
+  td[mat-cell],
+  .mat-mdc-cell {
+    color: var(--md-sys-color-on-surface);
+    font-size: 0.9rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--md-sys-color-surface-container);
+    vertical-align: middle;
+  }
+
+  tr:last-child td[mat-cell],
+  tr:last-child .mat-mdc-cell {
+    border-bottom: none;
+  }
+
+  tr[mat-row],
+  .mat-mdc-row {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-container-low);
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem !important;
+    color: var(--md-sys-color-outline);
+    font-style: italic;
+    font-size: 0.9rem;
+    background-color: transparent;
+  }
+
+  .mat-column-code {
+    font-weight: 600;
+    color: var(--md-sys-color-primary);
+  }
+}
+
+/* =========================================
+   Status Chips (.status-chip)
+   ========================================= */
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+
+  &.status-queued {
+    background-color: var(--md-sys-color-surface-variant);
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  &.status-confirmed {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+  }
+
+  &.status-in_transit {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+  }
+
+  &.status-completed {
+    background-color: var(--md-sys-color-tertiary-container);
+    color: var(--md-sys-color-on-tertiary-container);
+  }
 }

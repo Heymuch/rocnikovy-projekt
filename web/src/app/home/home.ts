@@ -1,12 +1,11 @@
-import {Component} from '@angular/core';
-import {TranslatePipe} from '@ngx-translate/core';
+import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
-  imports: [
-    TranslatePipe
-  ],
+  standalone: true,
+  imports: [TranslatePipe],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrl: './home.scss'
 })
 export class Home {}
