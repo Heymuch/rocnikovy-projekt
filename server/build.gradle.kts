@@ -4,3 +4,29 @@
  * This is a general purpose Gradle build.
  * Learn more about Gradle by exploring our Samples at https://docs.gradle.org/9.8.2/samples
  */
+
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ktlint)
+    alias(ktorLibs.plugins.ktor)
+}
+
+application {
+    mainClass = "io.ktor.server.netty.EngineMain"
+}
+
+dependencies {
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.r2dbc)
+
+    implementation(ktorLibs.server.core)
+    implementation(ktorLibs.server.netty)
+    implementation(ktorLibs.server.resources)
+    implementation(ktorLibs.server.di)
+    implementation(ktorLibs.server.config.yaml)
+    implementation(ktorLibs.server.swagger)
+    implementation(ktorLibs.server.openapi)
+
+    implementation(libs.logback.classic)
+}

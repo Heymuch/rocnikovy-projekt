@@ -5,4 +5,23 @@
  * For more detailed information on multi-project builds, please refer to https://docs.gradle.org/9.8.2/userguide/multi_project_builds.html in the Gradle documentation.
  */
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+    versionCatalogs {
+        create("ktorLibs").from("io.ktor:ktor-version-catalog:3.6.1")
+    }
+}
+
 rootProject.name = "fei-cargo"
