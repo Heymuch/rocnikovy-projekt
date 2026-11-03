@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 University year project (ročníkový projekt, UPCE) built by a team of four. Project documentation (READMEs, diagrams) and code comments are written in Czech.
 
-Planned architecture (see the mermaid diagram in `README.md`): Angular frontend (`web/`) → Ktor/Kotlin backend (`server/`, port 8080) → PostgreSQL, with Keycloak for auth. `server/` is still only a README stub; `web/` is a freshly generated Angular 21 app. The working parts so far are the database stack and the OpenStreetMap railway scripts.
+Planned architecture (see the mermaid diagram in `README.md`): Angular frontend (`web/`) → Ktor/Kotlin backend (`server/`, port 8080) → PostgreSQL, with Keycloak for auth. `server/` is an empty Gradle 9.8 `init` skeleton (root project `fei-cargo`, run via `./gradlew`) with no Kotlin/Ktor plugins or sources yet; `web/` is a freshly generated Angular 21 app. The working parts so far are the database stack and the OpenStreetMap railway scripts.
 
 ## Local stack
 
@@ -25,7 +25,8 @@ podman compose down --volumes   # wipe the database (needed after changing datab
 
 ## Database & migrations
 
-- Migrations are plain SQL in `database/sql/`, named `V<major>_<minor>_<patch>__<description>.sql` (e.g. `V001_000_000__create_consignment_table.sql`).
+- The target data model (orders, cargo, wagons, locomotives, train sets, stations, railway graph/nodes) is the mermaid ER diagram in `database/README.md`; existing migrations cover only a small part of it.
+- Migrations are plain SQL in `database/sql/` (`structure/` for schema, `data/` for seed data), named `V<major>_<minor>_<patch>__<description>.sql` (e.g. `V001_000_000__create_consignment_table.sql`).
 - Flyway mounts the whole `database/` directory as its location and scans recursively, so any `V*.sql` file anywhere under `database/` is picked up.
 - Migrations run as a dedicated `flyway` role, not as `app`. That role is created by `database/init/01-create-flyway-user.sh`, which the postgres image executes **only when the data volume is first initialized**.
 - Never edit an already-applied migration; add a new versioned file instead (Flyway checksum validation fails otherwise).
@@ -41,7 +42,10 @@ python3 get_rails.py           # Overpass → json/railway_rails.json (rail + na
 python3 rail_segments.py       # rails → csv/rail_segments.csv (undirected point-to-point edges, each stored once, metres)
 python3 station_segments.py --max-distance 60   # splices stations into rail_segments.csv IN PLACE
 python3 station_path.py --from "Cheb" --to node/3036772660   # Dijkstra shortest path; prompts if args omitted
+python3 segments_to_sql.py -i csv/rail_segments.csv   # → sql/segments.sql (INSERTs into railway_graph); default input is csv/segments.csv
 ```
+
+`segments_to_sql.py` derives node IDs as `uuid5(NIL, "<int(lat*1e7)>,<int(lon*1e7)>")`, so the same GPS point always gets the same UUID. It is work in progress: the generated SQL is currently invalid (`VALUE` instead of `VALUES`, missing commas in the column list). Its output `openstreetmap/sql/segments.sql` (~95 MB) is committed, unlike the JSON/CSV outputs.
 
 The rail graph is `csv/rail_segments.csv` (`lat_of_a,lon_of_a,lat_of_b,lon_of_b,distance_in_meters`); nodes are GPS points, and stations become nodes after `station_segments.py`. Because that step rewrites the CSV, re-run `rail_segments.py` before running it again. `openstreetmap/Makefile` is partly stale (references scripts that no longer exist); only `station_segments` and the scripts above are valid targets.
 
