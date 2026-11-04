@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {MatToolbar} from '@angular/material/toolbar';
-import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-import {MatTooltip} from '@angular/material/tooltip';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {RouterLink} from '@angular/router';
 
@@ -10,9 +9,7 @@ import {RouterLink} from '@angular/router';
   selector: 'app-navbar',
   imports: [
     MatToolbar,
-    MatIconButton,
     MatIcon,
-    MatTooltip,
     MatButton,
     RouterLink,
     TranslatePipe,

@@ -1,4 +1,11 @@
 {
+  "codeOrder": "Order Code",
+  "status": "Status",
+  "cargoType": "Cargo Type",
+  "route": "Route (From - To)",
+  "dates": "Schedule (From - To)",
+  "noOrders": "You don't have any orders yet.",
+
   "home": {
     "title": "Rail Freight Transport",
     "description": "Welcome to the official portal for efficient management, planning, and optimization of rail freight transport.",
@@ -23,5 +30,11 @@
     "trainOverview": "Train Overview",
     "logout": "Log Out",
     "login": "Log In"
+  },
+  "orderStatuses": {
+    "inQueue": "In Queue",
+    "confirmed": "Confirmed",
+    "inTransit": "In Transit",
+    "completed": "Completed"
   }
 }

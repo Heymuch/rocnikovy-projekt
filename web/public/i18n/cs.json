@@ -1,4 +1,11 @@
 {
+  "codeOrder": "Kód objednávky",
+  "status": "Stav",
+  "cargoType": "Typ zboží",
+  "route": "Trasa (Odkud - Kam)",
+  "dates": "Termín (Od - Do)",
+  "noOrders": "Zatím nemáte žádné objednávky.",
+
   "home": {
     "title": "Nákladní železniční doprava",
     "description": "Vítejte v oficiálním portálu pro efektivní správu, plánování a optimalizaci přepravy zboží nákladní vlakovou dopravou.",
@@ -23,5 +30,11 @@
     "trainOverview": "Přehled vlaků",
     "logout": "Odhlásit se",
     "login": "Přihlásit se"
+  },
+  "orderStatuses": {
+    "inQueue": "Čeká ve frontě",
+    "confirmed": "Potvrzená",
+    "inTransit": "V přepravě",
+    "completed": "Dokončená"
   }
 }

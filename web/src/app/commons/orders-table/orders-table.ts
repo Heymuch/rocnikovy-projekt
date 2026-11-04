@@ -1,6 +1,6 @@
 import {Component, input} from '@angular/core';
 import {Order} from '../../order';
-import {DatePipe, NgClass} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {
   MatCell, MatCellDef,
   MatColumnDef,
@@ -9,11 +9,13 @@ import {
   MatRow, MatRowDef,
   MatTable
 } from '@angular/material/table';
+import {TranslatePipe} from '@ngx-translate/core';
+import {DaytimeDisplayPipe} from 'src/app/commons/daytime-display.pipe';
+import {OrderStatusDisplayPipe} from '../order-status-display.pipe';
 
 @Component({
   selector: 'app-orders-table',
   imports: [
-    DatePipe,
     NgClass,
     MatTable,
     MatColumnDef,
@@ -25,23 +27,15 @@ import {
     MatCellDef,
     MatHeaderRowDef,
     MatRowDef,
-    MatNoDataRow
+    MatNoDataRow,
+    TranslatePipe,
+    DaytimeDisplayPipe,
+    OrderStatusDisplayPipe
   ],
   templateUrl: './orders-table.html',
   styleUrl: './orders-table.scss',
 })
 export class OrdersTable {
   readonly orders = input.required<Order[]>();
-
   displayedColumns: string[] = ['code', 'status', 'cargoType', 'route', 'dates'];
-
-  getStatusLabel(status: string): string {
-    const statusMap: Record<string, string> = {
-      'QUEUED': 'Čeká ve frontě',
-      'CONFIRMED': 'Potvrzena',
-      'IN_TRANSIT': 'V přepravě',
-      'COMPLETED': 'Dokončena'
-    };
-    return statusMap[status] || status;
-  }
 }

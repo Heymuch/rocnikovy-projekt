@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import {Order} from '../order';
 import {OrdersTable} from '../commons/orders-table/orders-table';
+import {TranslatePipe} from '@ngx-translate/core';
+import {OrderStatus} from 'src/app/commons/order-status';
 
 @Component({
   selector: 'app-my-orders',
   imports: [
-    OrdersTable
+    OrdersTable,
+    TranslatePipe
   ],
   templateUrl: './my-orders.html',
   styleUrl: './my-orders.scss',
@@ -15,7 +18,7 @@ export class MyOrders {
     {
       id: 'ORD-001',
       code: 'Přeprava uhlí Ostrava',
-      status: 'QUEUED',
+      status: OrderStatus.IN_QUEUE,
       cargoType: 'Sypký materiál',
       stationFrom: 'Ostrava',
       stationTo: 'Kladno',
@@ -25,7 +28,7 @@ export class MyOrders {
     {
       id: 'ORD-002',
       code: 'Dřevo na pilu',
-      status: 'IN_TRANSIT',
+      status: OrderStatus.IN_TRANSIT,
       cargoType: 'Dřevo',
       stationFrom: 'Liberec',
       stationTo: 'Brno',
@@ -35,7 +38,7 @@ export class MyOrders {
     {
       id: 'ORD-003',
       code: 'Stavební ocel',
-      status: 'COMPLETED',
+      status: OrderStatus.COMPLETED,
       cargoType: 'Kovovýroba',
       stationFrom: 'Plzeň',
       stationTo: 'Praha',

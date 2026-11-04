@@ -1,63 +1,38 @@
-<!-- Horní lišta s navigací a akcemi -->
-<!--TODO chce to secondary barvu-->
-<mat-toolbar>
+<mat-toolbar class="detail-toolbar">
   <button mat-icon-button (click)="goBack()" aria-label="Zpět">
     <mat-icon>arrow_back</mat-icon>
   </button>
 
   <span class="order-code">{{ order.code }}</span>
 
-  <!-- TODO nahradit chipsem ze styles -->
-  <span class="mock-chip">{{ order.status }}</span>
+  <span class="status-chip" [ngClass]="'status-' + order.status.toLowerCase()">
+    {{ order.status | orderStatusDisplay | translate }}
+  </span>
 
-  <!-- Pružná mezera, která odtlačí tlačítka doprava - momentálně nefunguje (klaun) -->
-<!--  TODO vyhodit class do styles-->
   <span class="spacer"></span>
 
-  <button mat-button [disabled]="order.status !== OrderStatus.IN_QUEUE">EDITOVAT</button>
-  <button mat-button color="warn" [disabled]="order.status !== OrderStatus.IN_QUEUE">ZRUŠIT</button>
+  <div class="toolbar-actions">
+    <!-- Tlačítka využívají globální UI styly -->
+    <button class="btn-primary" [disabled]="order.status !== OrderStatus.IN_QUEUE">EDITOVAT</button>
+    <button class="btn-primary btn-cancel" [disabled]="order.status !== OrderStatus.IN_QUEUE">ZRUŠIT</button>
+  </div>
 </mat-toolbar>
 
-<!-- Hlavní kontejner pro karty -->
-<!--TODO vyhodit styly do styles / local css-->
-<div class="content-container">
+<div class="page-container grid-cards">
 
-  <!-- Admin karta - viditelná jen pro isAdmin -->
-  @if (isAdmin) {
-    <mat-card class="admin-card">
-      <mat-card-header>
-        <mat-card-title>Administrátorské informace</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <dl class="data-list">
-          <div class="data-row">
-            <dt>Zadavatel:</dt>
-            <dd>{{ order.user?.name }} ({{ order.user?.email }})</dd>
-          </div>
-          <div class="data-row">
-            <dt>Přiřazený vlak (ID):</dt>
-            <dd>
-              @if (order.train_set_id) {
-                <!-- Zde pak bude routerLink na detail vlaku -->
-                <a href="#">{{ order.train_set_id }}</a>
-              } @else {
-                Nepřiřazeno
-              }
-            </dd>
-          </div>
-        </dl>
-      </mat-card-content>
-    </mat-card>
-  }
-
-  <!-- Karta: Náklad -->
-<!--  TODO styl karet? Má KK z home?-->
-  <mat-card>
+  <!-- Karta 1: Informace o nákladu (+ Zadavatel pro admina) -->
+  <mat-card class="data-card">
     <mat-card-header>
-      <mat-card-title>Informace o nákladu</mat-card-title>
+      <mat-card-title class="card-title">Informace o nákladu</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <dl class="data-list">
+        <!-- Administrátorská informace o zadavateli -->
+        <div class="data-row" *ngIf="isAdmin">
+          <dt>Zadavatel:</dt>
+          <dd>{{ order.user?.name }} ({{ order.user?.email }})</dd>
+        </div>
+
         <div class="data-row">
           <dt>Typ zboží:</dt>
           <dd>{{ order.cargo.cargo_type_name }}</dd>
@@ -70,7 +45,9 @@
           <dt>Hmotnost:</dt>
           <dd>{{ order.cargo.weight }} t</dd>
         </div>
-        <div class="data-row price">
+
+        <!-- Zvýrazněná cena -->
+        <div class="data-row-highlight">
           <dt>Cena přepravy:</dt>
           <dd>{{ order.total_price }} Kč</dd>
         </div>
@@ -78,10 +55,10 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Karta: Trasa a časy -->
-  <mat-card>
+  <!-- Karta 2: Trasa a logistika (+ Přiřazený vlak pro admina) -->
+  <mat-card class="data-card">
     <mat-card-header>
-      <mat-card-title>Trasa a logistika</mat-card-title>
+      <mat-card-title class="card-title">Trasa a logistika</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="route-header">
@@ -93,17 +70,20 @@
       <mat-divider class="my-3"></mat-divider>
 
       <dl class="data-list">
-        @if (order.status === OrderStatus.IN_QUEUE) {
+        <!-- Blok pro frontu -->
+        <ng-container *ngIf="order.status === OrderStatus.IN_QUEUE">
           <div class="data-row">
             <dt>Preferovaný odjezd:</dt>
-            <!-- Využití naší nové roury -->
             <dd>{{ order.preferred_departure | daytimeDisplay }}</dd>
           </div>
           <div class="data-row">
             <dt>Preferovaný příjezd:</dt>
             <dd>{{ order.preferred_arrival | daytimeDisplay }}</dd>
           </div>
-        } @else {
+        </ng-container>
+
+        <!-- Blok pro ostatní stavy -->
+        <ng-container *ngIf="order.status !== OrderStatus.IN_QUEUE">
           <div class="data-row">
             <dt>Odjezd vlaku:</dt>
             <dd>{{ order.actual_departure | daytimeDisplay }}</dd>
@@ -120,11 +100,23 @@
             <dt>Začátek vykládání:</dt>
             <dd>{{ order.unload_date | daytimeDisplay }}</dd>
           </div>
-          <div class="data-row mt-2">
+
+          <!-- Přiřazený vlak pro admina (mezi vykládáním a vagóny) -->
+          <div class="data-row" *ngIf="isAdmin">
+            <dt>Přiřazený vlak (ID):</dt>
+            <dd>
+              <ng-container *ngIf="order.train_set_id; else noTrainSet">
+                <a href="#">{{ order.train_set_id }}</a>
+              </ng-container>
+              <ng-template #noTrainSet>Nepřiřazeno</ng-template>
+            </dd>
+          </div>
+          <!-- Řádek pro vagóny už bez třídy mt-2 -->
+          <div class="data-row">
             <dt>Přiřazené vagóny:</dt>
             <dd>{{ order.cargo.wagon_count }}x {{ order.cargo.wagon_type_name }}</dd>
           </div>
-        }
+        </ng-container>
       </dl>
     </mat-card-content>
   </mat-card>
