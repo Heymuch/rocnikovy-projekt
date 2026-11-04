@@ -33,3 +33,11 @@ station_segments: rail_segments
 .PHONY: station_path
 station_path:
 	@python3 station_path.py;
+
+.PHONY: segments_to_sql
+segments_to_sql:
+	@python3 segments_to_sql.py;
+
+.PHONY: stations_to_sql
+stations_to_sql:
+	@python3 stations_to_sql.py;
