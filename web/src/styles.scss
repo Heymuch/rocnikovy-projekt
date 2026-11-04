@@ -5,10 +5,6 @@ html {
   height: 100%;
   @include mat.theme(
       (
-        color: (
-          primary: mat.$magenta-palette,
-          tertiary: mat.$violet-palette,
-        ),
         typography: 'sans-serif',
         density: 0,
       )
@@ -68,22 +64,88 @@ h4 {
   font-weight: 500;
 }
 
-/* Univerzální tlačítko */
+/* =========================================
+   Moderní Tlačítka (Primary & Cancel) s výraznějším disabled stavem
+   ========================================= */
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
 .btn-primary {
   background-color: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
   border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 0.5rem;
+  padding: 0 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 9999px; /* Pill shape */
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  box-shadow: none;
+  transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 40px;
+  letter-spacing: 0.01em;
+
+  mat-icon, svg, i {
+    font-size: 1.1rem;
+    height: 1.1rem;
+    width: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+  }
+
+  /* HOVER PRO PRIMÁRNÍ TLAČÍTKO */
   &:hover {
     opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  /* ZVÝRAZNĚNÝ DISABLED STAV */
+  &:disabled {
+    background-color: var(--md-sys-color-surface-variant);
+    color: var(--md-sys-color-on-surface-variant);
+    cursor: not-allowed;
+    opacity: 0.75; // Zvýšeno z původních 0.5, aby bylo lépe vidět
+    transform: none;
+  }
+
+  /* SPECIÁLNĚ PRO TLAČÍTKO ZRUŠIT / SECONDARY */
+  &.btn-cancel {
+    background-color: var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-on-surface-variant);
+    border: 1px solid var(--md-sys-color-outline-variant);
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-container-highest);
+      color: var(--md-sys-color-on-surface);
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ZVÝRAZNĚNÝ DISABLED STAV PRO CANCEL */
+    &:disabled {
+      background-color: var(--md-sys-color-surface-container-low);
+      color: var(--md-sys-color-on-surface-variant);
+      border-color: var(--md-sys-color-outline-variant); // Zachovaný rámeček pro lepší čitelnost
+      opacity: 0.7; // Zvýšeno z původních 0.4
+    }
   }
 }
+
 
 /* Základní kontejner pro vycentrování stránek */
 .page-container {
@@ -225,7 +287,7 @@ h4 {
   letter-spacing: 0.02em;
   white-space: nowrap;
 
-  &.status-queued {
+  &.status-in_queue {
     background-color: var(--md-sys-color-surface-variant);
     color: var(--md-sys-color-on-surface-variant);
   }
@@ -243,5 +305,88 @@ h4 {
   &.status-completed {
     background-color: var(--md-sys-color-tertiary-container);
     color: var(--md-sys-color-on-tertiary-container);
+  }
+}
+
+/* =========================================
+   Nová výpisová karta s řádky (.data-card) - Zvětšená verze
+   ========================================= */
+
+mat-card.data-card {
+  background-color: var(--md-sys-color-surface-container-lowest);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 1rem; /* Mírně kulatější rohy pro větší karty */
+  padding: 2rem;       /* Zvětšeno z 1.5rem na 2rem pro více prostoru uvnitř */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+
+  .card-title {
+    font-size: 1.35rem; /* O něco větší nadpis karty */
+    margin-bottom: 1.25rem;
+  }
+
+  .data-list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;     /* Zvětšeno z 0.85rem na 1rem pro vzdušnější řádky */
+    border-bottom: 1px dashed var(--md-sys-color-outline-variant);
+    font-size: 1rem;     /* Mírně větší text uvnitř řádků */
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    dt {
+      font-weight: 400;
+      margin: 0;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    dd {
+      margin: 0;
+      text-align: right;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+
+      a {
+        color: var(--md-sys-color-primary);
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .data-row-highlight {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 2px solid var(--md-sys-color-outline-variant);
+    font-size: 1.15rem;   /* Větší zvýrazněná cena/součet */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    dt, dd {
+      font-weight: 700;
+      color: var(--md-sys-color-primary);
+    }
   }
 }

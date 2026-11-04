@@ -1,4 +1,4 @@
-export type OrderStatus = 'QUEUED' | 'CONFIRMED' | 'IN_TRANSIT' | 'COMPLETED';
+import {OrderStatus} from 'src/app/commons/order-status';
 
 export type Order = {
   id: string;

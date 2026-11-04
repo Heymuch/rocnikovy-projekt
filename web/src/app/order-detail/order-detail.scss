@@ -1,91 +1,92 @@
-/* Reset okrajů pro description list */
-.data-list {
-  margin: 0;
-  padding: 0;
-}
+/* =========================================
+   Detail objednávky – Lokální styly stránky
+   ========================================= */
 
-.data-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  dt {
-    font-weight: 500;
-    margin: 0;
-  }
-
-  dd {
-    margin: 0;
-    text-align: right;
-  }
-}
-
-.admin-card {
-  flex-basis: 100%; /* Admin karta zabere celý řádek nad ostatními kartami */
-  background-color: #f8f9fa; /* Lehké odlišení barvou pozadí */
-}
-
-/* --- ZBYTEK STYLŮ Z MINULA --- */
-.order-code {
-  font-weight: 500;
-  margin-left: 8px;
-  margin-right: 16px;
+/* --- Horní lišta (Toolbar) --- */
+.detail-toolbar {
+  background-color: var(--md-sys-color-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  height: 72px;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-.mock-chip {
-  font-size: 12px;
-  padding: 4px 12px;
-  border-radius: 16px;
-  background-color: #e0e0e0;
-  color: rgba(0,0,0,0.87);
-  font-weight: 500;
-  letter-spacing: 0.5px;
+.order-code {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0 1.5rem 0 0.5rem;
+  color: var(--md-sys-color-primary);
+  letter-spacing: -0.01em;
 }
 
-.content-container {
-  padding: 24px;
+.toolbar-actions {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 24px;
-  align-items: flex-start;
+  gap: 0.75rem;
+  align-items: center;
 }
 
-mat-card {
-  flex: 1 1 400px;
+/* --- Hlavní kontejner layoutu detailu --- */
+.page-container {
+  padding-top: 2.5rem;
+  padding-bottom: 3rem;
 }
 
-.price {
-  font-size: 1.1em;
-  color: #1976d2;
+/* --- Mřížka pro karty (Náklad a Trasa vedle sebe) --- */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Vždy 2 sloupce vedle sebe */
+  gap: 2rem;
+  align-items: stretch;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr; /* Na mobilu pod sebe */
+  }
 }
 
+/* --- Hlavička trasy (Odkud -> Kam) --- */
 .route-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
-  font-size: 1.2em;
-  font-weight: 500;
+  padding: 0.5rem 0 1.25rem 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+
+  .station {
+    flex: 1;
+    text-align: center;
+
+    &:first-child { text-align: left; }
+    &:last-child { text-align: right; }
+  }
 
   mat-icon {
-    color: rgba(0,0,0,0.54);
-    transform: scale(1.5);
+    color: var(--md-sys-color-primary);
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0 1rem;
   }
 }
 
-.my-3 {
-  margin: 16px 0;
+/* --- Odstranění čáry u řádku, nad kterým je zvýrazněná cena --- */
+.data-card {
+  .data-list {
+    .data-row:has(+ .data-row-highlight) {
+      border-bottom: none;
+    }
+  }
 }
-.mt-2 {
-  margin-top: 16px;
-}
+
+/* Pomocné třídy pro odsazení */
+.my-3 { margin: 1rem 0; }
+.mt-2 { margin-top: 1rem; }

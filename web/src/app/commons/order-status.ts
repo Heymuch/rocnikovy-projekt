@@ -1,6 +1,6 @@
 export enum OrderStatus {
-  IN_QUEUE = 'Čeká ve frontě',
-  CONFIRMED = 'Potvrzená',
-  IN_TRANSIT = 'V přepravě',
-  COMPLETED = 'Dokončená'
+  IN_QUEUE = 'IN_QUEUE',
+  CONFIRMED = 'CONFIRMED',
+  IN_TRANSIT = 'IN_TRANSIT',
+  COMPLETED = 'COMPLETED'
 }

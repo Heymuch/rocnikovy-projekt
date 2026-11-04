@@ -1,14 +1,100 @@
+/* =========================================
+   Hlavní navigační lišta (Navbar) - Styly
+   ========================================= */
+
+.app-toolbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  height: 72px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  /* Základní styly pro tlačítka v liště */
+  a[mat-button],
+  button[mat-button] {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--md-sys-color-on-surface-variant);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+      color: var(--md-sys-color-primary);
+    }
+  }
+
+  /* Efekt nadzvednutí (lift) POUZE pro navigační odkazy vlevo */
+  a[mat-button] {
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    }
+  }
+}
+
+/* --- Distanční prvek (spacer) pro rozdělení na levo/pravo --- */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* --- Logo --- */
 .logo-link {
   display: flex;
-  align-items: center;    /* Zarovná logo svisle na střed */
-  margin-right: 16px;     /* Vytvoří mezeru mezi logem a dalšími tlačítky */
+  align-items: center;
+  margin-right: 1.5rem;
   text-decoration: none;
   outline: none;
   cursor: pointer;
 }
 
 .app-logo {
-  height: 40px;           /* Výšku upravte podle proporcí vašeho loga */
-  width: auto;            /* Automatická šířka zachová poměr stran obrázku */
+  height: 40px;
+  width: auto;
   object-fit: contain;
+}
+
+/* --- Tlačítko pro odhlášení (přepínání ikona -> text, BEZ nadzvednutí) --- */
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--md-sys-color-on-surface-variant);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  /* Výchozí stav: Zobrazujeme POUZE ikonu, text je schovaný */
+  .logout-text {
+    display: none;
+  }
+  .logout-icon {
+    display: inline-block;
+  }
+
+  /* Stav po najetí myši: Pouze podbarvení, zbytek zůstává na místě */
+  &:hover {
+    background-color: var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-primary);
+
+    .logout-icon {
+      display: none;
+    }
+    .logout-text {
+      display: inline-block;
+    }
+  }
 }
