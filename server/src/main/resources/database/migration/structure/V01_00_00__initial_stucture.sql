@@ -38,8 +38,6 @@ create table "railway_graph" (
     check ( "distance" >= 0 )
 );
 
-create index on "railway_graph" ( "node_b_id" );
-
 -- Stanice je uzel železniční sítě (sdílí jeho ID)
 create table "stations" (
     "id"            uuid not null,

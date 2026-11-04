@@ -3,5 +3,20 @@ ktor:
         port: 8080
     application:
         modules:
+            - cz.feicargo.application.DatabaseKt.databaseModule
             - cz.feicargo.application.DependencyInjectionKt.dependencyInjectionModule
             - cz.feicargo.application.RoutingKt.routingModule
+
+postgresql:
+    server: localhost
+    port: 5432
+    database: feicargo
+    username: app
+    password: password
+
+flyway:
+    # Migrace běží pod samostatnou rolí flyway (viz database/init/01-create-flyway-user.sh)
+    username: flyway
+    password: password
+    locations:
+        - classpath:database/migration

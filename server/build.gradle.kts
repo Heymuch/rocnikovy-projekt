@@ -19,6 +19,12 @@ application {
 dependencies {
     implementation(libs.exposed.core)
     implementation(libs.exposed.r2dbc)
+    implementation(libs.r2dbc.postgresql)
+    implementation(libs.r2dbc.pool)
+
+    implementation(libs.flyway.core)
+    implementation(libs.flyway.postgresql)
+    runtimeOnly(libs.postgresql)
 
     implementation(ktorLibs.server.core)
     implementation(ktorLibs.server.netty)
