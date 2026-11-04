@@ -6,7 +6,7 @@ import io.ktor.server.plugins.di.DependencyRegistry
 fun DependencyRegistry.controllers() {
     provide<SearchForStationsRestController> {
         SearchForStationsRestController(
-            controller = resolve(),
+            useCase = resolve(),
         )
     }
 }

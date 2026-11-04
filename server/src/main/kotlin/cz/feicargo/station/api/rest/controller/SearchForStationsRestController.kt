@@ -5,7 +5,7 @@ import cz.feicargo.station.usecase.SearchForStationsUseCase
 import io.ktor.server.application.ApplicationCall
 
 class SearchForStationsRestController(
-    private val controller: SearchForStationsUseCase,
+    private val useCase: SearchForStationsUseCase,
 ) : RestController<SearchForStationsRestController.Context> {
     data class Context(
         override val call: ApplicationCall,
