@@ -1,5 +1,6 @@
 package cz.feicargo.application
 
+import cz.feicargo.cargotype.api.rest.route.CargoTypeRoutes
 import cz.feicargo.station.api.rest.route.StationsRoutes
 import io.ktor.http.ContentType
 import io.ktor.openapi.OpenApiInfo
@@ -25,6 +26,7 @@ fun Application.routingModule() {
         route("/api") {
             with(StationsRoutes.Search) { get() }
             with(StationsRoutes.Get) { get() }
+            with(CargoTypeRoutes.GetAll) { get() }
         }
     }
 }

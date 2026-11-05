@@ -5,6 +5,7 @@ ktor:
         modules:
             - cz.feicargo.application.DatabaseKt.databaseModule
             - cz.feicargo.application.DependencyInjectionKt.dependencyInjectionModule
+            - cz.feicargo.application.SerializationKt.serializationModule
             - cz.feicargo.application.RoutingKt.routingModule
 
 postgresql:

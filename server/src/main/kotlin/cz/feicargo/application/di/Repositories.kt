@@ -1,5 +1,7 @@
 package cz.feicargo.application.di
 
+import cz.feicargo.cargotype.persistence.CargoTypeRepository
+import cz.feicargo.cargotype.persistence.exposed.CargoTypeExposedRepository
 import cz.feicargo.commons.persistence.TransactionManager
 import cz.feicargo.commons.persistence.exposed.ExposedTransactionManager
 import cz.feicargo.station.persistence.StationRepository
@@ -13,5 +15,9 @@ fun DependencyRegistry.repositories() {
 
     provide<StationRepository> {
         StationExposedRepository()
+    }
+
+    provide<CargoTypeRepository> {
+        CargoTypeExposedRepository()
     }
 }

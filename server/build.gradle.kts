@@ -35,4 +35,7 @@ dependencies {
     implementation(ktorLibs.server.openapi)
 
     implementation(libs.logback.classic)
+
+    implementation("io.ktor:ktor-server-content-negotiation")
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
 }
