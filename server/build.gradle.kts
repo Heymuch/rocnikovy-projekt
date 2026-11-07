@@ -18,6 +18,7 @@ application {
 
 dependencies {
     implementation(libs.exposed.core)
+    implementation(libs.exposed.javatime)
     implementation(libs.exposed.r2dbc)
     implementation(libs.r2dbc.postgresql)
     implementation(libs.r2dbc.pool)

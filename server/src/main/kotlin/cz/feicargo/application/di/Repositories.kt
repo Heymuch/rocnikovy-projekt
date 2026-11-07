@@ -6,6 +6,8 @@ import cz.feicargo.commons.persistence.TransactionManager
 import cz.feicargo.commons.persistence.exposed.ExposedTransactionManager
 import cz.feicargo.station.persistence.StationRepository
 import cz.feicargo.station.persistence.exposed.StationExposedRepository
+import cz.feicargo.trainset.persistence.TrainSetRepository
+import cz.feicargo.trainset.persistence.exposed.TrainSetExposedRepository
 import io.ktor.server.plugins.di.DependencyRegistry
 
 fun DependencyRegistry.repositories() {
@@ -19,5 +21,9 @@ fun DependencyRegistry.repositories() {
 
     provide<CargoTypeRepository> {
         CargoTypeExposedRepository()
+    }
+
+    provide<TrainSetRepository> {
+        TrainSetExposedRepository()
     }
 }

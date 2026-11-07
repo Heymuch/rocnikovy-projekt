@@ -8,8 +8,10 @@ import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.r2dbc.select
 
 class CargoTypeExposedRepository : CargoTypeRepository {
+    private fun selectQuery() = CargoTypeTable.select(CargoTypeTable.id, CargoTypeTable.name)
+
     override suspend fun selectAll(): List<CargoType> {
-        return CargoTypeTable.select(CargoTypeTable.id, CargoTypeTable.name)
+        return selectQuery()
             .map(ResultRow::toCargoType)
             .toList()
     }

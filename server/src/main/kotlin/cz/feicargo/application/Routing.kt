@@ -2,6 +2,7 @@ package cz.feicargo.application
 
 import cz.feicargo.cargotype.api.rest.route.CargoTypeRoutes
 import cz.feicargo.station.api.rest.route.StationsRoutes
+import cz.feicargo.trainset.api.rest.route.TrainSetRoutes
 import io.ktor.http.ContentType
 import io.ktor.openapi.OpenApiInfo
 import io.ktor.server.application.Application
@@ -27,6 +28,7 @@ fun Application.routingModule() {
             with(StationsRoutes.Search) { get() }
             with(StationsRoutes.Get) { get() }
             with(CargoTypeRoutes.GetAll) { get() }
+            with(TrainSetRoutes.Search) { get() }
         }
     }
 }
