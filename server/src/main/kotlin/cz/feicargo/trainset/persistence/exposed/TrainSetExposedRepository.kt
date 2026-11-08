@@ -8,7 +8,9 @@ import org.jetbrains.exposed.v1.core.Expression
 import org.jetbrains.exposed.v1.core.QueryBuilder
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.r2dbc.select
+import kotlin.uuid.Uuid
 
 class OrderBySql(private val sql: String) : Expression<String>() {
     override fun toQueryBuilder(queryBuilder: QueryBuilder) {
@@ -35,5 +37,13 @@ class TrainSetExposedRepository : TrainSetRepository {
             .toList()
 
         return items to totalCount
+    }
+
+    override suspend fun selectByIds(ids: List<Uuid>): List<TrainSet> {
+        if (ids.isEmpty()) return emptyList()
+        return TrainSetTable.select(TrainSetTable.columns)
+            .where { TrainSetTable.id inList ids }
+            .map(ResultRow::toTrainSet)
+            .toList()
     }
 }

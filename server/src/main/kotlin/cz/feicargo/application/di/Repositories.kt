@@ -4,6 +4,8 @@ import cz.feicargo.cargotype.persistence.CargoTypeRepository
 import cz.feicargo.cargotype.persistence.exposed.CargoTypeExposedRepository
 import cz.feicargo.commons.persistence.TransactionManager
 import cz.feicargo.commons.persistence.exposed.ExposedTransactionManager
+import cz.feicargo.order.persistence.OrderRepository
+import cz.feicargo.order.persistence.exposed.OrderExposedRepository
 import cz.feicargo.station.persistence.StationRepository
 import cz.feicargo.station.persistence.exposed.StationExposedRepository
 import cz.feicargo.trainset.persistence.TrainSetRepository
@@ -25,5 +27,9 @@ fun DependencyRegistry.repositories() {
 
     provide<TrainSetRepository> {
         TrainSetExposedRepository()
+    }
+
+    provide<OrderRepository> {
+        OrderExposedRepository()
     }
 }

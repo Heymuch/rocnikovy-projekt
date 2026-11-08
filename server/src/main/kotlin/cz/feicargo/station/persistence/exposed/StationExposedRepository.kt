@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.toList
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.r2dbc.select
 
 class StationExposedRepository : StationRepository {
@@ -49,6 +50,15 @@ class StationExposedRepository : StationRepository {
                 tsRank(StationTable.searchVector, query) to SortOrder.DESC,
                 StationTable.name to SortOrder.ASC,
             ).map(ResultRow::toStation)
+            .toList()
+    }
+
+    override suspend fun selectByIds(ids: List<Station.Id>): List<Station> {
+        if (ids.isEmpty()) return emptyList()
+        val uuidList = ids.map { it.value }
+        return selectQuery()
+            .where { StationTable.id inList uuidList }
+            .map(ResultRow::toStation)
             .toList()
     }
 }

@@ -4,4 +4,5 @@ import cz.feicargo.cargotype.entity.CargoType
 
 interface CargoTypeRepository {
     suspend fun selectAll(): List<CargoType>
+    suspend fun selectByIds(ids: List<Long>): List<CargoType>
 }
