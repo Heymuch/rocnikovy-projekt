@@ -63,5 +63,24 @@
       "unassigned": "Unassigned",
       "assignedWagons": "Assigned Wagons"
     }
-  }
+  },
+    "trainDetail": {
+      "back": "Back",
+      "routeInfo": {
+        "title": "Route & Train Parameters",
+        "departure": "Actual Departure",
+        "arrival": "Actual Arrival",
+        "distance": "Distance",
+        "wagonCount": "Total Wagons",
+        "expiration": "Train Set Expiration",
+        "totalPrice": "Total Price"
+      },
+      "map": {
+        "title": "Route Map",
+        "placeholder": "Map view is currently unavailable."
+      },
+      "orders": {
+        "title": "Assigned Orders"
+      }
+    }
   }

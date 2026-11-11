@@ -63,5 +63,24 @@
       "unassigned": "Nepřiřazeno",
       "assignedWagons": "Přiřazené vagóny"
     }
+  },
+    "trainDetail": {
+      "back": "Zpět",
+      "routeInfo": {
+        "title": "Trasa a parametry vlaku",
+        "departure": "Skutečný odjezd",
+        "arrival": "Skutečný příjezd",
+        "distance": "Vzdálenost",
+        "wagonCount": "Počet vagónů",
+        "expiration": "Expirace soupravy",
+        "totalPrice": "Celková cena"
+      },
+      "map": {
+        "title": "Mapa trasy",
+        "placeholder": "Zobrazení mapy zatím není k dispozici."
+      },
+      "orders": {
+        "title": "Přiřazené objednávky"
+      }
     }
   }
