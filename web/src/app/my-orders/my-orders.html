@@ -1,5 +1,8 @@
 <div class="page-container">
   <h1>{{ 'menu.myOrders' | translate}}</h1>
-  <!-- Předání mock dat do znovupoužitelné tabulky -->
-  <app-orders-table [orders]="mockOrders"></app-orders-table>
+  @if (store.isLoading()) {
+    <p>{{ 'loading' | translate }}</p>
+  } @else {
+    <app-orders-table [orders]="orders()"></app-orders-table>
+  }
 </div>

@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
-import {Order} from '../order';
+import {Component, inject, OnInit} from '@angular/core';
 import {OrdersTable} from '../commons/orders-table/orders-table';
 import {TranslatePipe} from '@ngx-translate/core';
-import {OrderStatus} from 'src/app/commons/order-status';
+import {OrdersOverviewStore} from 'src/app/order/orders-overview.store';
 
 @Component({
   selector: 'app-my-orders',
@@ -13,37 +12,16 @@ import {OrderStatus} from 'src/app/commons/order-status';
   templateUrl: './my-orders.html',
   styleUrl: './my-orders.scss',
 })
-export class MyOrders {
-  mockOrders: Order[] = [
-    {
-      id: 'ORD-001',
-      code: 'Přeprava uhlí Ostrava',
-      status: OrderStatus.IN_QUEUE,
-      cargoType: 'Sypký materiál',
-      stationFrom: 'Ostrava',
-      stationTo: 'Kladno',
-      preferredDeparture: new Date('2026-10-25T08:00:00'),
-      preferredArrival: new Date('2026-10-26T18:00:00')
-    },
-    {
-      id: 'ORD-002',
-      code: 'Dřevo na pilu',
-      status: OrderStatus.IN_TRANSIT,
-      cargoType: 'Dřevo',
-      stationFrom: 'Liberec',
-      stationTo: 'Brno',
-      preferredDeparture: new Date('2026-10-20T06:00:00'),
-      preferredArrival: new Date('2026-10-21T12:00:00')
-    },
-    {
-      id: 'ORD-003',
-      code: 'Stavební ocel',
-      status: OrderStatus.COMPLETED,
-      cargoType: 'Kovovýroba',
-      stationFrom: 'Plzeň',
-      stationTo: 'Praha',
-      preferredDeparture: new Date('2026-10-15T09:00:00'),
-      preferredArrival: new Date('2026-10-15T15:00:00')
-    }
-  ];
+export class MyOrders implements OnInit {
+  readonly store = inject(OrdersOverviewStore)
+  readonly orders = this.store.orders
+
+  ngOnInit(): void {
+    // todo: pages i includes přesunout do service, nedávat napevno
+    this.store.loadOrders({
+      pageNumber: 0,
+      pageSize: 25,
+      includes: ['trainSet', 'cargoType', 'station']
+    });
+  }
 }

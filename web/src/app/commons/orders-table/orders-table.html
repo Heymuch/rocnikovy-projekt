@@ -20,14 +20,20 @@
     <!-- Sloupec: Typ zboží -->
     <ng-container matColumnDef="cargoType">
       <th mat-header-cell *matHeaderCellDef> {{ 'cargoType' | translate }} </th>
-      <td mat-cell *matCellDef="let order"> {{ order.cargoType }} </td>
+      <td mat-cell *matCellDef="let order">
+        @for (cargo of order.cargoTypes; track cargo.id; let last = $last) {
+          {{ cargo.name }}{{ !last ? ', ' : '' }}
+        }
+      </td>
     </ng-container>
 
     <!-- Sloupec: Odkud a kam -->
     <ng-container matColumnDef="route">
       <th mat-header-cell *matHeaderCellDef> {{ 'route' | translate }} </th>
-      <!-- Použití stationFrom a stationTo -->
-      <td mat-cell *matCellDef="let order"> {{ order.stationFrom }} &rarr; {{ order.stationTo }} </td>
+      <!-- Používáme safe navigation operator (?.) a taháme .name z namapovaných objektů -->
+      <td mat-cell *matCellDef="let order">
+        {{ order.stationFrom?.name }} &rarr; {{ order.stationTo?.name }}
+      </td>
     </ng-container>
 
     <!-- Sloupec: Od kdy do kdy -->
