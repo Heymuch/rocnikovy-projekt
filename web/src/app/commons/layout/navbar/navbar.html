@@ -1,5 +1,4 @@
 <mat-toolbar class="app-toolbar-sticky">
-  <!-- 1. Levá strana: Logo a hlavní menu -->
   <a routerLink="/" class="logo-link">
     <img src="logo.png" alt="Logo aplikace" class="app-logo">
   </a>
@@ -12,10 +11,8 @@
     }
   }
 
-  <!-- 2. Spacer odtlačí zbytek doprava -->
   <span class="spacer"></span>
 
-  <!-- 3. Pravá strana: Přepínač jazyka a tlačítko pro odhlášení / přihlášení -->
   <button type="button" mat-button (click)="toggleLanguage()">
     <mat-icon>language</mat-icon>
     {{ currentLanguage === 'cs' ? 'EN' : 'CS' }}

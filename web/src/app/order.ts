@@ -1,4 +1,6 @@
-import {OrderStatus} from 'src/app/commons/order-status';
+// todo: smazat až budou
+import {OrderStatus} from 'src/app/order/order-status';
+import {RouteDTO} from 'src/app/order/order';
 
 export type Order = {
   id: string;
@@ -12,4 +14,14 @@ export type Order = {
 
   preferredDeparture: Date;
   preferredArrival: Date;
+
+  userId?: string;
+  totalPrice?: number;
+  loadDate?: Date;
+  unloadDate?: Date;
+  trainSetId?: string;
+  routeId?: string;
+  cargoes?: any[];
+  route?: RouteDTO
+
 }

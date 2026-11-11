@@ -1,392 +1,363 @@
-// Include theming for Angular Material
 @use '@angular/material' as mat;
 
+/* =========================================================
+   1. Angular Material theme and design tokens
+   ========================================================= */
 html {
   height: 100%;
-  @include mat.theme(
-      (
-        typography: 'sans-serif',
-        density: 0,
-      )
-  );
+ /* @include mat.theme((color: null, typography: 'sans-serif', density: 0)); */
 }
 
-/* Základní styly celé stránky */
+:root {
+  --app-content-width: 1200px;
+  --app-content-wide-width: 1536px;
+  --app-page-gutter: 2rem;
+  --app-radius-sm: 0.5rem;
+  --app-radius-md: 0.75rem;
+  --app-radius-lg: 1rem;
+  --app-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --app-transition: 180ms ease;
+}
+
+/* =========================================================
+   2. Reset and document defaults
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  color-scheme: light;
-  background-color: var(--md-sys-color-background);
-  color: var(--md-sys-color-on-background);
-  margin: 0;
-  height: 100%;
-  font-family: 'Inter', sans-serif;
+  min-height: 100%;
 }
 
-/* =========================================
-   Základní styly nadpisů (Minimalistická typografie)
-   ========================================= */
+body {
+  margin: 0;
+  color-scheme: light;
+  background: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
 
-h1, h2, h3, h4, h5, h6 {
-  /* Všechny nadpisy používají tvou primární barvu pro konzistenci */
+img,
+svg {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
   color: var(--md-sys-color-primary);
-  margin-top: 0;
-  margin-bottom: 1rem;
+}
 
-  /* Sjednocená font-family (dědí ze základního nastavení), ale mírně sražené mezery mezi písmeny pro modernější vzhled */
+/* =========================================================
+   3. Typography
+   ========================================================= */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 1rem;
+  color: var(--md-sys-color-primary);
   font-family: 'Inter', sans-serif;
   letter-spacing: -0.015em;
   line-height: 1.3;
 }
 
-h1 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  /* Hlavní nadpis může mít tmavší barvu na povrchu, nebo tvou primární */
-  color: var(--md-sys-color-primary);
-}
-
+h1 { font-size: clamp(1.8rem, 3vw, 2.25rem); font-weight: 700; }
 h2 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  /* Sekundární nadpis využívá trochu tlumenější barvu pro vytvoření hierarchie */
-  color: var(--md-sys-color-on-surface-variant);
-  border-bottom: 1px solid var(--md-sys-color-surface-variant);
   padding-bottom: 0.5rem;
   margin-bottom: 1.5rem;
-}
-
-h3 {
-  font-size: 1.25rem;
+  border-bottom: 1px solid var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: clamp(1.45rem, 2.5vw, 1.75rem);
   font-weight: 600;
 }
+h3 { font-size: 1.25rem; font-weight: 600; }
+h4 { font-size: 1.1rem; font-weight: 500; }
+p { margin-top: 0; }
 
-h4 {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* =========================================
-   Moderní Tlačítka (Primary & Cancel) s výraznějším disabled stavem
-   ========================================= */
-
-.btn-container {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-}
-
-.btn-primary {
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
-  border: none;
-  padding: 0 1.5rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border-radius: 9999px; /* Pill shape */
-  cursor: pointer;
-  box-shadow: none;
-  transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 40px;
-  letter-spacing: 0.01em;
-
-  mat-icon, svg, i {
-    font-size: 1.1rem;
-    height: 1.1rem;
-    width: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: inherit;
-  }
-
-  /* HOVER PRO PRIMÁRNÍ TLAČÍTKO */
-  &:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  /* ZVÝRAZNĚNÝ DISABLED STAV */
-  &:disabled {
-    background-color: var(--md-sys-color-surface-variant);
-    color: var(--md-sys-color-on-surface-variant);
-    cursor: not-allowed;
-    opacity: 0.75; // Zvýšeno z původních 0.5, aby bylo lépe vidět
-    transform: none;
-  }
-
-  /* SPECIÁLNĚ PRO TLAČÍTKO ZRUŠIT / SECONDARY */
-  &.btn-cancel {
-    background-color: var(--md-sys-color-surface-container-high);
-    color: var(--md-sys-color-on-surface-variant);
-    border: 1px solid var(--md-sys-color-outline-variant);
-
-    &:hover {
-      background-color: var(--md-sys-color-surface-container-highest);
-      color: var(--md-sys-color-on-surface);
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ZVÝRAZNĚNÝ DISABLED STAV PRO CANCEL */
-    &:disabled {
-      background-color: var(--md-sys-color-surface-container-low);
-      color: var(--md-sys-color-on-surface-variant);
-      border-color: var(--md-sys-color-outline-variant); // Zachovaný rámeček pro lepší čitelnost
-      opacity: 0.7; // Zvýšeno z původních 0.4
-    }
-  }
-}
-
-
-/* Základní kontejner pro vycentrování stránek */
+/* =========================================================
+   4. Shared page layout
+   ========================================================= */
 .page-container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1500px; // původně 1400px
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.25rem 1.5rem;
+  box-sizing: border-box;
 }
 
-/* =========================================
-   Mřížky a Karty (Globální znovupoužitelné styly)
-   ========================================= */
-
-/* Univerzální karta (pro bloky obsahu) */
-.app-card {
-  background-color: var(--md-sys-color-surface-container-low);
-  color: var(--md-sys-color-on-surface);
-  border: 1px solid var(--md-sys-color-outline-variant);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.page-container--wide {
+  max-width: var(--app-content-wide-width);
 }
 
-/* Univerzální responzivní mřížka pro karty */
+.spacer { flex: 1 1 auto; }
+
 .grid-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   align-items: stretch;
+  gap: 2rem;
 }
 
-/* Interaktivní varianta karty (s efektem po najetí myší) */
+.grid-cards--two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* =========================================================
+   5. Reusable cards
+   ========================================================= */
+.app-card {
+  padding: 1.5rem;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--app-radius-md);
+  background: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--app-shadow-card);
+}
+
 .app-card-interactive {
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--app-transition), box-shadow var(--app-transition), background-color var(--app-transition);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
-    background-color: var(--md-sys-color-surface-container);
+    transform: translateY(-3px);
+    background: var(--md-sys-color-surface-container);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
   }
 }
 
-/* Sjednocený vzhled nadpisů a textů uvnitř karet */
 .card-title {
-  font-size: 1.25rem;
+  margin: 0 0 0.75rem;
   color: var(--md-sys-color-on-surface);
-  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
 }
 
 .card-description {
+  margin: 0;
   color: var(--md-sys-color-on-surface-variant);
   font-size: 0.95rem;
   line-height: 1.6;
-  margin: 0;
 }
 
-/* =========================================
-   Tabulky (.table-container & .md-table)
-   ========================================= */
-
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-  background-color: var(--md-sys-color-surface-container-lowest);
-  border: 1px solid var(--md-sys-color-outline-variant);
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.md-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: transparent;
-
-  th[mat-header-cell],
-  .mat-mdc-header-cell {
-    color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 1rem 1.5rem;
-    border-bottom: 2px solid var(--md-sys-color-surface-container-high);
-    text-align: left;
-  }
-
-  td[mat-cell],
-  .mat-mdc-cell {
-    color: var(--md-sys-color-on-surface);
-    font-size: 0.9rem;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--md-sys-color-surface-container);
-    vertical-align: middle;
-  }
-
-  tr:last-child td[mat-cell],
-  tr:last-child .mat-mdc-cell {
-    border-bottom: none;
-  }
-
-  tr[mat-row],
-  .mat-mdc-row {
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: var(--md-sys-color-surface-container-low);
-    }
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem !important;
-    color: var(--md-sys-color-outline);
-    font-style: italic;
-    font-size: 0.9rem;
-    background-color: transparent;
-  }
-
-  .mat-column-code {
-    font-weight: 600;
-    color: var(--md-sys-color-primary);
-  }
-}
-
-/* =========================================
-   Status Chips (.status-chip)
-   ========================================= */
-
-.status-chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: 9999px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-
-  &.status-in_queue {
-    background-color: var(--md-sys-color-surface-variant);
-    color: var(--md-sys-color-on-surface-variant);
-  }
-
-  &.status-confirmed {
-    background-color: var(--md-sys-color-secondary-container);
-    color: var(--md-sys-color-on-secondary-container);
-  }
-
-  &.status-in_transit {
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
-  }
-
-  &.status-completed {
-    background-color: var(--md-sys-color-tertiary-container);
-    color: var(--md-sys-color-on-tertiary-container);
-  }
-}
-
-/* =========================================
-   Nová výpisová karta s řádky (.data-card) - Zvětšená verze
-   ========================================= */
-
+/* Angular Material data cards */
 mat-card.data-card {
-  background-color: var(--md-sys-color-surface-container-lowest);
-  color: var(--md-sys-color-on-surface);
-  border: 1px solid var(--md-sys-color-outline-variant);
-  border-radius: 1rem; /* Mírně kulatější rohy pro větší karty */
-  padding: 2rem;       /* Zvětšeno z 1.5rem na 2rem pro více prostoru uvnitř */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--app-radius-lg);
+  background: var(--md-sys-color-surface-container-lowest);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 
   .card-title {
-    font-size: 1.35rem; /* O něco větší nadpis karty */
     margin-bottom: 1.25rem;
+    font-size: 1.35rem;
   }
 
   .data-list {
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
+    margin: 0;
+    padding: 0;
   }
 
   .data-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;     /* Zvětšeno z 0.85rem na 1rem pro vzdušnější řádky */
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1rem 0;
     border-bottom: 1px dashed var(--md-sys-color-outline-variant);
-    font-size: 1rem;     /* Mírně větší text uvnitř řádků */
+    font-size: 1rem;
 
-    &:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
+    &:first-child { padding-top: 0; }
+    &:last-child { padding-bottom: 0; border-bottom: 0; }
 
-    &:first-child {
-      padding-top: 0;
-    }
-
-    dt {
-      font-weight: 400;
-      margin: 0;
-      color: var(--md-sys-color-on-surface-variant);
-    }
-
-    dd {
-      margin: 0;
-      text-align: right;
-      font-weight: 500;
-      color: var(--md-sys-color-on-surface);
-
-      a {
-        color: var(--md-sys-color-primary);
-        text-decoration: none;
-        font-weight: 600;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
+    dt { margin: 0; color: var(--md-sys-color-on-surface-variant); font-weight: 400; }
+    dd { margin: 0; color: var(--md-sys-color-on-surface); font-weight: 500; text-align: right; overflow-wrap: anywhere; }
+    dd a { color: var(--md-sys-color-primary); font-weight: 600; text-decoration: none; }
+    dd a:hover { text-decoration: underline; }
   }
 
+  .data-row:has(+ .data-row-highlight) { border-bottom: 0; }
+
   .data-row-highlight {
-    margin-top: 1.25rem;
-    padding-top: 1.25rem;
-    border-top: 2px solid var(--md-sys-color-outline-variant);
-    font-size: 1.15rem;   /* Větší zvýrazněná cena/součet */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 2px solid var(--md-sys-color-outline-variant);
+    font-size: 1.15rem;
 
-    dt, dd {
-      font-weight: 700;
-      color: var(--md-sys-color-primary);
-    }
+    dt, dd { color: var(--md-sys-color-primary); font-weight: 700; }
+    dd { margin: 0; text-align: right; }
   }
+}
+
+/* =========================================================
+   6. Tables
+   ========================================================= */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--app-radius-md);
+  background: var(--md-sys-color-surface-container-lowest);
+  box-shadow: var(--app-shadow-card);
+}
+
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+
+  th[mat-header-cell], .mat-mdc-header-cell {
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  td[mat-cell], .mat-mdc-cell {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+    font-size: 0.9rem;
+    vertical-align: middle;
+  }
+
+  tr:last-child td[mat-cell], tr:last-child .mat-mdc-cell { border-bottom: 0; }
+  tr[mat-row], .mat-mdc-row { transition: background-color var(--app-transition); }
+  tr[mat-row]:hover, .mat-mdc-row:hover { background: var(--md-sys-color-surface-container-low); }
+  .empty-state { padding: 4rem 2rem !important; color: var(--md-sys-color-outline); font-size: 0.9rem; font-style: italic; text-align: center; }
+  .mat-column-code { color: var(--md-sys-color-primary); font-weight: 600; }
+}
+
+/* =========================================================
+   7. Status chips
+   ========================================================= */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &.status-in_queue { background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); }
+  &.status-confirmed { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+  &.status-in_transit { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+  &.status-completed { background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); }
+}
+
+/* =========================================================
+   8. Shared buttons and form controls
+   ========================================================= */
+.btn-container { display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background-color var(--app-transition), transform var(--app-transition), opacity var(--app-transition);
+
+  mat-icon, svg, i { display: inline-flex; align-items: center; justify-content: center; width: 1.1rem; height: 1.1rem; font-size: 1.1rem; color: inherit; }
+  &:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+  &:active:not(:disabled) { transform: translateY(0); }
+  &:disabled { background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); cursor: not-allowed; opacity: 0.75; }
+  &.btn-cancel { border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface-variant); }
+  &.btn-cancel:hover:not(:disabled) { background: var(--md-sys-color-surface-container-highest); color: var(--md-sys-color-on-surface); opacity: 1; transform: none; }
+  &.btn-cancel:disabled { border-color: var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface-container-low); opacity: 0.7; }
+}
+
+/* =========================================================
+   9. Shared detail-page elements
+   ========================================================= */
+.detail-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  padding-inline: 2rem;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.detail-toolbar--large { min-height: 80px; }
+.order-code { margin: 0 1.5rem 0 0.5rem; color: var(--md-sys-color-primary); font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
+.toolbar-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+.route-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0 1.25rem;
+  color: var(--md-sys-color-on-surface);
+  font-size: 1.15rem;
+  font-weight: 600;
+
+  .station { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .station:first-child { text-align: left; }
+  .station:last-child { text-align: right; }
+  mat-icon { display: flex; flex: 0 0 auto; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; margin-inline: 0.5rem; color: var(--md-sys-color-primary); font-size: 1.5rem; }
+}
+
+.route-divider { display: block; margin: 1.25rem 0 1.5rem !important; }
+
+/* Reusable spacing helpers (kept intentionally small in number). */
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 2rem; }
+.my-3 { margin-block: 1rem; }
+
+/* =========================================================
+   10. Responsive adjustments
+   ========================================================= */
+@media (max-width: 900px) {
+  .grid-cards--two-columns { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  :root { --app-page-gutter: 1rem; }
+  .page-container { padding-block: 1.5rem 2rem; }
+  .detail-toolbar { padding-inline: 1rem; }
+  .toolbar-actions { gap: 0.4rem; }
+  mat-card.data-card { padding: 1.25rem; }
+  mat-card.data-card .data-row { gap: 0.75rem; }
+  .route-header { font-size: 1rem; }
+  .route-header mat-icon { margin-inline: 0.15rem; }
 }

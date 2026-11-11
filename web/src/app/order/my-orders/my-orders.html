@@ -1,0 +1,8 @@
+<div class="page-container">
+  <h1>{{ 'menu.myOrders' | translate}}</h1>
+  @if (store.isLoading()) {
+    <p>{{ 'loading' | translate }}</p>
+  } @else {
+    <app-orders-table [orders]="orders()"></app-orders-table>
+  }
+</div>

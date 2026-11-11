@@ -1,0 +1,85 @@
+<mat-toolbar class="detail-toolbar detail-toolbar--large">
+  <button mat-icon-button (click)="goBack()" aria-label="{{ 'trainDetail.back' | translate }}">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span class="order-code">{{ train.code }}</span>
+
+  <span class="status-chip" [ngClass]="'status-' + train.status.toLowerCase()">
+    {{ train.status | orderStatusDisplay | translate }}
+  </span>
+
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<div class="page-container page-container--wide">
+
+  <div class="grid-cards">
+    <!-- Karta 1: Trasa a parametry vlaku -->
+    <mat-card class="data-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">{{ 'trainDetail.routeInfo.title' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="route-header">
+          <div class="station">{{ train.route.station_from_name }}</div>
+          <mat-icon>arrow_right_alt</mat-icon>
+          <div class="station">{{ train.route.station_to_name }}</div>
+        </div>
+
+        <mat-divider class="route-divider"></mat-divider>
+
+        <dl class="data-list">
+          <div class="data-row">
+            <dt>{{ 'trainDetail.routeInfo.departure' | translate }}:</dt>
+            <dd>{{ train.actual_departure | daytimeDisplay }}</dd>
+          </div>
+          <div class="data-row">
+            <dt>{{ 'trainDetail.routeInfo.arrival' | translate }}:</dt>
+            <dd>{{ train.actual_arrival | daytimeDisplay }}</dd>
+          </div>
+          <div class="data-row">
+            <dt>{{ 'trainDetail.routeInfo.distance' | translate }}:</dt>
+            <dd>{{ train.route.distance_km }} km</dd>
+          </div>
+          <div class="data-row">
+            <dt>{{ 'trainDetail.routeInfo.wagonCount' | translate }}:</dt>
+            <dd>{{ train.total_wagons }}</dd>
+          </div>
+          <div class="data-row">
+            <dt>{{ 'trainDetail.routeInfo.expiration' | translate }}:</dt>
+            <dd>{{ train.expiration_date | daytimeDisplay }}</dd>
+          </div>
+          <!-- Zvýrazněná celková cena za vlak -->
+          <div class="data-row-highlight">
+            <dt>{{ 'trainDetail.routeInfo.totalPrice' | translate }}:</dt>
+            <dd>{{ train.total_price }} Kč</dd>
+          </div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Karta 2: Interaktivní mapa nebo seznam trasy -->
+    <mat-card class="data-card map-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">{{ 'trainDetail.map.title' | translate }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content class="map-content">
+        <div id="map" class="map-container"></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Karta 3: Seznam objednávek přiřazených k tomuto vlaku -->
+  <mat-card class="data-card orders-card mt-3">
+    <mat-card-header>
+      <mat-card-title class="card-title">{{ 'trainDetail.orders.title' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+<!--      <app-orders-table [orders]="train.assigned_orders"></app-orders-table>-->
+<!--      todo: odkomentovat až budou sjednocené typy-->
+    </mat-card-content>
+  </mat-card>
+
+</div>

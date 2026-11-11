@@ -1,14 +1,14 @@
-import { Component, inject } from '@angular/core';
-import {Location, NgClass, NgIf} from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatDivider } from '@angular/material/list';
-import { OrderStatus } from 'src/app/commons/order-status';
-import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
-import { OrderStatusDisplayPipe } from 'src/app/commons/order-status-display.pipe';
-import { TranslatePipe } from '@ngx-translate/core';
+import {Component, inject} from '@angular/core';
+import {Location, NgClass} from '@angular/common';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {MatDivider} from '@angular/material/list';
+import {OrderStatus} from 'src/app/order/order-status';
+import {DaytimeDisplayPipe} from 'src/app/commons/daytime-display.pipe';
+import {OrderStatusDisplayPipe} from 'src/app/order/order-status-display.pipe';
+import {TranslatePipe} from '@ngx-translate/core';
 
 interface OrderMock {
   id: string;
@@ -53,7 +53,6 @@ interface OrderMock {
     OrderStatusDisplayPipe,
     TranslatePipe,
     NgClass,
-    NgIf
   ],
   templateUrl: './order-detail.html',
   styleUrl: './order-detail.scss',
@@ -64,17 +63,16 @@ export class OrderDetail {
   // Přepínač pro testování admin zobrazení
   isAdmin = true;
 
-  // Pro otestování jiného zobrazení stačí změnit status na 'Potvrzená'
   order: OrderMock = {
     id: '123e4567-e89b-12d3-a456-426614174000',
     code: 'ORD-2026-001',
-    status: OrderStatus.COMPLETED, // Zkuste změnit na OrderStatus.IN_QUEUE
+    status: OrderStatus.COMPLETED,
     total_price: 45000,
     cargo: {
       cargo_type_name: 'Dřevo',
       volume: 120,
       weight: 80,
-      wagon_type_name: 'Eaos (otevřený vůz)', // Doplněno pro pozdější stavy
+      wagon_type_name: 'Eaos (otevřený vůz)',
       wagon_count: 5
     },
     route: {
@@ -83,7 +81,6 @@ export class OrderDetail {
     },
     preferred_departure: '2026-11-01T08:00:00',
     preferred_arrival: '2026-11-02T16:00:00',
-    // Doplněno pro zobrazení ostatních stavů
     load_date: '2026-11-01T06:00:00',
     unload_date: '2026-11-02T18:00:00',
     actual_departure: '2026-11-01T09:15:00',
