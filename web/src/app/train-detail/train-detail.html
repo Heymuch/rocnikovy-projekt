@@ -46,6 +46,19 @@
             <dt>{{ 'trainDetail.routeInfo.wagonCount' | translate }}:</dt>
             <dd>{{ train.total_wagons }}</dd>
           </div>
+
+          <!-- NOVÉ: Typ lokomotivy -->
+          <div class="data-row">
+            <dt>{{ 'trainDetail.routeInfo.locomotiveType' | translate }}:</dt>
+            <dd>{{ train.locomotive_type }}</dd>
+          </div>
+
+          <!-- NOVÉ: Typ vagónů -->
+          <div class="data-row">
+            <dt>{{ 'trainDetail.routeInfo.wagonType' | translate }}:</dt>
+            <dd>{{ train.wagon_type }}</dd>
+          </div>
+
           <div class="data-row">
             <dt>{{ 'trainDetail.routeInfo.expiration' | translate }}:</dt>
             <dd>{{ train.expiration_date | daytimeDisplay }}</dd>

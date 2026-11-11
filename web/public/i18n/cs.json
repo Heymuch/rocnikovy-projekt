@@ -72,6 +72,8 @@
         "arrival": "Skutečný příjezd",
         "distance": "Vzdálenost",
         "wagonCount": "Počet vagónů",
+        "locomotiveType": "Typ lokomotivy",
+        "wagonType": "Typ vagónů",
         "expiration": "Expirace soupravy",
         "totalPrice": "Celková cena"
       },

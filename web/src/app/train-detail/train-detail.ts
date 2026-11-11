@@ -19,6 +19,8 @@ interface TrainMock {
   status: OrderStatus;
   total_price: number;
   total_wagons: number;
+  locomotive_type: string;
+  wagon_type: string;
   route: {
     station_from_name: string;
     station_to_name: string;
@@ -58,6 +60,8 @@ export class TrainDetail implements AfterViewInit {
     status: OrderStatus.IN_TRANSIT,
     total_price: 135000,
     total_wagons: 25,
+    locomotive_type: 'Siemens Vectron MS',
+    wagon_type: 'Eas-u / Shimmns',
     route: {
       station_from_name: 'Praha hl.n.',
       station_to_name: 'Brno hl.n.',
