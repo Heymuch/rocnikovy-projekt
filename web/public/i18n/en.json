@@ -72,6 +72,8 @@
         "arrival": "Actual Arrival",
         "distance": "Distance",
         "wagonCount": "Total Wagons",
+        "locomotiveType": "Locomotive Type",
+        "wagonType": "Wagon Type",
         "expiration": "Train Set Expiration",
         "totalPrice": "Total Price"
       },
