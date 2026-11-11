@@ -67,10 +67,9 @@
       </mat-card-header>
       <mat-card-content class="map-content">
         <!-- Zde bude komponenta mapy nebo výpis bodů na trase -->
-        <div class="map-placeholder">
-          <mat-icon>map</mat-icon>
-          <p>{{ 'trainDetail.map.placeholder' | translate }}</p>
-        </div>
+        <mat-card-content class="map-content">
+          <div id="map" class="map-container"></div>
+        </mat-card-content>
       </mat-card-content>
     </mat-card>
   </div>
