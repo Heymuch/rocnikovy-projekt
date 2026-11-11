@@ -6,7 +6,6 @@ import { DatePipe } from '@angular/common';
   standalone: true
 })
 export class DaytimeDisplayPipe implements PipeTransform {
-  // Použijeme fallback, abychom předešli pádu při špatně inicializovaném LOCALE_ID
   private locale = inject(LOCALE_ID, { optional: true }) || 'en-US';
   private datePipe = new DatePipe(this.locale);
 

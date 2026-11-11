@@ -11,7 +11,7 @@ import { OrdersTable } from 'src/app/commons/orders-table/orders-table';
 import { Order } from 'src/app/order';
 import { OrderStatus } from 'src/app/commons/order-status';
 import { OrderStatusDisplayPipe } from 'src/app/commons/order-status-display.pipe';
-import * as L from 'leaflet'; // <-- Import knihovny Leaflet pro mapu
+import * as L from 'leaflet';
 
 interface TrainMock {
   id: string;
@@ -48,7 +48,7 @@ interface TrainMock {
   templateUrl: './train-detail.html',
   styleUrl: './train-detail.scss',
 })
-export class TrainDetail implements AfterViewInit { // <-- Přidáno AfterViewInit
+export class TrainDetail implements AfterViewInit {
   private location = inject(Location);
 
   // Mockovaná data pro Vlak
@@ -90,7 +90,6 @@ export class TrainDetail implements AfterViewInit { // <-- Přidáno AfterViewIn
     ]
   };
 
-  // Metoda spuštěná automaticky po zobrazení komponenty a vykreslení HTML
   ngAfterViewInit(): void {
     this.initMap();
   }
@@ -109,7 +108,6 @@ export class TrainDetail implements AfterViewInit { // <-- Přidáno AfterViewIn
       attribution: '© OpenRailwayMap'
     }).addTo(map);
 
-    // KLÍČOVÉ: Donutí Leaflet zkontrolovat rozměry a natáhnout dlaždice i nahoru/dolů
     setTimeout(() => {
       map.invalidateSize();
     }, 100);

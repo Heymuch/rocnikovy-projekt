@@ -18,8 +18,8 @@ import {RouterLink} from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  /*readonly*/ isAuthenticated = true //Později nějak zjistit jestli je přihlášený nebo ne
-  readonly isAdmin = true // Později z rolí
+  /*readonly*/ isAuthenticated = true
+  readonly isAdmin = true
   currentLanguage = 'cs';
 
   constructor(private translate: TranslateService) {

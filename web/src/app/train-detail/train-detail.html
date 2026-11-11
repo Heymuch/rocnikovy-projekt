@@ -5,7 +5,6 @@
 
   <span class="order-code">{{ train.code }}</span>
 
-  <!-- Můžeme recyklovat status-chip, i když má vlak jiné stavy -->
   <span class="status-chip" [ngClass]="'status-' + train.status.toLowerCase()">
     {{ train.status | orderStatusDisplay | translate }}
   </span>
@@ -51,7 +50,7 @@
             <dt>{{ 'trainDetail.routeInfo.expiration' | translate }}:</dt>
             <dd>{{ train.expiration_date | daytimeDisplay }}</dd>
           </div>
-          <!-- Zvýrazněná celková cena za vlak (pokud je potřeba) -->
+          <!-- Zvýrazněná celková cena za vlak -->
           <div class="data-row-highlight">
             <dt>{{ 'trainDetail.routeInfo.totalPrice' | translate }}:</dt>
             <dd>{{ train.total_price }} Kč</dd>
@@ -66,7 +65,6 @@
         <mat-card-title class="card-title">{{ 'trainDetail.map.title' | translate }}</mat-card-title>
       </mat-card-header>
 
-      <!-- Ponechat pouze jeden mat-card-content s třídou map-content -->
       <mat-card-content class="map-content">
         <div id="map" class="map-container"></div>
       </mat-card-content>
@@ -79,7 +77,6 @@
       <mat-card-title class="card-title">{{ 'trainDetail.orders.title' | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <!-- Vložení tvé existující komponenty s tabulkou -->
       <app-orders-table [orders]="train.assigned_orders"></app-orders-table>
     </mat-card-content>
   </mat-card>

@@ -5,7 +5,7 @@
    ========================================================= */
 html {
   height: 100%;
-  @include mat.theme((typography: 'sans-serif', density: 0));
+ /* @include mat.theme((color: null, typography: 'sans-serif', density: 0)); */
 }
 
 :root {
