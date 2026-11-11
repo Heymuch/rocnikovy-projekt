@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {OrdersTable} from '../commons/orders-table/orders-table';
+import {OrdersTable} from 'src/app/order/orders-table/orders-table';
 import {TranslatePipe} from '@ngx-translate/core';
 import {OrdersOverviewStore} from 'src/app/order/orders-overview.store';
 

@@ -11,7 +11,7 @@ import {
 } from '@angular/material/table';
 import {TranslatePipe} from '@ngx-translate/core';
 import {DaytimeDisplayPipe} from 'src/app/commons/daytime-display.pipe';
-import {OrderStatusDisplayPipe} from '../order-status-display.pipe';
+import {OrderStatusDisplayPipe} from 'src/app/order/order-status-display.pipe';
 import {OrderOverview} from 'src/app/order/order';
 
 @Component({

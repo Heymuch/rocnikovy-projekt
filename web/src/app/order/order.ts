@@ -1,6 +1,6 @@
-import {OrderStatus} from 'src/app/commons/order-status';
-import {CargoTypeDTO, TrainSetDTO} from 'src/app/commons/models/train-set';
-import {StationDTO} from 'src/app/commons/models/station';
+import {OrderStatus} from 'src/app/order/order-status';
+import {CargoTypeDTO, TrainSetDTO} from 'src/app/train-set/train-set';
+import {StationDTO} from 'src/app/station/station';
 
 export type RouteDTO = {
   id: string

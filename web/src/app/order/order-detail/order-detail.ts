@@ -5,9 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/list';
-import { OrderStatus } from 'src/app/commons/order-status';
+import { OrderStatus } from 'src/app/order/order-status';
 import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
-import { OrderStatusDisplayPipe } from 'src/app/commons/order-status-display.pipe';
+import { OrderStatusDisplayPipe } from 'src/app/order/order-status-display.pipe';
 import { TranslatePipe } from '@ngx-translate/core';
 
 interface OrderMock {
