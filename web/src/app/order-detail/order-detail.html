@@ -12,9 +12,8 @@
   <span class="spacer"></span>
 
   <div class="toolbar-actions">
-    <!-- Tlačítka využívají globální UI styly -->
-    <button class="btn-primary" [disabled]="order.status !== OrderStatus.IN_QUEUE">EDITOVAT</button>
-    <button class="btn-primary btn-cancel" [disabled]="order.status !== OrderStatus.IN_QUEUE">ZRUŠIT</button>
+    <button class="btn-primary" [disabled]="order.status !== OrderStatus.IN_QUEUE">{{ 'orderDetail.actions.edit' | translate }}</button>
+    <button class="btn-primary btn-cancel" [disabled]="order.status !== OrderStatus.IN_QUEUE">{{ 'orderDetail.actions.cancel' | translate }}</button>
   </div>
 </mat-toolbar>
 
@@ -23,32 +22,34 @@
   <!-- Karta 1: Informace o nákladu (+ Zadavatel pro admina) -->
   <mat-card class="data-card">
     <mat-card-header>
-      <mat-card-title class="card-title">Informace o nákladu</mat-card-title>
+      <mat-card-title class="card-title">{{ 'orderDetail.cargoInfo.title' | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <dl class="data-list">
         <!-- Administrátorská informace o zadavateli -->
-        <div class="data-row" *ngIf="isAdmin">
-          <dt>Zadavatel:</dt>
-          <dd>{{ order.user?.name }} ({{ order.user?.email }})</dd>
-        </div>
+        @if(isAdmin){
+          <div class="data-row">
+            <dt>{{ 'orderDetail.cargoInfo.client' | translate }}:</dt>
+            <dd>{{ order.user?.name }} ({{ order.user?.email }})</dd>
+          </div>
+        }
 
         <div class="data-row">
-          <dt>Typ zboží:</dt>
+          <dt>{{ 'orderDetail.cargoInfo.cargoType' | translate }}:</dt>
           <dd>{{ order.cargo.cargo_type_name }}</dd>
         </div>
         <div class="data-row">
-          <dt>Objem:</dt>
+          <dt>{{ 'orderDetail.cargoInfo.volume' | translate }}:</dt>
           <dd>{{ order.cargo.volume }} m&sup3;</dd>
         </div>
         <div class="data-row">
-          <dt>Hmotnost:</dt>
+          <dt>{{ 'orderDetail.cargoInfo.weight' | translate }}:</dt>
           <dd>{{ order.cargo.weight }} t</dd>
         </div>
 
         <!-- Zvýrazněná cena -->
         <div class="data-row-highlight">
-          <dt>Cena přepravy:</dt>
+          <dt>{{ 'orderDetail.cargoInfo.price' | translate }}:</dt>
           <dd>{{ order.total_price }} Kč</dd>
         </div>
       </dl>
@@ -58,7 +59,7 @@
   <!-- Karta 2: Trasa a logistika (+ Přiřazený vlak pro admina) -->
   <mat-card class="data-card">
     <mat-card-header>
-      <mat-card-title class="card-title">Trasa a logistika</mat-card-title>
+      <mat-card-title class="card-title">{{ 'orderDetail.routeLogistics.title' | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="route-header">
@@ -71,54 +72,59 @@
 
       <dl class="data-list">
         <!-- Blok pro frontu -->
-        <ng-container *ngIf="order.status === OrderStatus.IN_QUEUE">
-          <div class="data-row">
-            <dt>Preferovaný odjezd:</dt>
-            <dd>{{ order.preferred_departure | daytimeDisplay }}</dd>
-          </div>
-          <div class="data-row">
-            <dt>Preferovaný příjezd:</dt>
-            <dd>{{ order.preferred_arrival | daytimeDisplay }}</dd>
-          </div>
-        </ng-container>
-
+        @if(order.status === OrderStatus.IN_QUEUE){
+          <ng-container>
+            <div class="data-row">
+              <dt>{{ 'orderDetail.routeLogistics.preferredDeparture' | translate }}:</dt>
+              <dd>{{ order.preferred_departure | daytimeDisplay }}</dd>
+            </div>
+            <div class="data-row">
+              <dt>{{ 'orderDetail.routeLogistics.preferredArrival' | translate }}:</dt>
+              <dd>{{ order.preferred_arrival | daytimeDisplay }}</dd>
+            </div>
+          </ng-container>
+        } @else {
         <!-- Blok pro ostatní stavy -->
-        <ng-container *ngIf="order.status !== OrderStatus.IN_QUEUE">
+        <ng-container>
           <div class="data-row">
-            <dt>Odjezd vlaku:</dt>
+            <dt>{{ 'orderDetail.routeLogistics.actualDeparture' | translate }}:</dt>
             <dd>{{ order.actual_departure | daytimeDisplay }}</dd>
           </div>
           <div class="data-row">
-            <dt>Příjezd vlaku:</dt>
+            <dt>{{ 'orderDetail.routeLogistics.actualArrival' | translate }}:</dt>
             <dd>{{ order.actual_arrival | daytimeDisplay }}</dd>
           </div>
           <div class="data-row">
-            <dt>Začátek nakládání:</dt>
+            <dt>{{ 'orderDetail.routeLogistics.loadStart' | translate }}:</dt>
             <dd>{{ order.load_date | daytimeDisplay }}</dd>
           </div>
           <div class="data-row">
-            <dt>Začátek vykládání:</dt>
+            <dt>{{ 'orderDetail.routeLogistics.unloadStart' | translate }}:</dt>
             <dd>{{ order.unload_date | daytimeDisplay }}</dd>
           </div>
 
           <!-- Přiřazený vlak pro admina (mezi vykládáním a vagóny) -->
-          <div class="data-row" *ngIf="isAdmin">
-            <dt>Přiřazený vlak (ID):</dt>
-            <dd>
-              <ng-container *ngIf="order.train_set_id; else noTrainSet">
-                <a href="#">{{ order.train_set_id }}</a>
-              </ng-container>
-              <ng-template #noTrainSet>Nepřiřazeno</ng-template>
-            </dd>
-          </div>
+                @if (isAdmin) {
+                  <div class="data-row">
+                    <dt>{{ 'orderDetail.routeLogistics.assignedTrain' | translate }}:</dt>
+                    <dd>
+                      @if (order.train_set_id) {
+                        <a href="#">{{ order.train_set_id }}</a>
+                      } @else {
+                        {{ 'orderDetail.routeLogistics.unassigned' | translate }}
+                      }
+                    </dd>
+                  </div>
+                }
+
           <!-- Řádek pro vagóny už bez třídy mt-2 -->
           <div class="data-row">
-            <dt>Přiřazené vagóny:</dt>
+            <dt>{{ 'orderDetail.routeLogistics.assignedWagons' | translate }}:</dt>
             <dd>{{ order.cargo.wagon_count }}x {{ order.cargo.wagon_type_name }}</dd>
           </div>
         </ng-container>
+        }
       </dl>
     </mat-card-content>
   </mat-card>
-
 </div>

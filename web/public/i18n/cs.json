@@ -36,5 +36,32 @@
     "confirmed": "Potvrzená",
     "inTransit": "V přepravě",
     "completed": "Dokončená"
+  },
+  "orderDetail": {
+    "back": "Zpět",
+    "actions": {
+      "edit": "EDITOVAT",
+      "cancel": "ZRUŠIT"
+    },
+    "cargoInfo": {
+      "title": "Informace o nákladu",
+      "client": "Zadavatel",
+      "cargoType": "Typ zboží",
+      "volume": "Objem",
+      "weight": "Hmotnost",
+      "price": "Cena přepravy"
+    },
+    "routeLogistics": {
+      "title": "Trasa a logistika",
+      "preferredDeparture": "Preferovaný odjezd",
+      "preferredArrival": "Preferovaný příjezd",
+      "actualDeparture": "Odjezd vlaku",
+      "actualArrival": "Příjezd vlaku",
+      "loadStart": "Začátek nakládání",
+      "unloadStart": "Začátek vykládání",
+      "assignedTrain": "Přiřazený vlak (ID)",
+      "unassigned": "Nepřiřazeno",
+      "assignedWagons": "Přiřazené vagóny"
+    }
+    }
   }
-}

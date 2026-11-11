@@ -36,5 +36,32 @@
     "confirmed": "Confirmed",
     "inTransit": "In Transit",
     "completed": "Completed"
+  },
+  "orderDetail": {
+    "back": "Back",
+    "actions": {
+      "edit": "EDIT",
+      "cancel": "CANCEL"
+    },
+    "cargoInfo": {
+      "title": "Cargo Information",
+      "client": "Client",
+      "cargoType": "Cargo Type",
+      "volume": "Volume",
+      "weight": "Weight",
+      "price": "Shipping Price"
+    },
+    "routeLogistics": {
+      "title": "Route and Logistics",
+      "preferredDeparture": "Preferred Departure",
+      "preferredArrival": "Preferred Arrival",
+      "actualDeparture": "Train Departure",
+      "actualArrival": "Train Arrival",
+      "loadStart": "Loading Start",
+      "unloadStart": "Unloading Start",
+      "assignedTrain": "Assigned Train (ID)",
+      "unassigned": "Unassigned",
+      "assignedWagons": "Assigned Wagons"
+    }
   }
-}
+  }
