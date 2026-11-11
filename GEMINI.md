@@ -33,6 +33,7 @@ Cílem je webová aplikace pro objednávání přepravy nákladní vlakovou dopr
 - Reaktivita: Preferuj Angular Signals (`signal`, `computed`, `effect`) pro lokální stav komponent.
 - Překlady: Využíváme `ngx-translate` (cs.json / en.json, roury `| translate`).
 - Testy: Vitest (`npm test`).
+- U typescriptu se vyhýbej středníkům (pokud nejsou nutné)
 
 ## 3. Databáze a Migrace (Flyway)
 - Migrace jsou v `database/sql/` a Flyway je skenuje rekurzivně.
