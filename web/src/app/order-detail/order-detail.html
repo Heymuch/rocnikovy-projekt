@@ -17,7 +17,7 @@
   </div>
 </mat-toolbar>
 
-<div class="page-container grid-cards">
+<div class="page-container grid-cards grid-cards--two-columns">
 
   <!-- Karta 1: Informace o nákladu (+ Zadavatel pro admina) -->
   <mat-card class="data-card">
@@ -68,7 +68,7 @@
         <div class="station">{{ order.route.station_to_name }}</div>
       </div>
 
-      <mat-divider class="my-3"></mat-divider>
+      <mat-divider class="route-divider"></mat-divider>
 
       <dl class="data-list">
         <!-- Blok pro frontu -->
@@ -84,45 +84,45 @@
             </div>
           </ng-container>
         } @else {
-        <!-- Blok pro ostatní stavy -->
-        <ng-container>
-          <div class="data-row">
-            <dt>{{ 'orderDetail.routeLogistics.actualDeparture' | translate }}:</dt>
-            <dd>{{ order.actual_departure | daytimeDisplay }}</dd>
-          </div>
-          <div class="data-row">
-            <dt>{{ 'orderDetail.routeLogistics.actualArrival' | translate }}:</dt>
-            <dd>{{ order.actual_arrival | daytimeDisplay }}</dd>
-          </div>
-          <div class="data-row">
-            <dt>{{ 'orderDetail.routeLogistics.loadStart' | translate }}:</dt>
-            <dd>{{ order.load_date | daytimeDisplay }}</dd>
-          </div>
-          <div class="data-row">
-            <dt>{{ 'orderDetail.routeLogistics.unloadStart' | translate }}:</dt>
-            <dd>{{ order.unload_date | daytimeDisplay }}</dd>
-          </div>
+          <!-- Blok pro ostatní stavy -->
+          <ng-container>
+            <div class="data-row">
+              <dt>{{ 'orderDetail.routeLogistics.actualDeparture' | translate }}:</dt>
+              <dd>{{ order.actual_departure | daytimeDisplay }}</dd>
+            </div>
+            <div class="data-row">
+              <dt>{{ 'orderDetail.routeLogistics.actualArrival' | translate }}:</dt>
+              <dd>{{ order.actual_arrival | daytimeDisplay }}</dd>
+            </div>
+            <div class="data-row">
+              <dt>{{ 'orderDetail.routeLogistics.loadStart' | translate }}:</dt>
+              <dd>{{ order.load_date | daytimeDisplay }}</dd>
+            </div>
+            <div class="data-row">
+              <dt>{{ 'orderDetail.routeLogistics.unloadStart' | translate }}:</dt>
+              <dd>{{ order.unload_date | daytimeDisplay }}</dd>
+            </div>
 
-          <!-- Přiřazený vlak pro admina (mezi vykládáním a vagóny) -->
-                @if (isAdmin) {
-                  <div class="data-row">
-                    <dt>{{ 'orderDetail.routeLogistics.assignedTrain' | translate }}:</dt>
-                    <dd>
-                      @if (order.train_set_id) {
-                        <a href="#">{{ order.train_set_id }}</a>
-                      } @else {
-                        {{ 'orderDetail.routeLogistics.unassigned' | translate }}
-                      }
-                    </dd>
-                  </div>
-                }
+            <!-- Přiřazený vlak pro admina (mezi vykládáním a vagóny) -->
+            @if (isAdmin) {
+              <div class="data-row">
+                <dt>{{ 'orderDetail.routeLogistics.assignedTrain' | translate }}:</dt>
+                <dd>
+                  @if (order.train_set_id) {
+                    <a href="#">{{ order.train_set_id }}</a>
+                  } @else {
+                    {{ 'orderDetail.routeLogistics.unassigned' | translate }}
+                  }
+                </dd>
+              </div>
+            }
 
-          <!-- Řádek pro vagóny už bez třídy mt-2 -->
-          <div class="data-row">
-            <dt>{{ 'orderDetail.routeLogistics.assignedWagons' | translate }}:</dt>
-            <dd>{{ order.cargo.wagon_count }}x {{ order.cargo.wagon_type_name }}</dd>
-          </div>
-        </ng-container>
+            <!-- Řádek pro vagóny už bez třídy mt-2 -->
+            <div class="data-row">
+              <dt>{{ 'orderDetail.routeLogistics.assignedWagons' | translate }}:</dt>
+              <dd>{{ order.cargo.wagon_count }}x {{ order.cargo.wagon_type_name }}</dd>
+            </div>
+          </ng-container>
         }
       </dl>
     </mat-card-content>

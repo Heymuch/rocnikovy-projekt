@@ -108,6 +108,11 @@ export class TrainDetail implements AfterViewInit { // <-- Přidáno AfterViewIn
       maxZoom: 19,
       attribution: '© OpenRailwayMap'
     }).addTo(map);
+
+    // KLÍČOVÉ: Donutí Leaflet zkontrolovat rozměry a natáhnout dlaždice i nahoru/dolů
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
   }
 
   goBack(): void {

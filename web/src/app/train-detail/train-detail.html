@@ -1,4 +1,4 @@
-<mat-toolbar class="detail-toolbar">
+<mat-toolbar class="detail-toolbar detail-toolbar--large">
   <button mat-icon-button (click)="goBack()" aria-label="{{ 'trainDetail.back' | translate }}">
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -13,7 +13,7 @@
   <span class="spacer"></span>
 </mat-toolbar>
 
-<div class="page-container">
+<div class="page-container page-container--wide">
 
   <div class="grid-cards">
     <!-- Karta 1: Trasa a parametry vlaku -->
@@ -28,7 +28,7 @@
           <div class="station">{{ train.route.station_to_name }}</div>
         </div>
 
-        <mat-divider class="my-3"></mat-divider>
+        <mat-divider class="route-divider"></mat-divider>
 
         <dl class="data-list">
           <div class="data-row">
@@ -65,11 +65,10 @@
       <mat-card-header>
         <mat-card-title class="card-title">{{ 'trainDetail.map.title' | translate }}</mat-card-title>
       </mat-card-header>
+
+      <!-- Ponechat pouze jeden mat-card-content s třídou map-content -->
       <mat-card-content class="map-content">
-        <!-- Zde bude komponenta mapy nebo výpis bodů na trase -->
-        <mat-card-content class="map-content">
-          <div id="map" class="map-container"></div>
-        </mat-card-content>
+        <div id="map" class="map-container"></div>
       </mat-card-content>
     </mat-card>
   </div>
