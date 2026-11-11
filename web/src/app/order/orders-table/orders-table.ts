@@ -2,11 +2,16 @@ import {Component, input} from '@angular/core';
 
 import {NgClass} from '@angular/common';
 import {
-  MatCell, MatCellDef,
+  MatCell,
+  MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatNoDataRow,
-  MatRow, MatRowDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatNoDataRow,
+  MatRow,
+  MatRowDef,
   MatTable
 } from '@angular/material/table';
 import {TranslatePipe} from '@ngx-translate/core';

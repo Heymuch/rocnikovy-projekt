@@ -1,17 +1,16 @@
-import { Component, inject, AfterViewInit } from '@angular/core';
-import { Location, NgClass } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatDivider } from '@angular/material/list';
-import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
-import { TranslatePipe } from '@ngx-translate/core';
-import { OrdersTable } from 'src/app/commons/orders-table/orders-table';
-import { Order } from 'src/app/order';
-import { OrderStatus } from 'src/app/commons/order-status';
-import { OrderStatusDisplayPipe } from 'src/app/commons/order-status-display.pipe';
+import {AfterViewInit, Component, inject} from '@angular/core';
+import {Location, NgClass} from '@angular/common';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {MatDivider} from '@angular/material/list';
+import {DaytimeDisplayPipe} from 'src/app/commons/daytime-display.pipe';
+import {TranslatePipe} from '@ngx-translate/core';
 import * as L from 'leaflet';
+import {OrderStatusDisplayPipe} from 'src/app/order/order-status-display.pipe';
+import {OrderStatus} from 'src/app/order/order-status';
+import {Order} from 'src/app/order';
 
 interface TrainMock {
   id: string;
@@ -42,7 +41,7 @@ interface TrainMock {
     DaytimeDisplayPipe,
     TranslatePipe,
     NgClass,
-    OrdersTable,
+    OrderStatusDisplayPipe,
     OrderStatusDisplayPipe
   ],
   templateUrl: './train-detail.html',

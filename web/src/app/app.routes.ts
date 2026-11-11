@@ -4,7 +4,7 @@ import {MyOrders} from 'src/app/order/my-orders/my-orders';
 import {NewOrder} from 'src/app/order/new-order/new-order';
 import {TrainOverview} from 'src/app/train-set/train-overview/train-overview';
 import {OrderDetail} from 'src/app/order/order-detail/order-detail';
-import {TrainDetail} from 'src/app/train-detail/train-detail';
+import {TrainDetail} from 'src/app/train-set/train-detail/train-detail';
 
 export const routes: Routes = [
   { path: '', component: Home },

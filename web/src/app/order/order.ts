@@ -48,7 +48,7 @@ export type OrderOverviewResponseDTO = {
   totalPages: number
 }
 
-// UI modely
+// UI modely - hlavní pro Frontend
 export type OrderOverview = OrderDTO & {
  stationFrom?: StationDTO | null
  stationTo?: StationDTO | null
