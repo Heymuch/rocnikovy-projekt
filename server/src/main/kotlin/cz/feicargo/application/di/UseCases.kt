@@ -25,6 +25,7 @@ fun DependencyRegistry.useCases() {
     provide< SearchTrainSetsUseCase> {
         SearchTrainSetsUseCase(
             repository = resolve(),
+            stationRepository = resolve(),
             transactionManager = resolve(),
         )
     }

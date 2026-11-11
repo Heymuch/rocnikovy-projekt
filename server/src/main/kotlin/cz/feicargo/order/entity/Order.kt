@@ -9,6 +9,7 @@ data class Order(
     val id: Id,
     val userId: Uuid,
     val trainSetId: Uuid?,
+    val name: String,
     val status: String,
     val code: String,
     val totalPrice: BigDecimal,
@@ -17,7 +18,7 @@ data class Order(
     val preferredDeparture: Instant,
     val preferredArrival: Instant,
     val route: OrderRoute?,
-    val cargoes: List<OrderCargo>
+    val cargo: OrderCargo?
 ) : Entity {
     @JvmInline value class Id(val value: Uuid)
 }

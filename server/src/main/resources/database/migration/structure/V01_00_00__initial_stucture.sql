@@ -81,22 +81,29 @@ create table "locomotives" (
 create table "train_sets" (
     "id"              uuid not null,
     "locomotive_id"   bigint not null,
+    "station_from"    uuid not null,
+    "station_to"      uuid not null,
     "code"            text not null,
     "departure_date"  timestamp with time zone not null,
     "arrival_date"    timestamp with time zone not null,
     "expiration_date" timestamp with time zone not null,
     primary key ( "id" ),
     foreign key ( "locomotive_id" ) references "locomotives" ( "id" ),
+    foreign key ( "station_from" ) references "stations" ( "id" ),
+    foreign key ( "station_to" ) references "stations" ( "id" ),
     unique ( "code" )
 );
 
 create index on "train_sets" ( "locomotive_id" );
+create index on "train_sets" ( "station_from" );
+create index on "train_sets" ( "station_to" );
 
 -- Objednávky
 create table "orders" (
     "id"                  uuid not null,
     "user_id"             uuid not null,
     "train_set_id"        uuid,
+    "name"                text not null,
     "status"              text not null,
     "code"                text not null,
     "total_price"         numeric(12, 2) not null, -- Kč
@@ -124,6 +131,7 @@ create table "order_cargoes" (
     foreign key ( "order_id" ) references "orders" ( "id" ) on delete cascade,
     foreign key ( "cargo_type_id" ) references "cargo_types" ( "id" ),
     foreign key ( "wagon_id" ) references "wagons" ( "id" ),
+    unique ( "order_id" ),
     check ( "wagon_count" > 0 )
 );
 

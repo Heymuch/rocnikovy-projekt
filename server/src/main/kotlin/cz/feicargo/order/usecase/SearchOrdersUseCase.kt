@@ -48,7 +48,7 @@ class SearchOrdersUseCase(
                 }
 
                 if (context.includes.contains("cargoType")) {
-                    val cargoTypeIds = orders.flatMap { it.cargoes }.map { it.cargoTypeId }.distinct()
+                    val cargoTypeIds = orders.mapNotNull { it.cargo }.map { it.cargoTypeId }.distinct()
                     fetchedCargoTypes = cargoTypeRepository.selectByIds(cargoTypeIds)
                         .map { it.toDTO() }
                 }

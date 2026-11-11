@@ -8,6 +8,8 @@ data class TrainSet(
     val id: Id,
     val code: String,
     val locomotiveId: Long,
+    val stationFrom: Uuid,
+    val stationTo: Uuid,
     val departureDate: Instant,
     val arrivalDate: Instant,
     val expirationDate: Instant,

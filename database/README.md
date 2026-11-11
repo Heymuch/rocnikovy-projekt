@@ -9,6 +9,7 @@
         uuid id PK
         uuid user_id FK "ID uživatele z Keycloaku"
         uuid train_set_id FK "Vlaková souprava (může být null)"
+        string name "Název objednávky"
         string status "Stav objednávky"
         string code "Kód objednávky"
         float total_price "Cena přepravy (Kč)"
@@ -70,6 +71,8 @@
     TRAIN_SET {
         uuid id PK
         long locomotive_id FK
+        uuid station_from FK "Výchozí stanice vlaku"
+        uuid station_to FK "Cílová stanice vlaku"
         string code UK "Kód soupravy"
         date departure_date "Čas odjezdu"
         date arrival_date "Čas příjezdu"
@@ -104,6 +107,8 @@
 %% ROUTE má dvě až více stanic (značeno jako 1..N), STATION má nula až více ROUTE
     STATION ||--o{ ORDER_ROUTE : "nakládá se v"
     STATION ||--o{ ORDER_ROUTE : "vykládá se v"
+    STATION ||--o{ TRAIN_SET : "začíná ve"
+    STATION ||--o{ TRAIN_SET : "končí ve"
 
 %% LOCOMOTIVE má nula až víc TRAIN SET. TRAIN SET má vždy jednu TRAIN.
     LOCOMOTIVE ||--o{ TRAIN_SET : "táhne"

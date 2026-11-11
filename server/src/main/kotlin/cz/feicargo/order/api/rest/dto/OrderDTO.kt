@@ -8,6 +8,7 @@ data class OrderDTO(
     val id: String,
     val userId: String,
     val trainSetId: String?,
+    val name: String,
     val status: String,
     val code: String,
     val totalPrice: Double,
@@ -16,13 +17,14 @@ data class OrderDTO(
     val preferredDeparture: String,
     val preferredArrival: String,
     val route: OrderRouteDTO?,
-    val cargoes: List<OrderCargoDTO>
+    val cargo: OrderCargoDTO?
 )
 
 fun Order.toDTO() = OrderDTO(
     id = this.id.value.toString(),
     userId = this.userId.toString(),
     trainSetId = this.trainSetId?.toString(),
+    name = this.name,
     status = this.status,
     code = this.code,
     totalPrice = this.totalPrice.toDouble(),
@@ -31,5 +33,5 @@ fun Order.toDTO() = OrderDTO(
     preferredDeparture = this.preferredDeparture.toString(),
     preferredArrival = this.preferredArrival.toString(),
     route = this.route?.toDTO(),
-    cargoes = this.cargoes.map { it.toDTO() }
+    cargo = this.cargo?.toDTO()
 )

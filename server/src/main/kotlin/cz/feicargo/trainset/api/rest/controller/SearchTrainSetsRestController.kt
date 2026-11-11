@@ -16,14 +16,16 @@ class SearchTrainSetsRestController(
     data class Context(
         override val call: ApplicationCall,
         val page: Int,
-        val size: Int
+        val size: Int,
+        val includes: List<String>
     ) : RestController.Context
 
     override suspend fun invoke(ctx: Context) {
-        val result = useCase.invoke(SearchTrainSetsUseCase.Context(ctx.page, ctx.size))
+        val result = useCase.invoke(SearchTrainSetsUseCase.Context(ctx.page, ctx.size, ctx.includes))
         val totalPages = ceil(result.totalCount.toDouble() / ctx.size).toInt()
         val responseDTO = PaginatedTrainSetResponseDTO(
             items = result.trainSets.map { it.toDTO() },
+            extend = result.extend,
             page = ctx.page,
             size = ctx.size,
             totalCount = result.totalCount,

@@ -43,13 +43,11 @@ class GetTrainSetDetailUseCase(
             val userIds = orders.map { it.userId }.distinct()
             val users = userRepository.selectByIds(userIds).associateBy { it.id.value }
 
-            val totalWagons = orders.flatMap { it.cargoes }.sumOf { it.wagonCount }
+            val totalWagons = orders.mapNotNull { it.cargo }.sumOf { it.wagonCount }
             val totalPrice = orders.sumOf { it.totalPrice.toDouble() }
 
-            val earliestOrder = orders.minByOrNull { it.preferredDeparture }
-            val latestOrder = orders.maxByOrNull { it.preferredArrival }
-            val stationFromId = earliestOrder?.route?.stationFrom
-            val stationToId = latestOrder?.route?.stationTo
+            val stationFromId = trainSet.stationFrom
+            val stationToId = trainSet.stationTo
 
             val orderDetails = orders.map { order ->
                 TrainSetOrderDetailDTO(
@@ -68,7 +66,7 @@ class GetTrainSetDetailUseCase(
                 }
 
                 if (context.includes.contains("wagon")) {
-                    val wagonIds = orders.flatMap { it.cargoes }.map { it.wagonId }.distinct()
+                    val wagonIds = orders.mapNotNull { it.cargo }.map { it.wagonId }.distinct()
                     fetchedWagons = wagonRepository.selectByIds(wagonIds).map { it.toDTO() }
                 }
 
@@ -89,8 +87,8 @@ class GetTrainSetDetailUseCase(
             TrainSetDetailResponseDTO(
                 id = trainSet.id.value.toString(),
                 code = trainSet.code,
-                stationFromId = stationFromId?.toString(),
-                stationToId = stationToId?.toString(),
+                stationFromId = stationFromId.toString(),
+                stationToId = stationToId.toString(),
                 departureDate = trainSet.departureDate.toString(),
                 arrivalDate = trainSet.arrivalDate.toString(),
                 expirationDate = trainSet.expirationDate.toString(),

@@ -18,15 +18,20 @@ object TrainSetRoutes {
         fun Route.get() =
             get<TrainSets.Search> { request ->
                 with(application.dependencies.resolve<SearchTrainSetsRestController>()) {
-                    SearchTrainSetsRestController.Context(call, request.page, request.size).use()
+                    val xInclude = call.request.headers["X-Include"]
+                    val includes = xInclude?.split(",")?.map { it.trim() } ?: emptyList()
+                    SearchTrainSetsRestController.Context(call, request.page, request.size, includes).use()
                 }
             }.describe {
-                summary = "Overview of train sets with pagination"
+                summary = "Search train sets with pagination"
                 tag("TrainSets")
-                responses {
-                    HttpStatusCode.OK {
-                        description = "Paginated list of train sets"
+                parameters {
+                    header("X-Include") {
+                        description = "For example: station"
                     }
+                }
+                responses {
+                    HttpStatusCode.OK { description = "Paginated list of train sets" }
                 }
             }
     }

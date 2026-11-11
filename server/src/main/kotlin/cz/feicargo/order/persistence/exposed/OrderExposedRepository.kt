@@ -3,7 +3,6 @@ package cz.feicargo.order.persistence.exposed
 import cz.feicargo.order.entity.Order
 import cz.feicargo.order.persistence.OrderRepository
 import kotlinx.coroutines.flow.associateBy
-import kotlinx.coroutines.flow.groupBy
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.r2dbc.andWhere
@@ -50,13 +49,13 @@ class OrderExposedRepository : OrderRepository {
             .where { OrderCargoTable.orderId inList orderIds }
             .map(ResultRow::toOrderCargo)
             .toList()
-            .groupBy { it.orderId }
+            .associateBy { it.orderId }
 
         val orders = orderRows.map { row ->
             val id = row[OrderTable.id].value
             row.toOrder(
                 route = routesByOrderId[id],
-                cargoes = cargoesByOrderId[id] ?: emptyList()
+                cargo = cargoesByOrderId[id]
             )
         }
 
@@ -81,11 +80,11 @@ class OrderExposedRepository : OrderRepository {
         val cargoes = OrderCargoTable.select(OrderCargoTable.columns)
             .where { OrderCargoTable.orderId inList uuidList }
             .map(ResultRow::toOrderCargo)
-            .groupBy { it.orderId }
+            .associateBy { it.orderId }
 
         return ordersRaw.map { row ->
             val oId = row[OrderTable.id].value
-            row.toOrder(routes[oId], cargoes[oId] ?: emptyList())
+            row.toOrder(routes[oId], cargoes[oId])
         }
     }
 }
