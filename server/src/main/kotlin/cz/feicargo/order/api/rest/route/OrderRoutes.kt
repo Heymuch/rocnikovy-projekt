@@ -18,8 +18,7 @@ object OrderRoutes {
                 with(application.dependencies.resolve<SearchOrdersRestController>()) {
                     val xInclude = call.request.headers["X-Include"]
                     val includes = xInclude?.split(",")?.map { it.trim() } ?: emptyList()
-
-                    this.invoke(SearchOrdersRestController.Context(call, request.page, request.size, request.userId, includes))
+                    SearchOrdersRestController.Context(call, request.page, request.size, request.userId, includes).use()
                 }
             }.describe {
                 summary = "Overview for orders with pagination and optional user filter"

@@ -13,4 +13,10 @@ class TrainSets {
         val page: Int,
         val size: Int
     )
+    @Serializable
+    @Resource("/{id}")
+    class Detail(
+        val parent: TrainSets = TrainSets(),
+        val id: String
+    )
 }

@@ -30,6 +30,7 @@ fun Application.routingModule() {
             with(StationsRoutes.Get) { get() }
             with(CargoTypeRoutes.GetAll) { get() }
             with(TrainSetRoutes.Search) { get() }
+            with(TrainSetRoutes.GetDetail) { get() }
             with(OrderRoutes.Search) { get() }
         }
     }

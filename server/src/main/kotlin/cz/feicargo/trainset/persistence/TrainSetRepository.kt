@@ -6,4 +6,5 @@ import kotlin.uuid.Uuid
 interface TrainSetRepository {
     suspend fun search(page: Int, size: Int): Pair<List<TrainSet>, Long>
     suspend fun selectByIds(ids: List<Uuid>): List<TrainSet>
+    suspend fun findById(id: Uuid): TrainSet?
 }

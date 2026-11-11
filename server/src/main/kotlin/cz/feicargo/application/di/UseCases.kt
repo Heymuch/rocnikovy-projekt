@@ -3,6 +3,7 @@ package cz.feicargo.application.di
 import cz.feicargo.cargotype.usecase.GetCargoTypesUseCase
 import cz.feicargo.order.usecase.SearchOrdersUseCase
 import cz.feicargo.station.usecase.SearchForStationsUseCase
+import cz.feicargo.trainset.usecase.GetTrainSetDetailUseCase
 import cz.feicargo.trainset.usecase.SearchTrainSetsUseCase
 import io.ktor.server.plugins.di.DependencyRegistry
 
@@ -36,5 +37,17 @@ fun DependencyRegistry.useCases() {
             stationRepository = resolve(),
             transactionManager = resolve(),
         )
+    }
+
+    provide<GetTrainSetDetailUseCase> {
+        GetTrainSetDetailUseCase(
+            trainSetRepository = resolve(),
+            orderRepository = resolve(),
+            userRepository = resolve(),
+            stationRepository = resolve(),
+            locomotiveRepository = resolve(),
+            wagonRepository = resolve(),
+            transactionManager = resolve(),
+            )
     }
 }

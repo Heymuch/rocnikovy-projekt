@@ -8,6 +8,7 @@ import org.jetbrains.exposed.v1.core.Expression
 import org.jetbrains.exposed.v1.core.QueryBuilder
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.SortOrder
+import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.r2dbc.select
 import kotlin.uuid.Uuid
@@ -45,5 +46,13 @@ class TrainSetExposedRepository : TrainSetRepository {
             .where { TrainSetTable.id inList ids }
             .map(ResultRow::toTrainSet)
             .toList()
+    }
+
+    override suspend fun findById(id: Uuid): TrainSet? {
+        return selectQuery()
+            .where { TrainSetTable.id eq id }
+            .map(ResultRow::toTrainSet)
+            .toList()
+            .firstOrNull()
     }
 }
