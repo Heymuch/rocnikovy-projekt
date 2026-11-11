@@ -1,14 +1,14 @@
-import {Component, inject} from '@angular/core';
-import {Location, NgClass} from '@angular/common';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-import {MatDivider} from '@angular/material/list';
-import {OrderStatus} from 'src/app/commons/order-status';
-import {DaytimeDisplayPipe} from 'src/app/commons/daytime-display.pipe';
-import {OrderStatusDisplayPipe} from 'src/app/commons/order-status-display.pipe';
-import {TranslatePipe} from '@ngx-translate/core';
+import { Component, inject } from '@angular/core';
+import {Location, NgClass, NgIf} from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/list';
+import { OrderStatus } from 'src/app/order/order-status';
+import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
+import { OrderStatusDisplayPipe } from 'src/app/order/order-status-display.pipe';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface OrderMock {
   id: string;
@@ -53,6 +53,7 @@ interface OrderMock {
     OrderStatusDisplayPipe,
     TranslatePipe,
     NgClass,
+    NgIf
   ],
   templateUrl: './order-detail.html',
   styleUrl: './order-detail.scss',
