@@ -54,7 +54,7 @@ INSERT INTO "orders" (id, user_id, train_set_id, name, status, code, total_price
 -- Objednávka 4 (Firma B) na Vlak 2 (Plzeň -> Praha)
 ('cccccccc-cccc-cccc-cccc-ccccccccccc4', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb2', 'Ocel PLZ-PHA', 'CONFIRMED', 'ORD-004', 18000, '2026-11-20 12:00:00+01', '2026-11-22 12:00:00+01', '2026-11-21 08:00:00+01', '2026-11-21 13:00:00+01'),
 -- Objednávka 5 (Firma A) ČEKÁ VE FRONTĚ (Train set je NULL)
-('cccccccc-cccc-cccc-cccc-ccccccccccc5', '11111111-1111-1111-1111-111111111111', NULL, 'Písek OST-PLZ', 'WAITING', 'ORD-005', 30000, '2026-11-25 08:00:00+01', '2026-11-27 18:00:00+01', '2026-11-26 08:00:00+01', '2026-11-26 18:00:00+01')
+('cccccccc-cccc-cccc-cccc-ccccccccccc5', '11111111-1111-1111-1111-111111111111', NULL, 'Písek OST-PLZ', 'IN_QUEUE', 'ORD-005', 30000, '2026-11-25 08:00:00+01', '2026-11-27 18:00:00+01', '2026-11-26 08:00:00+01', '2026-11-26 18:00:00+01')
 ON CONFLICT (id) DO NOTHING;
 
 -- 6. TRASY OBJEDNÁVEK
