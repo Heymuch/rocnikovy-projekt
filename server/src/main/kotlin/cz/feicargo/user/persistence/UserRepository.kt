@@ -1,8 +1,8 @@
 package cz.feicargo.user.persistence
 
 import cz.feicargo.user.entity.User
-import kotlin.uuid.Uuid
 
 interface UserRepository {
-    suspend fun selectByIds(ids: List<Uuid>): List<User>
+    suspend fun select(ids: List<User.Id>): List<User>
+    suspend fun select(email: User.Email): User?
 }

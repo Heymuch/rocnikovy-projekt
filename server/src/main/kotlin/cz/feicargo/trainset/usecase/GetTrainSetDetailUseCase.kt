@@ -47,7 +47,7 @@ class GetTrainSetDetailUseCase(
                 val orders = orderRepository.selectByTrainSetId(context.trainSetId)
 
                 val userIds = orders.map { it.userId }.distinct()
-                val users = userRepository.selectByIds(userIds).associateBy { it.id.value }
+                val users = userRepository.select(userIds).associateBy { it.id.value }
 
                 val totalWagons = orders.mapNotNull { it.cargo }.sumOf { it.wagonCount }
                 val totalPrice = orders.sumOf { it.totalPrice.toDouble() }
