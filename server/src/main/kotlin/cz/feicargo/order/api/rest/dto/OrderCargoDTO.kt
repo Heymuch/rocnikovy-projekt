@@ -13,11 +13,12 @@ data class OrderCargoDTO(
     val wagonCount: Int,
 )
 
-fun OrderCargo.toDTO() = OrderCargoDTO(
-    id = this.id.value.toString(),
-    cargoTypeId = this.cargoTypeId,
-    volume = this.volume,
-    weight = this.weight,
-    wagonId = this.wagonId,
-    wagonCount = this.wagonCount,
-)
+fun OrderCargo.toDTO() =
+    OrderCargoDTO(
+        id = this.id.value.toString(),
+        cargoTypeId = this.cargoTypeId,
+        volume = this.volume,
+        weight = this.weight,
+        wagonId = this.wagonId,
+        wagonCount = this.wagonCount,
+    )

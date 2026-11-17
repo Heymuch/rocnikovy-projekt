@@ -9,5 +9,7 @@ data class OrderRoute(
     val stationFrom: Uuid,
     val stationTo: Uuid,
 ) : Entity {
-    @JvmInline value class Id(val value: Uuid)
+    @JvmInline value class Id(
+        val value: Uuid,
+    )
 }

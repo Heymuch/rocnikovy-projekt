@@ -18,7 +18,9 @@ data class Order(
     val preferredDeparture: Instant,
     val preferredArrival: Instant,
     val route: OrderRoute?,
-    val cargo: OrderCargo?
+    val cargo: OrderCargo?,
 ) : Entity {
-    @JvmInline value class Id(val value: Uuid)
+    @JvmInline value class Id(
+        val value: Uuid,
+    )
 }

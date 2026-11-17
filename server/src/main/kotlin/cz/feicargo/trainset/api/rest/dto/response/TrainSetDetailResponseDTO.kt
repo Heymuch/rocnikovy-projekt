@@ -1,9 +1,9 @@
 package cz.feicargo.trainset.api.rest.dto.response
 
+import cz.feicargo.locomotive.api.rest.dto.LocomotiveDTO
 import cz.feicargo.order.api.rest.dto.OrderDTO
 import cz.feicargo.station.api.rest.dto.StationDTO
 import cz.feicargo.user.api.rest.dto.UserDTO
-import cz.feicargo.locomotive.api.rest.dto.LocomotiveDTO
 import cz.feicargo.wagon.api.rest.dto.WagonDTO
 import kotlinx.serialization.Serializable
 
@@ -17,7 +17,7 @@ data class TrainSetOrderDetailDTO(
 data class TrainSetDetailExtendDTO(
     val stations: List<StationDTO>? = null,
     val locomotives: List<LocomotiveDTO>? = null,
-    val wagons: List<WagonDTO>? = null
+    val wagons: List<WagonDTO>? = null,
 )
 
 @Serializable
@@ -34,5 +34,5 @@ data class TrainSetDetailResponseDTO(
     val routeLengthKm: Double,
     val route: List<String>,
     val orders: List<TrainSetOrderDetailDTO>,
-    val extend: TrainSetDetailExtendDTO? = null
+    val extend: TrainSetDetailExtendDTO? = null,
 )

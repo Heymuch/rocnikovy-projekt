@@ -11,11 +11,10 @@ import org.jetbrains.exposed.v1.r2dbc.select
 class CargoTypeExposedRepository : CargoTypeRepository {
     private fun selectQuery() = CargoTypeTable.select(CargoTypeTable.id, CargoTypeTable.name)
 
-    override suspend fun selectAll(): List<CargoType> {
-        return selectQuery()
+    override suspend fun selectAll(): List<CargoType> =
+        selectQuery()
             .map(ResultRow::toCargoType)
             .toList()
-    }
 
     override suspend fun selectByIds(ids: List<Long>): List<CargoType> {
         if (ids.isEmpty()) return emptyList()

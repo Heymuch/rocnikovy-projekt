@@ -35,24 +35,29 @@ object OrderCargoTable : UuidTable("order_cargoes") {
     val wagonCount = integer("wagon_count")
 }
 
-fun ResultRow.toOrderRoute() = OrderRoute(
-    id = this[OrderRouteTable.id].value.let(OrderRoute::Id),
-    orderId = this[OrderRouteTable.orderId],
-    stationFrom = this[OrderRouteTable.stationFrom],
-    stationTo = this[OrderRouteTable.stationTo],
-)
+fun ResultRow.toOrderRoute() =
+    OrderRoute(
+        id = this[OrderRouteTable.id].value.let(OrderRoute::Id),
+        orderId = this[OrderRouteTable.orderId],
+        stationFrom = this[OrderRouteTable.stationFrom],
+        stationTo = this[OrderRouteTable.stationTo],
+    )
 
-fun ResultRow.toOrderCargo() = OrderCargo(
-    id = this[OrderCargoTable.id].value.let(OrderCargo::Id),
-    orderId = this[OrderCargoTable.orderId],
-    cargoTypeId = this[OrderCargoTable.cargoTypeId],
-    volume = this[OrderCargoTable.volume],
-    weight = this[OrderCargoTable.weight],
-    wagonId = this[OrderCargoTable.wagonId],
-    wagonCount = this[OrderCargoTable.wagonCount],
-)
+fun ResultRow.toOrderCargo() =
+    OrderCargo(
+        id = this[OrderCargoTable.id].value.let(OrderCargo::Id),
+        orderId = this[OrderCargoTable.orderId],
+        cargoTypeId = this[OrderCargoTable.cargoTypeId],
+        volume = this[OrderCargoTable.volume],
+        weight = this[OrderCargoTable.weight],
+        wagonId = this[OrderCargoTable.wagonId],
+        wagonCount = this[OrderCargoTable.wagonCount],
+    )
 
-fun ResultRow.toOrder(route: OrderRoute?, cargo: OrderCargo?) = Order(
+fun ResultRow.toOrder(
+    route: OrderRoute?,
+    cargo: OrderCargo?,
+) = Order(
     id = this[OrderTable.id].value.let(Order::Id),
     userId = this[OrderTable.userId],
     trainSetId = this[OrderTable.trainSetId],
@@ -65,5 +70,5 @@ fun ResultRow.toOrder(route: OrderRoute?, cargo: OrderCargo?) = Order(
     preferredDeparture = this[OrderTable.preferredDeparture],
     preferredArrival = this[OrderTable.preferredArrival],
     route = route,
-    cargo = cargo
+    cargo = cargo,
 )

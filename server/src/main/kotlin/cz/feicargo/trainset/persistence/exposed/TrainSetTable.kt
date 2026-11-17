@@ -16,13 +16,14 @@ object TrainSetTable : UuidTable("train_sets") {
     val expirationDate = timestamp("expiration_date")
 }
 
-fun ResultRow.toTrainSet() = TrainSet(
-    id = this[TrainSetTable.id].value.let(TrainSet::Id),
-    code = this[TrainSetTable.code],
-    locomotiveId = this[TrainSetTable.locomotiveId],
-    stationFrom = this[TrainSetTable.stationFrom],
-    stationTo = this[TrainSetTable.stationTo],
-    departureDate = this[TrainSetTable.departureDate],
-    arrivalDate = this[TrainSetTable.arrivalDate],
-    expirationDate = this[TrainSetTable.expirationDate]
-)
+fun ResultRow.toTrainSet() =
+    TrainSet(
+        id = this[TrainSetTable.id].value.let(TrainSet::Id),
+        code = this[TrainSetTable.code],
+        locomotiveId = this[TrainSetTable.locomotiveId],
+        stationFrom = this[TrainSetTable.stationFrom],
+        stationTo = this[TrainSetTable.stationTo],
+        departureDate = this[TrainSetTable.departureDate],
+        arrivalDate = this[TrainSetTable.arrivalDate],
+        expirationDate = this[TrainSetTable.expirationDate],
+    )

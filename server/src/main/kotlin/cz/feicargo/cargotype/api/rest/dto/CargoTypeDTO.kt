@@ -9,7 +9,8 @@ data class CargoTypeDTO(
     val name: String,
 )
 
-fun CargoType.toDTO() = CargoTypeDTO(
-    id = this.id.value,
-    name = this.name.value,
-)
+fun CargoType.toDTO() =
+    CargoTypeDTO(
+        id = this.id.value,
+        name = this.name.value,
+    )

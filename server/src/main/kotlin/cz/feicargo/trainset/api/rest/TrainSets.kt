@@ -11,12 +11,13 @@ class TrainSets {
     class Search(
         val parent: TrainSets = TrainSets(),
         val page: Int,
-        val size: Int
+        val size: Int,
     )
+
     @Serializable
     @Resource("/{id}")
     class Detail(
         val parent: TrainSets = TrainSets(),
-        val id: String
+        val id: String,
     )
 }

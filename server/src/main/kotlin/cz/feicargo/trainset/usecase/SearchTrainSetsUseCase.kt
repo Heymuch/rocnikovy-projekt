@@ -15,14 +15,23 @@ class SearchTrainSetsUseCase(
     private val stationRepository: StationRepository,
     private val transactionManager: TransactionManager,
 ) : UseCase<SearchTrainSetsUseCase.Context, SearchTrainSetsUseCase.Result> {
+    data class Context(
+        val page: Int,
+        val size: Int,
+        val includes: List<String>,
+    ) : UseCase.Context
 
-    data class Context(val page: Int, val size: Int, val includes: List<String>) : UseCase.Context
-    data class Result(val trainSets: List<TrainSet>, val totalCount: Long, val extend: TrainSetExtendDTO?) : UseCase.Result
+    data class Result(
+        val trainSets: List<TrainSet>,
+        val totalCount: Long,
+        val extend: TrainSetExtendDTO?,
+    ) : UseCase.Result
 
     override suspend fun invoke(context: Context): Result {
-        val (trainSets, total) = transactionManager.newTransaction {
-            repository.search(context.page, context.size)
-        }
+        val (trainSets, total) =
+            transactionManager.newTransaction {
+                repository.search(context.page, context.size)
+            }
 
         var extendDTO: TrainSetExtendDTO? = null
         if (trainSets.isNotEmpty() && context.includes.isNotEmpty()) {

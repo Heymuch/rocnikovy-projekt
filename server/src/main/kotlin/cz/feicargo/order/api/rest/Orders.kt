@@ -12,6 +12,6 @@ class Orders {
         val parent: Orders = Orders(),
         val page: Int,
         val size: Int,
-        val userId: String? = null
+        val userId: String? = null,
     )
 }

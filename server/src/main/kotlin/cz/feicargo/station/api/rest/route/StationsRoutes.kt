@@ -15,10 +15,11 @@ object StationsRoutes {
         fun Route.get() =
             get<Stations.Search> {
                 with(application.dependencies.resolve<SearchForStationsRestController>()) {
-                    SearchForStationsRestController.Context(
-                        call,
-                        it.query,
-                    ).use()
+                    SearchForStationsRestController
+                        .Context(
+                            call,
+                            it.query,
+                        ).use()
                 }
             }.describe {
                 summary = "Search for stations"

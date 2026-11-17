@@ -8,5 +8,5 @@ import kotlin.time.Instant
 @Serializable
 data class StationResponseDTO(
     val items: List<StationDTO>,
-    val timestamp: Instant = Clock.System.now()
+    val timestamp: Instant = Clock.System.now(),
 )

@@ -24,14 +24,24 @@ class SearchOrdersUseCase(
     private val stationRepository: StationRepository,
     private val transactionManager: TransactionManager,
 ) : UseCase<SearchOrdersUseCase.Context, SearchOrdersUseCase.Result> {
+    data class Context(
+        val page: Int,
+        val size: Int,
+        val userId: Uuid?,
+        val includes: List<String>,
+    ) : UseCase.Context
 
-    data class Context(val page: Int, val size: Int, val userId: Uuid?, val includes: List<String>) : UseCase.Context
-    data class Result(val orders: List<Order>, val totalCount: Long, val extend: OrderExtendDTO?) : UseCase.Result
+    data class Result(
+        val orders: List<Order>,
+        val totalCount: Long,
+        val extend: OrderExtendDTO?,
+    ) : UseCase.Result
 
     override suspend fun invoke(context: Context): Result {
-        val (orders, total) = transactionManager.newTransaction {
-            orderRepository.search(context.page, context.size, context.userId)
-        }
+        val (orders, total) =
+            transactionManager.newTransaction {
+                orderRepository.search(context.page, context.size, context.userId)
+            }
 
         var extendDTO: OrderExtendDTO? = null
 
@@ -43,31 +53,40 @@ class SearchOrdersUseCase(
 
                 if (context.includes.contains("trainSet")) {
                     val trainSetIds = orders.mapNotNull { it.trainSetId }.distinct()
-                    fetchedTrainSets = trainSetRepository.selectByIds(trainSetIds)
-                        .map { it.toDTO() }
+                    fetchedTrainSets =
+                        trainSetRepository
+                            .selectByIds(trainSetIds)
+                            .map { it.toDTO() }
                 }
 
                 if (context.includes.contains("cargoType")) {
                     val cargoTypeIds = orders.mapNotNull { it.cargo }.map { it.cargoTypeId }.distinct()
-                    fetchedCargoTypes = cargoTypeRepository.selectByIds(cargoTypeIds)
-                        .map { it.toDTO() }
+                    fetchedCargoTypes =
+                        cargoTypeRepository
+                            .selectByIds(cargoTypeIds)
+                            .map { it.toDTO() }
                 }
 
                 if (context.includes.contains("station")) {
-                    val stationIdsRaw = orders.mapNotNull { it.route }
-                        .flatMap { listOf(it.stationFrom, it.stationTo) }
-                        .distinct()
+                    val stationIdsRaw =
+                        orders
+                            .mapNotNull { it.route }
+                            .flatMap { listOf(it.stationFrom, it.stationTo) }
+                            .distinct()
                     val stationIds = stationIdsRaw.map { Station.Id(it) }
 
-                    fetchedStations = stationRepository.selectByIds(stationIds)
-                        .map { it.toDTO() }
+                    fetchedStations =
+                        stationRepository
+                            .selectByIds(stationIds)
+                            .map { it.toDTO() }
                 }
 
-                extendDTO = OrderExtendDTO(
-                    trainSets = fetchedTrainSets,
-                    cargoTypes = fetchedCargoTypes,
-                    stations = fetchedStations
-                )
+                extendDTO =
+                    OrderExtendDTO(
+                        trainSets = fetchedTrainSets,
+                        cargoTypes = fetchedCargoTypes,
+                        stations = fetchedStations,
+                    )
             }
         }
 

@@ -10,7 +10,8 @@ data class StationDTO(
     val name: String,
 )
 
-fun Station.toDTO() = StationDTO(
-    id = this.id.value,
-    name = this.name.value,
-)
+fun Station.toDTO() =
+    StationDTO(
+        id = this.id.value,
+        name = this.name.value,
+    )

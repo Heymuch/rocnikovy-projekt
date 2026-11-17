@@ -10,11 +10,10 @@ import kotlin.uuid.Uuid
 class GetTrainSetDetailRestController(
     private val useCase: GetTrainSetDetailUseCase,
 ) : RestController<GetTrainSetDetailRestController.Context> {
-
     data class Context(
         override val call: ApplicationCall,
         val id: Uuid,
-        val includes: List<String>
+        val includes: List<String>,
     ) : RestController.Context
 
     override suspend fun invoke(ctx: Context) {

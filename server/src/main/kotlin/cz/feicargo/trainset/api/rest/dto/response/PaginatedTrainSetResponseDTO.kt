@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TrainSetExtendDTO(
-    val stations: List<StationDTO>? = null
+    val stations: List<StationDTO>? = null,
 )
 
 @Serializable

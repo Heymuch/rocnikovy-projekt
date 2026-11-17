@@ -10,9 +10,10 @@ object UserTable : UuidTable("users") {
     val isBlocked = bool("is_blocked")
 }
 
-fun ResultRow.toUser() = User(
-    id = this[UserTable.id].value.let(User::Id),
-    email = this[UserTable.email],
-    name = this[UserTable.name],
-    isBlocked = this[UserTable.isBlocked],
-)
+fun ResultRow.toUser() =
+    User(
+        id = this[UserTable.id].value.let(User::Id),
+        email = this[UserTable.email],
+        name = this[UserTable.name],
+        isBlocked = this[UserTable.isBlocked],
+    )

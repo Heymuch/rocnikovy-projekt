@@ -10,8 +10,9 @@ data class OrderRouteDTO(
     val stationTo: String,
 )
 
-fun OrderRoute.toDTO() = OrderRouteDTO(
-    id = this.id.value.toString(),
-    stationFrom = this.stationFrom.toString(),
-    stationTo = this.stationTo.toString(),
-)
+fun OrderRoute.toDTO() =
+    OrderRouteDTO(
+        id = this.id.value.toString(),
+        stationFrom = this.stationFrom.toString(),
+        stationTo = this.stationTo.toString(),
+    )

@@ -1,11 +1,15 @@
+# JDK z lokálního adresáře .jdks (při více verzích se použije nejnovější),
+# lze přepsat: make run JAVA_HOME=/cesta/k/jdk
+GRADLE = JAVA_HOME=$(CURDIR)/.jdk $(CURDIR)/gradlew
+
 .PHONY: assemble
 assemble:
-	@./gradlew assemble;
+	$(GRADLE) assemble;
 
 .PHONY: run
 run:
-	@./gradlew run;
+	$(GRADLE) run;
 
 .PHONY: format
 format:
-	@./gradlew ktlintFormat;
+	$(GRADLE) ktlintFormat;

@@ -4,7 +4,9 @@ import cz.feicargo.commons.entity.Entity
 
 data class Locomotive(
     val id: Id,
-    val name: String
+    val name: String,
 ) : Entity {
-    @JvmInline value class Id(val value: Long)
+    @JvmInline value class Id(
+        val value: Long,
+    )
 }

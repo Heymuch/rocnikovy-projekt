@@ -8,5 +8,7 @@ import kotlinx.serialization.Serializable
 class CargoTypes {
     @Serializable
     @Resource("/all")
-    class GetAll(val parent: CargoTypes = CargoTypes())
+    class GetAll(
+        val parent: CargoTypes = CargoTypes(),
+    )
 }

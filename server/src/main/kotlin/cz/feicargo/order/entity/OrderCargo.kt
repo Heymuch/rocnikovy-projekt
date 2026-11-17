@@ -12,5 +12,7 @@ data class OrderCargo(
     val wagonId: Long,
     val wagonCount: Int,
 ) : Entity {
-    @JvmInline value class Id(val value: Uuid)
+    @JvmInline value class Id(
+        val value: Uuid,
+    )
 }

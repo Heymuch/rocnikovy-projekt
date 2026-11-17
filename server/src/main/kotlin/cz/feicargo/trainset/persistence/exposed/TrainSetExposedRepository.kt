@@ -13,7 +13,9 @@ import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.r2dbc.select
 import kotlin.uuid.Uuid
 
-class OrderBySql(private val sql: String) : Expression<String>() {
+class OrderBySql(
+    private val sql: String,
+) : Expression<String>() {
     override fun toQueryBuilder(queryBuilder: QueryBuilder) {
         queryBuilder.append(sql)
     }
@@ -22,37 +24,40 @@ class OrderBySql(private val sql: String) : Expression<String>() {
 class TrainSetExposedRepository : TrainSetRepository {
     private fun selectQuery() = TrainSetTable.select(TrainSetTable.columns)
 
-    override suspend fun search(page: Int, size: Int): Pair<List<TrainSet>, Long> {
+    override suspend fun search(
+        page: Int,
+        size: Int,
+    ): Pair<List<TrainSet>, Long> {
         val query = selectQuery()
         val totalCount = query.count()
 
-        val items = query
-            .orderBy(
-                OrderBySql("CASE WHEN departure_date >= CURRENT_TIMESTAMP THEN 0 ELSE 1 END") to SortOrder.ASC,
-                OrderBySql("CASE WHEN departure_date >= CURRENT_TIMESTAMP THEN departure_date END") to SortOrder.ASC,
-                OrderBySql("CASE WHEN departure_date < CURRENT_TIMESTAMP THEN departure_date END") to SortOrder.DESC
-            )
-            .limit(size)
-            .offset((page * size).toLong())
-            .map(ResultRow::toTrainSet)
-            .toList()
+        val items =
+            query
+                .orderBy(
+                    OrderBySql("CASE WHEN departure_date >= CURRENT_TIMESTAMP THEN 0 ELSE 1 END") to SortOrder.ASC,
+                    OrderBySql("CASE WHEN departure_date >= CURRENT_TIMESTAMP THEN departure_date END") to SortOrder.ASC,
+                    OrderBySql("CASE WHEN departure_date < CURRENT_TIMESTAMP THEN departure_date END") to SortOrder.DESC,
+                ).limit(size)
+                .offset((page * size).toLong())
+                .map(ResultRow::toTrainSet)
+                .toList()
 
         return items to totalCount
     }
 
     override suspend fun selectByIds(ids: List<Uuid>): List<TrainSet> {
         if (ids.isEmpty()) return emptyList()
-        return TrainSetTable.select(TrainSetTable.columns)
+        return TrainSetTable
+            .select(TrainSetTable.columns)
             .where { TrainSetTable.id inList ids }
             .map(ResultRow::toTrainSet)
             .toList()
     }
 
-    override suspend fun findById(id: Uuid): TrainSet? {
-        return selectQuery()
+    override suspend fun findById(id: Uuid): TrainSet? =
+        selectQuery()
             .where { TrainSetTable.id eq id }
             .map(ResultRow::toTrainSet)
             .toList()
             .firstOrNull()
-    }
 }

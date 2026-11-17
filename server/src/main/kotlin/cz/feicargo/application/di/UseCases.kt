@@ -22,7 +22,7 @@ fun DependencyRegistry.useCases() {
         )
     }
 
-    provide< SearchTrainSetsUseCase> {
+    provide<SearchTrainSetsUseCase> {
         SearchTrainSetsUseCase(
             repository = resolve(),
             stationRepository = resolve(),
@@ -49,6 +49,6 @@ fun DependencyRegistry.useCases() {
             locomotiveRepository = resolve(),
             wagonRepository = resolve(),
             transactionManager = resolve(),
-            )
+        )
     }
 }

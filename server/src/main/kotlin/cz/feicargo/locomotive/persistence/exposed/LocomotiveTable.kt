@@ -8,7 +8,8 @@ object LocomotiveTable : LongIdTable("locomotives") {
     val name = text("name")
 }
 
-fun ResultRow.toLocomotive() = Locomotive(
-    id = this[LocomotiveTable.id].value.let(Locomotive::Id),
-    name = this[LocomotiveTable.name]
-)
+fun ResultRow.toLocomotive() =
+    Locomotive(
+        id = this[LocomotiveTable.id].value.let(Locomotive::Id),
+        name = this[LocomotiveTable.name],
+    )

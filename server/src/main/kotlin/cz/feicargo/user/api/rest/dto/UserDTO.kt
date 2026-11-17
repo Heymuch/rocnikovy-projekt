@@ -10,8 +10,9 @@ data class UserDTO(
     val email: String,
 )
 
-fun User.toDTO() = UserDTO(
-    id = this.id.value.toString(),
-    name = this.name,
-    email = this.email,
-)
+fun User.toDTO() =
+    UserDTO(
+        id = this.id.value.toString(),
+        name = this.name,
+        email = this.email,
+    )

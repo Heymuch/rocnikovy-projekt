@@ -9,5 +9,7 @@ data class User(
     val name: String,
     val isBlocked: Boolean,
 ) : Entity {
-    @JvmInline value class Id(val value: Uuid)
+    @JvmInline value class Id(
+        val value: Uuid,
+    )
 }

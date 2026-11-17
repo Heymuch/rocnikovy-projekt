@@ -14,5 +14,7 @@ data class TrainSet(
     val arrivalDate: Instant,
     val expirationDate: Instant,
 ) : Entity {
-    @JvmInline value class Id(val value: Uuid)
+    @JvmInline value class Id(
+        val value: Uuid,
+    )
 }
