@@ -13,13 +13,14 @@ Planned architecture (see the mermaid diagram in `README.md`): Angular frontend 
 Runs with **Podman** (not Docker) via `docker-compose.yml`:
 
 ```sh
-make up     # podman compose up — postgres + pgAdmin (compose project `feicargo`)
+make up     # podman compose up — postgres + pgAdmin + Keycloak (compose project `feicargo`)
 make down   # podman compose down --volumes — also WIPES the database
 ```
 
 - PostgreSQL: `127.0.0.1:5432`, db `feicargo`, user `app` / `password`
 - pgAdmin: http://127.0.0.1:5050 (`admin@example.com` / `password`), server preconfigured from `database/pgadmin/servers.json`
-- Credentials/ports are overridable via env vars (`POSTGRES_*`, `FLYWAY_*`, `PGADMIN_*`).
+- Keycloak: http://localhost:8180 (admin `admin` / `password`), realm `feicargo` imported from `keycloak/realm-feicargo.json` on **every** start (dev mode, no volume — admin-console changes are lost; edit the JSON instead). Clients `feicargo-web` (public, PKCE) and `feicargo-server` (audience only); access tokens carry `aud: feicargo-server`, realm roles in a flat `roles` claim (`admin`/`customer`), fixed user UUIDs as `sub`. Users and details in `keycloak/README.md`.
+- Credentials/ports are overridable via env vars (`POSTGRES_*`, `FLYWAY_*`, `PGADMIN_*`, `KEYCLOAK_*`).
 - There is no migration container: the server runs Flyway on startup (see below), so the schema exists only after the server has been started once.
 
 ## Server (`server/`)

@@ -39,6 +39,30 @@ services:
             postgres:
                 condition: service_healthy
 
+    keycloak:
+        image: quay.io/keycloak/keycloak:26.8.1
+        container_name: keycloak
+        restart: unless-stopped
+        # Dev režim s vestavěnou H2 bez volume: realm se při každém startu znovu
+        # naimportuje z ./keycloak, takže zdrojem pravdy je konfigurace v gitu.
+        command: [ "start-dev", "--import-realm" ]
+        environment:
+            KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN:-admin}
+            KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-password}
+            # Pevný hostname => stejný issuer (iss) v JWT pro web i server
+            KC_HOSTNAME: http://localhost:${KEYCLOAK_PORT:-8180}
+            KC_HEALTH_ENABLED: "true"
+        ports:
+            - "127.0.0.1:${KEYCLOAK_PORT:-8180}:8080"
+        volumes:
+            - ./keycloak:/opt/keycloak/data/import:ro,z
+        healthcheck:
+            test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000 && printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && grep -q '\"UP\"' <&3" ]
+            interval: 10s
+            timeout: 5s
+            retries: 12
+            start_period: 30s
+
 volumes:
     postgres-data:
     pgadmin-data:
