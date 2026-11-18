@@ -1,12 +1,12 @@
+
 <div class="page-container">
   <h1>{{ 'menu.trainOverview' | translate }}</h1>
 
-  @if (isLoading()) {
+  @if (store.isLoading()) {
     <p>{{ 'loading' | translate }}</p>
+  } @else if (store.error()) {
+    <p>{{ 'trainOverview.loadError' | translate }}</p>
   } @else {
-    <app-train-table
-      [trains]="trainOverview().items"
-      [stations]="trainOverview().extend.stations">
-    </app-train-table>
+    <app-train-table [trains]="trains()"></app-train-table>
   }
 </div>

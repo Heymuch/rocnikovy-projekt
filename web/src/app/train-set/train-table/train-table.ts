@@ -1,15 +1,15 @@
 
-import { Component, computed, input } from '@angular/core';
-import { NgClass } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
-import { TranslatePipe } from '@ngx-translate/core';
 
-import { TrainSet, Station } from '../train-overview/train-overview';
+import {Component, input} from '@angular/core';
+import {NgClass} from '@angular/common';
+import {MatTableModule} from '@angular/material/table';
+import {TranslatePipe} from '@ngx-translate/core';
+
+import {TrainSetOverview} from 'src/app/train-set/train-set';
 import { DaytimeDisplayPipe } from '../../commons/daytime-display.pipe';
 
 @Component({
   selector: 'app-train-table',
-  standalone: true,
   imports: [
     MatTableModule,
     NgClass,
@@ -20,8 +20,7 @@ import { DaytimeDisplayPipe } from '../../commons/daytime-display.pipe';
   styleUrl: './train-table.scss'
 })
 export class TrainTable {
-  readonly trains = input.required<TrainSet[]>();
-  readonly stations = input.required<Station[]>();
+  readonly trains = input.required<TrainSetOverview[]>();
 
   readonly displayedColumns = [
     'code',
@@ -32,17 +31,11 @@ export class TrainTable {
     'status'
   ];
 
-  private readonly stationMap = computed(() =>
-    new Map(
-      this.stations().map(station => [station.id, station.name])
-    )
-  );
-
-  stationName(stationId: string): string {
-    return this.stationMap().get(stationId) ?? stationId;
-  }
-
-  hasDeparted(train: TrainSet): boolean {
+  hasDeparted(train: TrainSetOverview): boolean {
     return new Date(train.departureDate).getTime() <= Date.now();
   }
 }
+
+
+
+

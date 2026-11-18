@@ -91,6 +91,7 @@
     "arrivalDate": "Příjezd",
     "expirationDate": "Expirace soupravy",
     "noTrains": "Zatím nejsou k dispozici žádné vlaky.",
+    "loadError": "Nepodařilo se načíst vlaky.",
     "statuses": {
       "upcoming": "Plánovaný",
       "departed": "Odjetý"

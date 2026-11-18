@@ -91,6 +91,7 @@
     "arrivalDate": "Arrival",
     "expirationDate": "Train Set Expiration",
     "noTrains": "No trains are available yet.",
+    "loadError": "Failed to load trains.",
     "statuses": {
       "upcoming": "Scheduled",
       "departed": "Departed"

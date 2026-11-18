@@ -17,9 +17,9 @@
         {{ 'route' | translate }}
       </th>
       <td mat-cell *matCellDef="let train">
-        {{ stationName(train.stationFromId) }}
+        {{ train.stationFrom?.name ?? train.stationFromId }}
         &rarr;
-        {{ stationName(train.stationToId) }}
+        {{ train.stationTo?.name ?? train.stationToId }}
       </td>
     </ng-container>
 
