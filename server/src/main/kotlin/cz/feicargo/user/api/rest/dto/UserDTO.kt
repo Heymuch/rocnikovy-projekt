@@ -13,6 +13,6 @@ data class UserDTO(
 fun User.toDTO() =
     UserDTO(
         id = this.id.value.toString(),
-        name = this.name,
-        email = this.email,
+        name = this.name.value,
+        email = this.email.value    ,
     )

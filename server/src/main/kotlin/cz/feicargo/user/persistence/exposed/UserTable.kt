@@ -13,7 +13,7 @@ object UserTable : UuidTable("users") {
 fun ResultRow.toUser() =
     User(
         id = this[UserTable.id].value.let(User::Id),
-        email = this[UserTable.email],
-        name = this[UserTable.name],
+        email = this[UserTable.email].let(User::Email),
+        name = this[UserTable.name].let(User::Name),
         isBlocked = this[UserTable.isBlocked],
     )
