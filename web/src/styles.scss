@@ -267,6 +267,9 @@ mat-card.data-card {
   &.status-confirmed { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
   &.status-in_transit { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
   &.status-completed { background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); }
+  &.status-upcoming { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+  &.status-departed { background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); }
+
 }
 
 /* =========================================================

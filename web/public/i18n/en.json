@@ -84,5 +84,16 @@
       "orders": {
         "title": "Assigned Orders"
       }
+    },
+  "trainOverview": {
+    "code": "Train Code",
+    "departureDate": "Departure",
+    "arrivalDate": "Arrival",
+    "expirationDate": "Train Set Expiration",
+    "noTrains": "No trains are available yet.",
+    "statuses": {
+      "upcoming": "Scheduled",
+      "departed": "Departed"
     }
   }
+}

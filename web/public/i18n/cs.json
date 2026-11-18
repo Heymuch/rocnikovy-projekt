@@ -84,5 +84,16 @@
       "orders": {
         "title": "Přiřazené objednávky"
       }
+    },
+  "trainOverview": {
+    "code": "Kód vlaku",
+    "departureDate": "Odjezd",
+    "arrivalDate": "Příjezd",
+    "expirationDate": "Expirace soupravy",
+    "noTrains": "Zatím nejsou k dispozici žádné vlaky.",
+    "statuses": {
+      "upcoming": "Plánovaný",
+      "departed": "Odjetý"
     }
   }
+}
