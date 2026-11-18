@@ -98,5 +98,10 @@
       "upcoming": "Scheduled",
       "departed": "Departed"
     }
+  },
+  "validation": {
+    "invalid": "Invalid value",
+    "required": "Field is required."
   }
+
 }
