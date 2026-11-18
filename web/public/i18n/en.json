@@ -4,7 +4,8 @@
   "status": "Status",
   "cargoType": "Cargo Type",
   "route": "Route (From - To)",
-  "dates": "Schedule (From - To)",
+  "departureDate": "Departure",
+  "arrivalDate": "Arrival",
   "noOrders": "You don't have any orders yet.",
 
   "home": {

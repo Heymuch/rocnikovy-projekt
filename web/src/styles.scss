@@ -227,7 +227,7 @@ mat-card.data-card {
     border-bottom: 2px solid var(--md-sys-color-surface-container-high);
     color: var(--md-sys-color-on-surface-variant);
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 800;
     letter-spacing: 0.05em;
     text-align: left;
     text-transform: uppercase;
@@ -263,12 +263,36 @@ mat-card.data-card {
   text-transform: uppercase;
   white-space: nowrap;
 
-  &.status-in_queue { background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); }
-  &.status-confirmed { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
-  &.status-in_transit { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
-  &.status-completed { background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); }
-  &.status-upcoming { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
-  &.status-departed { background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); }
+
+  &.status-in_queue {
+    background: var(--app-status-queue-bg);
+    color: var(--app-status-queue-text);
+  }
+
+  &.status-confirmed {
+    background: var(--app-status-confirmed-bg);
+    color: var(--app-status-confirmed-text);
+  }
+
+  &.status-in_transit {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+  }
+
+  &.status-completed {
+    background: var(--md-sys-color-tertiary-container);
+    color: var(--md-sys-color-on-tertiary-container);
+  }
+
+  &.status-upcoming {
+    background: var(--app-status-upcoming-bg);
+    color: var(--app-status-upcoming-text);
+  }
+
+  &.status-departed {
+    background: var(--md-sys-color-surface-variant);
+    color: var(--md-sys-color-on-surface-variant);
+  }
 
 }
 

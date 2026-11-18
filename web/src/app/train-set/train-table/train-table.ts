@@ -24,11 +24,11 @@ export class TrainTable {
 
   readonly displayedColumns = [
     'code',
+    'status',
     'route',
     'departureDate',
     'arrivalDate',
-    'expirationDate',
-    'status'
+    'expirationDate'
   ];
 
   hasDeparted(train: TrainSetOverview): boolean {

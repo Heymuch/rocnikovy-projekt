@@ -4,7 +4,8 @@
   "status": "Stav",
   "cargoType": "Typ zboží",
   "route": "Trasa (Odkud - Kam)",
-  "dates": "Termín (Od - Do)",
+  "departureDate": "Odjezd",
+  "arrivalDate": "Příjezd",
   "noOrders": "Zatím nemáte žádné objednávky.",
 
   "home": {

@@ -40,11 +40,22 @@
       </td>
     </ng-container>
 
-    <!-- Sloupec: Od kdy do kdy -->
-    <ng-container matColumnDef="dates">
-      <th mat-header-cell *matHeaderCellDef> {{ 'dates' | translate }} </th>
+    <!-- Sloupec: Odjezd -->
+    <ng-container matColumnDef="departure">
+      <th mat-header-cell *matHeaderCellDef>
+        {{ 'trainOverview.departureDate' | translate }}
+      </th>
       <td mat-cell *matCellDef="let order">
-        {{ order.preferredDeparture | daytimeDisplay }} -
+        {{ order.preferredDeparture | daytimeDisplay }}
+      </td>
+    </ng-container>
+
+    <!-- Sloupec: Příjezd -->
+    <ng-container matColumnDef="arrival">
+      <th mat-header-cell *matHeaderCellDef>
+        {{ 'trainOverview.arrivalDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let order">
         {{ order.preferredArrival | daytimeDisplay }}
       </td>
     </ng-container>

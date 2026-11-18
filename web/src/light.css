@@ -48,4 +48,17 @@
   --md-sys-color-surface-container: rgb(233 239 241);
   --md-sys-color-surface-container-high: rgb(228 233 235);
   --md-sys-color-surface-container-highest: rgb(222 227 230);
+
+  /* Stav objednávky - čeká ve frontě */
+  --app-status-queue-bg: rgb(255 240 203);
+  --app-status-queue-text: rgb(121 83 0);
+
+  /* Stav objednávky - potvrzená */
+  --app-status-confirmed-bg: rgb(217 240 222);
+  --app-status-confirmed-text: rgb(36 91 53);
+
+  /* Stav vlaku - plánovaný */
+  --app-status-upcoming-bg: rgb(220 203 255);
+  --app-status-upcoming-text: rgb(84 38 166);
+
 }
