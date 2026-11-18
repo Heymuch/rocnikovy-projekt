@@ -16,6 +16,7 @@ import cz.feicargo.trainset.api.rest.dto.response.TrainSetDetailResponseDTO
 import cz.feicargo.trainset.api.rest.dto.response.TrainSetOrderDetailDTO
 import cz.feicargo.trainset.persistence.TrainSetRepository
 import cz.feicargo.user.api.rest.dto.toDTO
+import cz.feicargo.user.entity.User
 import cz.feicargo.user.persistence.UserRepository
 import cz.feicargo.wagon.api.rest.dto.WagonDTO
 import cz.feicargo.wagon.api.rest.dto.toDTO
@@ -46,7 +47,7 @@ class GetTrainSetDetailUseCase(
                 val trainSet = trainSetRepository.findById(context.trainSetId) ?: return@newTransaction null
                 val orders = orderRepository.selectByTrainSetId(context.trainSetId)
 
-                val userIds = orders.map { it.userId }.distinct()
+                val userIds = orders.map { User.Id(it.userId) }.distinct()
                 val users = userRepository.select(userIds).associateBy { it.id.value }
 
                 val totalWagons = orders.mapNotNull { it.cargo }.sumOf { it.wagonCount }
