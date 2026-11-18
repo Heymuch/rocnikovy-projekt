@@ -15,6 +15,10 @@ import cz.feicargo.station.persistence.StationRepository
 import cz.feicargo.trainset.api.rest.dto.TrainSetDTO
 import cz.feicargo.trainset.api.rest.dto.toDTO
 import cz.feicargo.trainset.persistence.TrainSetRepository
+import cz.feicargo.user.api.rest.dto.UserDTO
+import cz.feicargo.user.api.rest.dto.toDTO
+import cz.feicargo.user.entity.User
+import cz.feicargo.user.persistence.UserRepository
 import kotlin.uuid.Uuid
 
 class SearchOrdersUseCase(
@@ -22,6 +26,7 @@ class SearchOrdersUseCase(
     private val trainSetRepository: TrainSetRepository,
     private val cargoTypeRepository: CargoTypeRepository,
     private val stationRepository: StationRepository,
+    private val userRepository: UserRepository,
     private val transactionManager: TransactionManager,
 ) : UseCase<SearchOrdersUseCase.Context, SearchOrdersUseCase.Result> {
     data class Context(
@@ -50,6 +55,7 @@ class SearchOrdersUseCase(
                 var fetchedTrainSets: List<TrainSetDTO>? = null
                 var fetchedCargoTypes: List<CargoTypeDTO>? = null
                 var fetchedStations: List<StationDTO>? = null
+                var fetchedUsers: List<UserDTO>? = null
 
                 if (context.includes.contains("trainSet")) {
                     val trainSetIds = orders.mapNotNull { it.trainSetId }.distinct()
@@ -81,11 +87,17 @@ class SearchOrdersUseCase(
                             .map { it.toDTO() }
                 }
 
+                if (context.includes.contains("user")) {
+                    val userIds = orders.map { User.Id(it.userId) }.distinct()
+                    fetchedUsers = userRepository.select(userIds).map { it.toDTO() }
+                }
+
                 extendDTO =
                     OrderExtendDTO(
                         trainSets = fetchedTrainSets,
                         cargoTypes = fetchedCargoTypes,
                         stations = fetchedStations,
+                        users = fetchedUsers
                     )
             }
         }

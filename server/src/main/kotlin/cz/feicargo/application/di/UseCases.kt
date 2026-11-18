@@ -37,6 +37,7 @@ fun DependencyRegistry.useCases() {
             trainSetRepository = resolve(),
             cargoTypeRepository = resolve(),
             stationRepository = resolve(),
+            userRepository = resolve(),
             transactionManager = resolve(),
         )
     }
