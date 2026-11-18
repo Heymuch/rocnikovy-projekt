@@ -98,5 +98,9 @@
       "upcoming": "Plánovaný",
       "departed": "Odjetý"
     }
+  },
+  "validation": {
+    "invalid": "Neplatná hodnota",
+    "required": "Pole je povinné."
   }
 }

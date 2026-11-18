@@ -1,1 +1,12 @@
-<p>new-order works!</p>
+<form [formGroup]="formGroup">
+<mat-form-field>
+  <mat-label>{{ 'name' | translate }}</mat-label>
+  <input matInput [formControl]="name" [maxLength]="maxLengths.name" />
+  <mat-hint>{{ name.value?.length ?? 0 }}/{{ maxLengths.name }}</mat-hint>
+  @if (name.invalid) {
+    <mat-error>{{ name.errors | validationError | translate }}</mat-error>
+  }
+</mat-form-field>
+</form>
+
+
