@@ -7,6 +7,10 @@
     <mat-error>{{ name.errors | validationError | translate }}</mat-error>
   }
 </mat-form-field>
+
+<!--  Select:-->
+<!-- Z backendu se to vrátí tak jak to tam je (anglicky např. WOOD) - pak dořešit -->
+  <app-cargo-type-select [control]="cargoTypeId" />
 </form>
 
 

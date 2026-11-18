@@ -1,5 +1,4 @@
-
-import {StationDTO} from 'src/app/station/station';
+import { StationDTO } from 'src/app/station/station';
 
 export type TrainSetDTO = {
   id: string
@@ -8,11 +7,6 @@ export type TrainSetDTO = {
   departureDate: string
   arrivalDate: string
   expirationDate: string
-}
-
-export type CargoTypeDTO = {
-  id: number
-  name: string
 }
 
 // Data vlakové soupravy z endpointu /train-sets/search

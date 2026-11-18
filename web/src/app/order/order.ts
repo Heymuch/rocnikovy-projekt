@@ -1,21 +1,13 @@
-import {OrderStatus} from 'src/app/order/order-status';
-import {CargoTypeDTO, TrainSetDTO} from 'src/app/train-set/train-set';
-import {StationDTO} from 'src/app/station/station';
+import { OrderStatus } from 'src/app/order/order-status';
+import { TrainSetDTO } from 'src/app/train-set/train-set';
+import { StationDTO } from 'src/app/station/station';
+import { CargoDTO, CargoTypeDTO } from 'src/app/cargo/cargo';
 
 export type RouteDTO = {
   id: string
   stationFrom: string
   stationTo: string
   routePoints?: string[]
-}
-
-export type CargoDTO = {
-  id: string
-  cargoTypeId: number
-  volume: number
-  weight: number
-  wagonId: number
-  wagonCount: number
 }
 
 export type OrderDTO = {
