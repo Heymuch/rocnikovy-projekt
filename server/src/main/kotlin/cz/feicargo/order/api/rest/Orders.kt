@@ -14,4 +14,12 @@ class Orders {
         val size: Int,
         val userId: String? = null,
     )
+    @Serializable
+    @Resource("/{id}")
+    class Detail(
+        val parent: Orders = Orders(),
+        val id: String
+    )
 }
+
+

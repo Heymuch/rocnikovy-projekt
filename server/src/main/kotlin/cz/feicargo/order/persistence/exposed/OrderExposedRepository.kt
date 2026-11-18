@@ -100,4 +100,26 @@ class OrderExposedRepository : OrderRepository {
             row.toOrder(routes[oId], cargoes[oId])
         }
     }
+
+    override suspend fun findById(id: Uuid): Order? {
+        val row = selectQuery()
+            .where { OrderTable.id eq id }
+            .map { it }
+            .toList()
+            .firstOrNull() ?: return null
+
+        val route = OrderRouteTable.select(OrderRouteTable.columns)
+            .where { OrderRouteTable.orderId eq id }
+            .map(ResultRow::toOrderRoute)
+            .toList()
+            .firstOrNull()
+
+        val cargo = OrderCargoTable.select(OrderCargoTable.columns)
+            .where { OrderCargoTable.orderId eq id }
+            .map(ResultRow::toOrderCargo)
+            .toList()
+            .firstOrNull()
+
+        return row.toOrder(route, cargo)
+    }
 }

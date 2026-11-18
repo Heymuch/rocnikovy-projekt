@@ -11,4 +11,5 @@ interface OrderRepository {
     ): Pair<List<Order>, Long>
 
     suspend fun selectByTrainSetId(trainSetId: Uuid): List<Order>
+    suspend fun findById(id: Uuid): Order?
 }

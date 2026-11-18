@@ -23,7 +23,7 @@ object TrainSetRoutes {
                     SearchTrainSetsRestController.Context(call, request.page, request.size, includes).use()
                 }
             }.describe {
-                summary = "Search train sets with pagination"
+                summary = "Overview train sets with pagination"
                 tag("TrainSets")
                 parameters {
                     header("X-Include") {
