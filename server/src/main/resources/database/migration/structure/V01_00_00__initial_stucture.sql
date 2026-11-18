@@ -107,8 +107,8 @@ create table "orders" (
     "status"              text not null,
     "code"                text not null,
     "total_price"         numeric(12, 2) not null, -- Kč
-    "load_date"           timestamp with time zone not null,
-    "unload_date"         timestamp with time zone not null,
+    "load_date"           timestamp with time zone,
+    "unload_date"         timestamp with time zone,
     "preferred_departure" timestamp with time zone not null,
     "preferred_arrival"   timestamp with time zone not null,
     primary key ( "id" ),

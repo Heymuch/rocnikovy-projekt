@@ -6,6 +6,7 @@ import cz.feicargo.order.entity.OrderRoute
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.dao.id.UuidTable
 import org.jetbrains.exposed.v1.javatime.timestamp
+import java.util.UUID
 
 object OrderTable : UuidTable("orders") {
     val userId = uuid("user_id")
@@ -14,8 +15,8 @@ object OrderTable : UuidTable("orders") {
     val status = text("status")
     val code = text("code")
     val totalPrice = decimal("total_price", 12, 2)
-    val loadDate = timestamp("load_date")
-    val unloadDate = timestamp("unload_date")
+    val loadDate = timestamp("load_date").nullable()
+    val unloadDate = timestamp("unload_date").nullable()
     val preferredDeparture = timestamp("preferred_departure")
     val preferredArrival = timestamp("preferred_arrival")
 }
@@ -24,6 +25,7 @@ object OrderRouteTable : UuidTable("order_routes") {
     val orderId = uuid("order_id")
     val stationFrom = uuid("station_from")
     val stationTo = uuid("station_to")
+    val route = array<UUID>("route")
 }
 
 object OrderCargoTable : UuidTable("order_cargoes") {
@@ -33,6 +35,11 @@ object OrderCargoTable : UuidTable("order_cargoes") {
     val weight = double("weight")
     val wagonId = long("wagon_id")
     val wagonCount = integer("wagon_count")
+}
+
+object OrderStatusHistoryTable : UuidTable("order_status_history") {
+    val orderId = uuid("order_id")
+    val status = text("status")
 }
 
 fun ResultRow.toOrderRoute() =

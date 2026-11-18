@@ -1,6 +1,7 @@
 package cz.feicargo.application.di
 
 import cz.feicargo.cargotype.usecase.GetCargoTypesUseCase
+import cz.feicargo.order.usecase.CreateOrderUseCase
 import cz.feicargo.order.usecase.GetOrderDetailUseCase
 import cz.feicargo.order.usecase.SearchOrdersUseCase
 import cz.feicargo.station.usecase.SearchForStationsUseCase
@@ -62,6 +63,15 @@ fun DependencyRegistry.useCases() {
             stationRepository = resolve(),
             wagonRepository = resolve(),
             userRepository = resolve(),
+            transactionManager = resolve(),
+        )
+    }
+
+    provide<CreateOrderUseCase> {
+        CreateOrderUseCase(
+            orderRepository = resolve(),
+            cargoTypeRepository = resolve(),
+            wagonRepository = resolve(),
             transactionManager = resolve(),
         )
     }

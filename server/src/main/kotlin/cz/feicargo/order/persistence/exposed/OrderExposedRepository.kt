@@ -10,6 +10,8 @@ import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.r2dbc.andWhere
+import org.jetbrains.exposed.v1.r2dbc.insert
+import org.jetbrains.exposed.v1.r2dbc.insertAndGetId
 import org.jetbrains.exposed.v1.r2dbc.select
 import kotlin.uuid.Uuid
 
@@ -31,7 +33,7 @@ class OrderExposedRepository : OrderRepository {
 
         val orderRows =
             query
-                .orderBy(OrderTable.loadDate to SortOrder.DESC)
+                .orderBy(OrderTable.preferredDeparture to SortOrder.DESC)
                 .limit(size)
                 .offset((page * size).toLong())
                 .toList()
@@ -121,5 +123,49 @@ class OrderExposedRepository : OrderRepository {
             .firstOrNull()
 
         return row.toOrder(route, cargo)
+    }
+
+    override suspend fun create(order: Order): Order {
+        val orderId = OrderTable.insertAndGetId {
+            it[id] = order.id.value
+            it[userId] = order.userId
+            it[trainSetId] = order.trainSetId
+            it[name] = order.name
+            it[status] = order.status
+            it[code] = order.code
+            it[totalPrice] = order.totalPrice
+            it[loadDate] = order.loadDate
+            it[unloadDate] = order.unloadDate
+            it[preferredDeparture] = order.preferredDeparture
+            it[preferredArrival] = order.preferredArrival
+        }.value
+
+        val route = order.route ?: throw IllegalStateException("Route is required for a new order")
+        OrderRouteTable.insert {
+            it[id] = route.id.value
+            it[OrderRouteTable.orderId] = orderId
+            it[stationFrom] = route.stationFrom
+            it[stationTo] = route.stationTo
+            it[OrderRouteTable.route] = emptyList() // TODO: doplnit reálnou trasu
+        }
+
+        val cargo = order.cargo ?: throw IllegalStateException("Cargo is required for a new order")
+        OrderCargoTable.insert {
+            it[id] = cargo.id.value
+            it[OrderCargoTable.orderId] = orderId
+            it[cargoTypeId] = cargo.cargoTypeId
+            it[volume] = cargo.volume
+            it[weight] = cargo.weight
+            it[wagonId] = cargo.wagonId
+            it[wagonCount] = cargo.wagonCount
+        }
+
+        OrderStatusHistoryTable.insert {
+            it[id] = Uuid.random()
+            it[OrderStatusHistoryTable.orderId] = orderId
+            it[status] = order.status
+        }
+
+        return order
     }
 }
