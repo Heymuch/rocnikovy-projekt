@@ -34,7 +34,7 @@ export function transformOrdersResponse(response: OrderOverviewResponseDTO): Ord
 
     // Nalezení typů nákladu. Protože jedna objednávka může mít více položek nákladu (cargoes),
     // namapujeme je všechny.
-    const cargoTypes = order.cargoes?.map(cargo => cargoTypesMap[cargo.cargoTypeId]).filter(Boolean) || [];
+    const cargoType = order.cargo ? cargoTypesMap[order.cargo.cargoTypeId] : null;
 
     // Vytvoření konečného objektu kombinací původního OrderDTO a nalezených entit
     return {
@@ -42,7 +42,7 @@ export function transformOrdersResponse(response: OrderOverviewResponseDTO): Ord
       stationFrom,
       stationTo,
       trainSet,
-      cargoTypes
+      cargoType
     };
   });
 }

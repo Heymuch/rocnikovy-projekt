@@ -22,6 +22,7 @@ export type OrderDTO = {
   id: string
   userId: string
   trainSetId?: string | null
+  name: string
   status: OrderStatus
   code: string
   totalPrice: number
@@ -30,7 +31,7 @@ export type OrderDTO = {
   preferredDeparture: string
   preferredArrival: string
   route: RouteDTO
-  cargoes: CargoDTO[]
+  cargo: CargoDTO
 }
 
 export type OrderExtendDTO = {
@@ -53,5 +54,5 @@ export type OrderOverview = OrderDTO & {
  stationFrom?: StationDTO | null
  stationTo?: StationDTO | null
  trainSet?: TrainSetDTO | null
- cargoTypes?: CargoTypeDTO[] | null
+ cargoType: CargoTypeDTO | null
 }

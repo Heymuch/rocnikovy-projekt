@@ -1,5 +1,6 @@
 {
   "codeOrder": "Order Code",
+  "name": "Name",
   "status": "Status",
   "cargoType": "Cargo Type",
   "route": "Route (From - To)",
