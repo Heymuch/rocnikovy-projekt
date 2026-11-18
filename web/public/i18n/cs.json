@@ -1,5 +1,6 @@
 {
   "codeOrder": "Kód objednávky",
+  "name": "Název",
   "status": "Stav",
   "cargoType": "Typ zboží",
   "route": "Trasa (Odkud - Kam)",

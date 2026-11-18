@@ -43,5 +43,5 @@ import {OrderOverview} from 'src/app/order/order';
 })
 export class OrdersTable {
   readonly orders = input.required<OrderOverview[]>();
-  displayedColumns: string[] = ['code', 'status', 'cargoType', 'route', 'dates'];
+  displayedColumns: string[] = ['code', 'name', 'status', 'cargoType', 'route', 'dates'];
 }
