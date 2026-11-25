@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {RouterLink} from '@angular/router';
+import { AuthService } from 'src/app/commons/auth/auth.service';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'app-navbar',
@@ -18,8 +20,12 @@ import {RouterLink} from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  /*readonly*/ isAuthenticated = true
-  readonly isAdmin = true
+  readonly #authService = inject(AuthService);
+  readonly #securityService = inject(OidcSecurityService)
+  readonly isAdmin = this.#authService.isAdmin()
+  readonly isCustomer = this.#authService.isCustomer()
+  readonly isAuthenticated = this.#authService.isAuthenticated()
+
   currentLanguage = 'cs';
 
   constructor(private translate: TranslateService) {
@@ -34,15 +40,11 @@ export class Navbar {
     this.translate.use(this.currentLanguage);
   }
 
-//   Až bude backend, tak smazat!!!
-  login() {
-    this.isAuthenticated = true;
+  login(): void {
+    this.#securityService.authorize();
   }
 
-  // Funkce pro simulaci odhlášení
-  logout() {
-    this.isAuthenticated = false;
+  logout(): void {
+    this.#authService.logout();
   }
-
-
 }

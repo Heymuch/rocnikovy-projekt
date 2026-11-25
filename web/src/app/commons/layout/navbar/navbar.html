@@ -5,11 +5,14 @@
 
   @if (isAuthenticated) {
     <a mat-button routerLink="/my-orders">{{ 'menu.myOrders' | translate }}</a>
+  }
+  @if (isCustomer) {
     <a mat-button routerLink="/new-order">{{ 'menu.newOrder' | translate }}</a>
+  }
     @if (isAdmin) {
       <a mat-button routerLink="/train-overview">{{ 'menu.trainOverview' | translate }}</a>
     }
-  }
+
 
   <span class="spacer"></span>
 
