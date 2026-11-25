@@ -1,18 +1,15 @@
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
-import {Component, inject, OnInit} from '@angular/core';
-import {TranslatePipe} from '@ngx-translate/core';
-
-import {TrainTable} from 'src/app/train-set/train-table/train-table';
-import {TrainsOverviewStore} from 'src/app/train-set/trains-overview.store';
+import { TrainTable } from 'src/app/train-set/train-table/train-table';
+import { TrainsOverviewStore } from 'src/app/train-set/trains-overview.store';
 
 @Component({
   selector: 'app-train-overview',
-  imports: [
-    TrainTable,
-    TranslatePipe
-  ],
+  imports: [TrainTable, TranslatePipe],
   templateUrl: './train-overview.html',
-  styleUrl: './train-overview.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './train-overview.scss',
 })
 export class TrainOverview implements OnInit {
   readonly store = inject(TrainsOverviewStore);
@@ -23,7 +20,7 @@ export class TrainOverview implements OnInit {
     this.store.loadTrains({
       pageNumber: 0,
       pageSize: 25,
-      includes: ['station']
+      includes: ['station'],
     });
   }
 }

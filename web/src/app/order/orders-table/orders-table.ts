@@ -1,6 +1,6 @@
-import {Component, input} from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
-import {NgClass} from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -12,13 +12,13 @@ import {
   MatNoDataRow,
   MatRow,
   MatRowDef,
-  MatTable
+  MatTable,
 } from '@angular/material/table';
-import {TranslatePipe} from '@ngx-translate/core';
-import {DaytimeDisplayPipe} from 'src/app/commons/daytime-display.pipe';
-import {OrderStatusDisplayPipe} from 'src/app/order/order-status-display.pipe';
-import {OrderOverview} from 'src/app/order/order';
-import {RouterLink} from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
+import { OrderStatusDisplayPipe } from 'src/app/order/order-status-display.pipe';
+import { OrderOverview } from 'src/app/order/order';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-orders-table',
@@ -38,9 +38,10 @@ import {RouterLink} from '@angular/router';
     TranslatePipe,
     DaytimeDisplayPipe,
     OrderStatusDisplayPipe,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './orders-table.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './orders-table.scss',
 })
 export class OrdersTable {
@@ -52,6 +53,6 @@ export class OrdersTable {
     'cargoType',
     'route',
     'departure',
-    'arrival'
+    'arrival',
   ];
 }

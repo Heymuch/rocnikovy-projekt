@@ -14,7 +14,7 @@ Klára Pantůčková (st69635@upce.cz)
 | PostgreSQL | 18.6   | relační databáze   | https://www.postgresql.org/               |
 | pgAdmin    | 9.18   | správa databáze    | https://www.pgadmin.org/                  |
 | Flyway     | 13.8   | migrace databáze   | https://www.red-gate.com/products/flyway/ |
-| Angular    | 21.2   | frontend           | https://angular.dev/                      |
+| Angular    | 22.3   | frontend           | https://angular.dev/                      |
 
 
 ---

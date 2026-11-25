@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   standalone: true,
   imports: [TranslatePipe],
   templateUrl: './home.html',
-  styleUrl: './home.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './home.scss',
 })
 export class Home {}

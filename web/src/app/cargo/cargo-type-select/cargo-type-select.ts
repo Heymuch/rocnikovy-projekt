@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { CargoTypeService } from 'src/app/cargo/cargo-type-service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -17,9 +17,10 @@ import { ValidationErrorPipe } from 'src/app/commons/error/validation-error.pipe
     MatOption,
     TranslatePipe,
     ValidationErrorPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './cargo-type-select.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cargo-type-select.scss',
 })
 export class CargoTypeSelect {

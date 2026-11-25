@@ -8,7 +8,7 @@ Cílem je webová aplikace pro objednávání přepravy nákladní vlakovou dopr
 - Každý uživatel má vlastní účet a vidí pouze své objednávky (Keycloak)[cite: 2].
 
 # Architektura a lokální běh
-- Stack: Angular 21 (web/) -> Ktor/Kotlin backend (server/, port 8080) -> PostgreSQL + Keycloak[cite: 2].
+- Stack: Angular 22 (web/) -> Ktor/Kotlin backend (server/, port 8080) -> PostgreSQL + Keycloak[cite: 2].
 - Lokální běh používá **Podman** (ne Docker) přes `docker-compose.yml`.
 - Databáze se inicializuje až po prvním spuštění serveru (není zde dedikovaný migrační kontejner, server spouští Flyway při startu).
 - Příkazy:
@@ -34,7 +34,7 @@ Cílem je webová aplikace pro objednávání přepravy nákladní vlakovou dopr
 - `.editorconfig`: LF line endings, 4-space indent, final newline. Taby se používají pouze v `Makefile`.
 - Prettier (Web): 100 znaků na řádek, single quotes.
 
-## 2. Web (Angular 21)
+## 2. Web (Angular 22)
 - Striktně Standalone komponenty (žádné NgModules), prefix komponent je `app-`, styly v SCSS[cite: 2].
 - Control Flow: Používej výhradně novou syntaxi (`@if`, `@for`).
 - Dependency Injection: Používej funkci `inject()` místo konstruktoru.

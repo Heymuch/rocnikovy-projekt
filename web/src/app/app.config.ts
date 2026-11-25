@@ -1,19 +1,18 @@
-
 import {
   ApplicationConfig,
   inject,
   LOCALE_ID,
   provideAppInitializer,
-  provideBrowserGlobalErrorListeners
+  provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import {provideRouter} from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import {registerLocaleData} from '@angular/common';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
 import localeCs from '@angular/common/locales/cs';
-import {provideTranslateService} from '@ngx-translate/core';
-import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import {routes} from './app.routes';
+import { routes } from './app.routes';
 import { authInterceptor, OidcSecurityService, provideAuth } from 'angular-auth-oidc-client';
 import { tap } from 'rxjs';
 
@@ -23,7 +22,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor()])),
+    provideHttpClient(withXhr(), withInterceptors([authInterceptor()])),
     provideAuth({
       config: {
         authority: 'http://localhost:8180/realms/feicargo',
@@ -34,8 +33,8 @@ export const appConfig: ApplicationConfig = {
         responseType: 'code',
         silentRenew: true,
         useRefreshToken: true,
-        secureRoutes: ['/api']
-      }
+        secureRoutes: ['/api'],
+      },
     }),
     provideAppInitializer(() => {
       const oidc = inject(OidcSecurityService);
@@ -44,7 +43,7 @@ export const appConfig: ApplicationConfig = {
           if (!isAuthenticated) {
             oidc.authorize();
           }
-        })
+        }),
       );
     }),
     provideTranslateService({
@@ -53,6 +52,6 @@ export const appConfig: ApplicationConfig = {
         suffix: '.json',
       }),
     }),
-    {provide: LOCALE_ID, useValue: 'cs-CZ'}
-  ]
+    { provide: LOCALE_ID, useValue: 'cs-CZ' },
+  ],
 };

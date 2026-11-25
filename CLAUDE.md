@@ -62,7 +62,7 @@ The rail graph is `csv/rail_segments.csv` (`lat_of_a,lon_of_a,lat_of_b,lon_of_b,
 
 ## Web (`web/`)
 
-Angular 21 CLI project, npm, Vitest via `@angular/build:unit-test`. From `web/`: `npm start` (dev server :4200), `npm run build`, `npm test`. Prettier: 100 cols, single quotes. Component prefix `app`, SCSS styles.
+Angular 22 CLI project, npm, Vitest via `@angular/build:unit-test`. From `web/`: `npm start` (dev server :4200), `npm run build`, `npm test`. Prettier: 100 cols, single quotes. Component prefix `app`, SCSS styles.
 
 ## Conventions
 
