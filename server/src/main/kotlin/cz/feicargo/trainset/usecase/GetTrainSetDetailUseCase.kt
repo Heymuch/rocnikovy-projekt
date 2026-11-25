@@ -1,5 +1,8 @@
 package cz.feicargo.trainset.usecase
 
+import cz.feicargo.cargotype.api.rest.dto.CargoTypeDTO
+import cz.feicargo.cargotype.api.rest.dto.toDTO
+import cz.feicargo.cargotype.persistence.CargoTypeRepository
 import cz.feicargo.commons.persistence.TransactionManager
 import cz.feicargo.commons.usecase.UseCase
 import cz.feicargo.locomotive.api.rest.dto.LocomotiveDTO
@@ -36,6 +39,7 @@ class GetTrainSetDetailUseCase(
     private val stationRepository: StationRepository,
     private val locomotiveRepository: LocomotiveRepository,
     private val wagonRepository: WagonRepository,
+    private val cargoTypeRepository: CargoTypeRepository,
     private val routeService: RouteService,
     private val railwayNodeRepository: RailwayNodeRepository,
     private val railwayGraphRepository: RailwayGraphRepository,
@@ -97,6 +101,7 @@ class GetTrainSetDetailUseCase(
 
                 var fetchedLocomotives: List<LocomotiveDTO>? = null
                 var fetchedWagons: List<WagonDTO>? = null
+                var fetchedCargoTypes: List<CargoTypeDTO>? = null
                 var fetchedStations: List<StationDTO>? = null
                 var fetchedRailwayNodes: List<RailwayNodeDTO>? = null
 
@@ -108,6 +113,11 @@ class GetTrainSetDetailUseCase(
                     if (context.includes.contains("wagon")) {
                         val wagonIds = orders.mapNotNull { it.cargo }.map { it.wagonId }.distinct()
                         fetchedWagons = wagonRepository.selectByIds(wagonIds).map { it.toDTO() }
+                    }
+
+                    if (context.includes.contains("cargoType")) {
+                        val cargoTypeIds = orders.mapNotNull { it.cargo }.map { it.cargoTypeId }.distinct()
+                        fetchedCargoTypes = cargoTypeRepository.selectByIds(cargoTypeIds).map { it.toDTO() }
                     }
 
                     if (context.includes.contains("station")) {
@@ -128,6 +138,7 @@ class GetTrainSetDetailUseCase(
                             stations = fetchedStations,
                             locomotives = fetchedLocomotives,
                             wagons = fetchedWagons,
+                            cargoTypes = fetchedCargoTypes,
                             railwayNodes = fetchedRailwayNodes,
                         )
                     } else {

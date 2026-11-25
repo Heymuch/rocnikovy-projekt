@@ -54,6 +54,7 @@ fun DependencyRegistry.useCases() {
             routeService = resolve(),
             railwayNodeRepository = resolve(),
             railwayGraphRepository = resolve(),
+            cargoTypeRepository = resolve(),
             transactionManager = resolve(),
         )
     }

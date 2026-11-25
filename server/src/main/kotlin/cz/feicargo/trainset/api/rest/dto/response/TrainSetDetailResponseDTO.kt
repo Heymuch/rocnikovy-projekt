@@ -1,5 +1,6 @@
 package cz.feicargo.trainset.api.rest.dto.response
 
+import cz.feicargo.cargotype.api.rest.dto.CargoTypeDTO
 import cz.feicargo.locomotive.api.rest.dto.LocomotiveDTO
 import cz.feicargo.order.api.rest.dto.OrderDTO
 import cz.feicargo.route.api.rest.dto.RailwayNodeDTO
@@ -19,6 +20,7 @@ data class TrainSetDetailExtendDTO(
     val stations: List<StationDTO>? = null,
     val locomotives: List<LocomotiveDTO>? = null,
     val wagons: List<WagonDTO>? = null,
+    val cargoTypes: List<CargoTypeDTO>? = null,
     val railwayNodes: List<RailwayNodeDTO>? = null,
 )
 
