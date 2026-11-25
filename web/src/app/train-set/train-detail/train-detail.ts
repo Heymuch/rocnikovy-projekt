@@ -12,6 +12,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { OrdersTable } from 'src/app/order/orders-table/orders-table';
 import { TrainDetailStore } from 'src/app/train-set/train-detail.store';
 import { TrainSetDetail } from 'src/app/train-set/train-set';
+import {RouteMap} from 'src/app/commons/route-map/route-map';
 
 @Component({
   selector: 'app-train-detail',
@@ -26,6 +27,7 @@ import { TrainSetDetail } from 'src/app/train-set/train-set';
     TranslatePipe,
     NgClass,
     OrdersTable,
+    RouteMap
   ],
   providers: [TrainDetailStore],
   templateUrl: './train-detail.html',

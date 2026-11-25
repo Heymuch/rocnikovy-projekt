@@ -155,11 +155,7 @@
                 {{ (order.preferredArrival | daytimeDisplay) ?? '—' }}
               </dd>
             </div>
-          } @else if (
-            order.status === OrderStatus.CONFIRMED ||
-            order.status === OrderStatus.IN_TRANSIT ||
-            order.status === OrderStatus.COMPLETED
-          ) {
+          } @else if (showTransportDetails()) {
             <!-- Odjezd přiřazeného vlaku -->
             <div class="data-row">
               <dt>{{ 'orderDetail.routeLogistics.actualDeparture' | translate }}:</dt>
@@ -223,10 +219,43 @@
                 }
               </dd>
             </div>
+
+            <!-- Celková délka trasy -->
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.distance' | translate }}:</dt>
+              <dd>
+                @if (order.routeLengthKm !== null) {
+                  {{ order.routeLengthKm }} km
+                } @else {
+                  —
+                }
+              </dd>
+            </div>
+
           }
         </dl>
       </mat-card-content>
     </mat-card>
+    <!-- Karta 3: Mapa trasy -->
+    @if (showTransportDetails()) {
+      <mat-card class="data-card map-card full-width-card">
+
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            {{ 'trainDetail.map.title' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="map-content">
+          <app-route-map
+            [routePoints]="order.routePoints"
+            [stationFrom]="order.stationFrom?.name ?? ''"
+            [stationTo]="order.stationTo?.name ?? ''">
+          </app-route-map>
+        </mat-card-content>
+
+      </mat-card>
+    }
   </div>
 } @else {
   <div class="page-container">

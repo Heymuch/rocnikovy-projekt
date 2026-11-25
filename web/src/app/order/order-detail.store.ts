@@ -60,7 +60,8 @@ export const OrderDetailStore = signalStore(
             'trainSet',
             'cargoType',
             'station',
-            'wagon'
+            'wagon',
+            'railwayNode'
           ];
 
           if (isAdmin) {
