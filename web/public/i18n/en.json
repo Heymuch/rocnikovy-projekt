@@ -6,8 +6,16 @@
   "route": "Route (From - To)",
   "departureDate": "Departure",
   "arrivalDate": "Arrival",
-  "noOrders": "You don't have any orders yet.",
-
+  "loading": "Loading data…",
+  "loadError": "Failed to load data.",
+  "noData": "No data found.",
+  "cargoTypes": {
+    "WOOD": "Wood",
+    "COAL": "Coal",
+    "IRON_ORE": "Iron ore",
+    "BULK_MATERIALS": "Bulk materials",
+    "LIQUID_CHEMICALS": "Liquid chemicals"
+  },
   "home": {
     "title": "Rail Freight Transport",
     "description": "Welcome to the official portal for efficient management, planning, and optimization of rail freight transport.",
@@ -63,37 +71,36 @@
       "unloadStart": "Unloading Start",
       "assignedTrain": "Assigned Train (ID)",
       "unassigned": "Unassigned",
-      "assignedWagons": "Assigned Wagons"
+      "assignedWagons": "Assigned Wagons",
+      "assignedTrain": "Assigned Train"
     }
   },
-    "trainDetail": {
-      "back": "Back",
-      "routeInfo": {
-        "title": "Route & Train Parameters",
-        "departure": "Actual Departure",
-        "arrival": "Actual Arrival",
-        "distance": "Distance",
-        "wagonCount": "Total Wagons",
-        "locomotiveType": "Locomotive Type",
-        "wagonType": "Wagon Type",
-        "expiration": "Train Set Expiration",
-        "totalPrice": "Total Price"
-      },
-      "map": {
-        "title": "Route Map",
-        "placeholder": "Map view is currently unavailable."
-      },
-      "orders": {
-        "title": "Assigned Orders"
-      }
+  "trainDetail": {
+    "back": "Back",
+    "routeInfo": {
+      "title": "Route & Train Parameters",
+      "departure": "Actual Departure",
+      "arrival": "Actual Arrival",
+      "distance": "Distance",
+      "wagonCount": "Total Wagons",
+      "locomotiveType": "Locomotive Type",
+      "wagonType": "Wagon Type",
+      "expiration": "Train Set Expiration",
+      "totalPrice": "Total Price"
     },
+    "map": {
+      "title": "Route Map",
+      "placeholder": "Map view is currently unavailable."
+    },
+    "orders": {
+      "title": "Assigned Orders"
+    }
+  },
   "trainOverview": {
     "code": "Train Code",
     "departureDate": "Departure",
     "arrivalDate": "Arrival",
     "expirationDate": "Train Set Expiration",
-    "noTrains": "No trains are available yet.",
-    "loadError": "Failed to load trains.",
     "statuses": {
       "upcoming": "Scheduled",
       "departed": "Departed"
@@ -103,5 +110,4 @@
     "invalid": "Invalid value",
     "required": "Field is required."
   }
-
 }

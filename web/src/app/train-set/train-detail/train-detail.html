@@ -1,98 +1,154 @@
-<mat-toolbar class="detail-toolbar detail-toolbar--large">
-  <button mat-icon-button (click)="goBack()" aria-label="{{ 'trainDetail.back' | translate }}">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-
-  <span class="order-code">{{ train.code }}</span>
-
-  <span class="status-chip" [ngClass]="'status-' + train.status.toLowerCase()">
-    {{ train.status | orderStatusDisplay | translate }}
-  </span>
-
-  <span class="spacer"></span>
-</mat-toolbar>
-
-<div class="page-container page-container--wide">
-
-  <div class="grid-cards">
-    <!-- Karta 1: Trasa a parametry vlaku -->
-    <mat-card class="data-card">
-      <mat-card-header>
-        <mat-card-title class="card-title">{{ 'trainDetail.routeInfo.title' | translate }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="route-header">
-          <div class="station">{{ train.route.station_from_name }}</div>
-          <mat-icon>arrow_right_alt</mat-icon>
-          <div class="station">{{ train.route.station_to_name }}</div>
-        </div>
-
-        <mat-divider class="route-divider"></mat-divider>
-
-        <dl class="data-list">
-          <div class="data-row">
-            <dt>{{ 'trainDetail.routeInfo.departure' | translate }}:</dt>
-            <dd>{{ train.actual_departure | daytimeDisplay }}</dd>
-          </div>
-          <div class="data-row">
-            <dt>{{ 'trainDetail.routeInfo.arrival' | translate }}:</dt>
-            <dd>{{ train.actual_arrival | daytimeDisplay }}</dd>
-          </div>
-          <div class="data-row">
-            <dt>{{ 'trainDetail.routeInfo.distance' | translate }}:</dt>
-            <dd>{{ train.route.distance_km }} km</dd>
-          </div>
-          <div class="data-row">
-            <dt>{{ 'trainDetail.routeInfo.wagonCount' | translate }}:</dt>
-            <dd>{{ train.total_wagons }}</dd>
-          </div>
-
-          <!-- NOVÉ: Typ lokomotivy -->
-          <div class="data-row">
-            <dt>{{ 'trainDetail.routeInfo.locomotiveType' | translate }}:</dt>
-            <dd>{{ train.locomotive_type }}</dd>
-          </div>
-
-          <!-- NOVÉ: Typ vagónů -->
-          <div class="data-row">
-            <dt>{{ 'trainDetail.routeInfo.wagonType' | translate }}:</dt>
-            <dd>{{ train.wagon_type }}</dd>
-          </div>
-
-          <div class="data-row">
-            <dt>{{ 'trainDetail.routeInfo.expiration' | translate }}:</dt>
-            <dd>{{ train.expiration_date | daytimeDisplay }}</dd>
-          </div>
-          <!-- Zvýrazněná celková cena za vlak -->
-          <div class="data-row-highlight">
-            <dt>{{ 'trainDetail.routeInfo.totalPrice' | translate }}:</dt>
-            <dd>{{ train.total_price }} Kč</dd>
-          </div>
-        </dl>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Karta 2: Interaktivní mapa nebo seznam trasy -->
-    <mat-card class="data-card map-card">
-      <mat-card-header>
-        <mat-card-title class="card-title">{{ 'trainDetail.map.title' | translate }}</mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content class="map-content">
-        <div id="map" class="map-container"></div>
-      </mat-card-content>
-    </mat-card>
+@if (store.isLoading()) {
+  <div class="page-container">
+    <p>{{ 'loading' | translate }}</p>
   </div>
 
-  <!-- Karta 3: Seznam objednávek přiřazených k tomuto vlaku -->
-  <mat-card class="data-card orders-card mt-3">
-    <mat-card-header>
-      <mat-card-title class="card-title">{{ 'trainDetail.orders.title' | translate }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-<!--      <app-orders-table [orders]="train.assigned_orders"></app-orders-table>-->
-<!--      todo: odkomentovat až budou sjednocené typy-->
-    </mat-card-content>
-  </mat-card>
+} @else if (store.error()) {
+  <div class="page-container">
+    <p>{{ 'loadError' | translate }}</p>
 
-</div>
+    <button mat-button (click)="goBack()">
+      {{ 'trainDetail.back' | translate }}
+    </button>
+  </div>
+
+} @else if (train(); as train) {
+
+  <mat-toolbar class="detail-toolbar detail-toolbar--large">
+
+    <button mat-icon-button
+            (click)="goBack()"
+            aria-label="{{ 'trainDetail.back' | translate }}">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <span class="order-code">{{ train.code }}</span>
+
+    <span class="status-chip"
+          [ngClass]="hasDeparted(train)
+            ? 'status-departed'
+            : 'status-upcoming'">
+
+      {{
+        (hasDeparted(train)
+          ? 'trainOverview.statuses.departed'
+          : 'trainOverview.statuses.upcoming') | translate
+      }}
+
+    </span>
+
+    <span class="spacer"></span>
+  </mat-toolbar>
+
+  <div class="page-container page-container--wide">
+
+    <div class="grid-cards">
+
+      <!-- Karta 1: Trasa a parametry vlaku -->
+      <mat-card class="data-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            {{ 'trainDetail.routeInfo.title' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <div class="route-header">
+            <div class="station">
+              {{ train.stationFrom?.name ?? train.stationFromId ?? '—' }}
+            </div>
+
+            <mat-icon>arrow_right_alt</mat-icon>
+
+            <div class="station">
+              {{ train.stationTo?.name ?? train.stationToId ?? '—' }}
+            </div>
+          </div>
+
+          <mat-divider class="route-divider"></mat-divider>
+
+          <dl class="data-list">
+
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.departure' | translate }}:</dt>
+              <dd>{{ train.departureDate | daytimeDisplay }}</dd>
+            </div>
+
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.arrival' | translate }}:</dt>
+              <dd>{{ train.arrivalDate | daytimeDisplay }}</dd>
+            </div>
+
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.distance' | translate }}:</dt>
+              <dd>
+                @if (train.routeLengthKm > 0) {
+                  {{ train.routeLengthKm }} km
+                } @else {
+                  —
+                }
+              </dd>
+            </div>
+
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.wagonCount' | translate }}:</dt>
+              <dd>{{ train.totalWagons }}</dd>
+            </div>
+
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.locomotiveType' | translate }}:</dt>
+              <dd>{{ getLocomotiveNames(train) }}</dd>
+            </div>
+
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.wagonType' | translate }}:</dt>
+              <dd>{{ getWagonNames(train) }}</dd>
+            </div>
+
+            <div class="data-row">
+              <dt>{{ 'trainDetail.routeInfo.expiration' | translate }}:</dt>
+              <dd>{{ train.expirationDate | daytimeDisplay }}</dd>
+            </div>
+
+            <div class="data-row-highlight">
+              <dt>{{ 'trainDetail.routeInfo.totalPrice' | translate }}:</dt>
+              <dd>{{ train.totalPrice }} Kč</dd>
+            </div>
+
+          </dl>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Karta 2: Mapa – napojení později -->
+      <mat-card class="data-card map-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">
+            {{ 'trainDetail.map.title' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="map-content">
+          <div class="map-container">
+            <p>{{ 'trainDetail.map.placeholder' | translate }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+    <!-- Karta 3: Přiřazené objednávky -->
+    <mat-card class="data-card orders-card mt-3">
+      <mat-card-header>
+        <mat-card-title class="card-title">
+          {{ 'trainDetail.orders.title' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <app-orders-table [orders]="train.orders"></app-orders-table>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+}

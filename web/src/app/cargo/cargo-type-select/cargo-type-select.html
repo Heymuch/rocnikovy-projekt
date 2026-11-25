@@ -4,7 +4,7 @@
   <mat-select [formControl]="control()">
     @for (type of cargoTypes(); track type.id) {
       <mat-option [value]="type.id">
-        {{ type.name }}
+        {{ 'cargoTypes.' + type.name | translate }}
       </mat-option>
     }
   </mat-select>

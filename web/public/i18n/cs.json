@@ -6,8 +6,16 @@
   "route": "Trasa (Odkud - Kam)",
   "departureDate": "Odjezd",
   "arrivalDate": "Příjezd",
-  "noOrders": "Zatím nemáte žádné objednávky.",
-
+  "loading": "Načítání dat…",
+  "loadError": "Nepodařilo se načíst data.",
+  "noData": "Nebyla nalezena žádná data.",
+  "cargoTypes": {
+    "WOOD": "Dřevo",
+    "COAL": "Uhlí",
+    "IRON_ORE": "Železná ruda",
+    "BULK_MATERIALS": "Sypké materiály",
+    "LIQUID_CHEMICALS": "Kapalné chemikálie"
+  },
   "home": {
     "title": "Nákladní železniční doprava",
     "description": "Vítejte v oficiálním portálu pro efektivní správu, plánování a optimalizaci přepravy zboží nákladní vlakovou dopravou.",
@@ -63,37 +71,36 @@
       "unloadStart": "Začátek vykládání",
       "assignedTrain": "Přiřazený vlak (ID)",
       "unassigned": "Nepřiřazeno",
-      "assignedWagons": "Přiřazené vagóny"
+      "assignedWagons": "Přiřazené vagóny",
+      "assignedTrain": "Přiřazený vlak"
     }
   },
-    "trainDetail": {
-      "back": "Zpět",
-      "routeInfo": {
-        "title": "Trasa a parametry vlaku",
-        "departure": "Skutečný odjezd",
-        "arrival": "Skutečný příjezd",
-        "distance": "Vzdálenost",
-        "wagonCount": "Počet vagónů",
-        "locomotiveType": "Typ lokomotivy",
-        "wagonType": "Typ vagónů",
-        "expiration": "Expirace soupravy",
-        "totalPrice": "Celková cena"
-      },
-      "map": {
-        "title": "Mapa trasy",
-        "placeholder": "Zobrazení mapy zatím není k dispozici."
-      },
-      "orders": {
-        "title": "Přiřazené objednávky"
-      }
+  "trainDetail": {
+    "back": "Zpět",
+    "routeInfo": {
+      "title": "Trasa a parametry vlaku",
+      "departure": "Skutečný odjezd",
+      "arrival": "Skutečný příjezd",
+      "distance": "Vzdálenost",
+      "wagonCount": "Počet vagónů",
+      "locomotiveType": "Typ lokomotivy",
+      "wagonType": "Typ vagónů",
+      "expiration": "Expirace soupravy",
+      "totalPrice": "Celková cena"
     },
+    "map": {
+      "title": "Mapa trasy",
+      "placeholder": "Zobrazení mapy zatím není k dispozici."
+    },
+    "orders": {
+      "title": "Přiřazené objednávky"
+    }
+  },
   "trainOverview": {
     "code": "Kód vlaku",
     "departureDate": "Odjezd",
     "arrivalDate": "Příjezd",
     "expirationDate": "Expirace soupravy",
-    "noTrains": "Zatím nejsou k dispozici žádné vlaky.",
-    "loadError": "Nepodařilo se načíst vlaky.",
     "statuses": {
       "upcoming": "Plánovaný",
       "departed": "Odjetý"

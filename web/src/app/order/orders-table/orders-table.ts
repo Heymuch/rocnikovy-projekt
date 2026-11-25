@@ -18,6 +18,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {DaytimeDisplayPipe} from 'src/app/commons/daytime-display.pipe';
 import {OrderStatusDisplayPipe} from 'src/app/order/order-status-display.pipe';
 import {OrderOverview} from 'src/app/order/order';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-orders-table',
@@ -36,7 +37,8 @@ import {OrderOverview} from 'src/app/order/order';
     MatNoDataRow,
     TranslatePipe,
     DaytimeDisplayPipe,
-    OrderStatusDisplayPipe
+    OrderStatusDisplayPipe,
+    RouterLink
   ],
   templateUrl: './orders-table.html',
   styleUrl: './orders-table.scss',
