@@ -12,6 +12,7 @@ import {tapResponse} from '@ngrx/operators';
 interface OrdersOverviewState {
   orders: OrderOverview[];
   isLoading: boolean;
+  error: boolean;
   page: number;
   size: number;
   totalCount: number;
@@ -20,6 +21,7 @@ interface OrdersOverviewState {
 const initialState: OrdersOverviewState = {
   orders: [],
   isLoading: false,
+  error: false,
   page: 0,
   size: 25,
   totalCount: 0,
@@ -32,22 +34,33 @@ export const OrdersOverviewStore = signalStore(
 
     loadOrders: rxMethod<OrderPageRequest>(
       pipe(
-        tap((request) => patchState(state, { isLoading: true, page: request.pageNumber, size: request.pageSize })),
+        tap((request) => patchState(state, {
+          isLoading: true,
+          error: false,
+          page: request.pageNumber,
+          size: request.pageSize
+        })),
 
         switchMap((request) =>
           ordersService.searchOrders(request).pipe(
             tapResponse({
               next: (response: OrderOverviewResponseDTO) => {
                 const transformedOrders = transformOrdersResponse(response);
+
                 patchState(state, {
                   orders: transformedOrders,
                   totalCount: response.totalCount,
                   isLoading: false,
                 });
               },
+
               error: (err: HttpErrorResponse | Error) => {
                 console.error('Chyba při načítání objednávek:', err);
-                patchState(state, { isLoading: false });
+
+                patchState(state, {
+                  isLoading: false,
+                  error: true
+                });
               },
             })
           )

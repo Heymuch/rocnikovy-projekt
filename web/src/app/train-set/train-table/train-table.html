@@ -77,14 +77,18 @@
 
     <!-- Hlavička a řádky tabulky -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: displayedColumns;"
+        [routerLink]="['/train-overview', row.id]"
+        class="clickable-row">
+    </tr>
 
     <!-- Fallback při prázdných datech -->
     <tr class="mat-row" *matNoDataRow>
       <td
         class="mat-cell empty-state"
         [attr.colspan]="displayedColumns.length">
-        {{ 'trainOverview.noTrains' | translate }}
+        {{ 'noData' | translate }}
       </td>
     </tr>
 

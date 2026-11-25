@@ -1,5 +1,9 @@
 import { OrderStatus } from 'src/app/order/order-status';
-import { TrainSetDTO } from 'src/app/train-set/train-set';
+import {
+  TrainSetDTO,
+  WagonDTO,
+  UserDTO
+} from 'src/app/train-set/train-set';
 import { StationDTO } from 'src/app/station/station';
 import { CargoDTO, CargoTypeDTO } from 'src/app/cargo/cargo';
 
@@ -47,4 +51,37 @@ export type OrderOverview = OrderDTO & {
  stationTo?: StationDTO | null
  trainSet?: TrainSetDTO | null
  cargoType: CargoTypeDTO | null
+}
+
+export type OrderDetailDTO = Omit<
+  OrderDTO,
+  'loadDate' | 'unloadDate' | 'route' | 'cargo'
+> & {
+  loadDate: string | null
+  unloadDate: string | null
+  route: RouteDTO | null
+  cargo: CargoDTO | null
+}
+
+export type OrderDetailExtendDTO = {
+  trainSets?: TrainSetDTO[] | null
+  cargoTypes?: CargoTypeDTO[] | null
+  stations?: StationDTO[] | null
+  wagons?: WagonDTO[] | null
+  users?: UserDTO[] | null
+}
+
+export type OrderDetailResponseDTO = {
+  order: OrderDetailDTO
+  extend?: OrderDetailExtendDTO | null
+}
+
+// UI model detailu objednávky
+export type OrderDetail = OrderDetailDTO & {
+  stationFrom: StationDTO | null
+  stationTo: StationDTO | null
+  trainSet: TrainSetDTO | null
+  cargoType: CargoTypeDTO | null
+  wagon: WagonDTO | null
+  user: UserDTO | null
 }

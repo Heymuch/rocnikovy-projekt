@@ -7,6 +7,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 
 import {TrainSetOverview} from 'src/app/train-set/train-set';
 import { DaytimeDisplayPipe } from '../../commons/daytime-display.pipe';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-train-table',
@@ -14,7 +15,8 @@ import { DaytimeDisplayPipe } from '../../commons/daytime-display.pipe';
     MatTableModule,
     NgClass,
     TranslatePipe,
-    DaytimeDisplayPipe
+    DaytimeDisplayPipe,
+    RouterLink
   ],
   templateUrl: './train-table.html',
   styleUrl: './train-table.scss'
