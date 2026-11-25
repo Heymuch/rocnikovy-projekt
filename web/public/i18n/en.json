@@ -71,7 +71,8 @@
       "unloadStart": "Unloading Start",
       "assignedTrain": "Assigned Train (ID)",
       "unassigned": "Unassigned",
-      "assignedWagons": "Assigned Wagons"
+      "assignedWagons": "Assigned Wagons",
+      "assignedTrain": "Assigned Train"
     }
   },
   "trainDetail": {

@@ -71,7 +71,8 @@
       "unloadStart": "Začátek vykládání",
       "assignedTrain": "Přiřazený vlak (ID)",
       "unassigned": "Nepřiřazeno",
-      "assignedWagons": "Přiřazené vagóny"
+      "assignedWagons": "Přiřazené vagóny",
+      "assignedTrain": "Přiřazený vlak"
     }
   },
   "trainDetail": {

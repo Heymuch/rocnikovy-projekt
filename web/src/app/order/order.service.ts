@@ -1,10 +1,14 @@
 import {Injectable} from '@angular/core'
 import {ApiService} from 'src/app/commons/api.service'
 import {Observable, retry} from 'rxjs'
-import {OrderOverviewResponseDTO} from 'src/app/order/order'
+import {
+  OrderOverviewResponseDTO,
+  OrderDetailResponseDTO
+} from 'src/app/order/order'
 import {HttpHeaders, HttpParams} from '@angular/common/http'
 
-export type ApiIncludes = 'trainSet' | 'cargoType' | 'station'
+export type ApiIncludes =
+  'trainSet' | 'cargoType' | 'station' | 'wagon' | 'user'
 
 export interface OrderPageRequest {
   pageNumber: number
@@ -39,6 +43,26 @@ export class OrdersService extends ApiService {
       params,
       headers
     }).pipe(
+      retry(1)
+    )
+  }
+
+  getOrderDetail(
+    id: string,
+    includes: ApiIncludes[] =
+    ['trainSet', 'cargoType', 'station', 'wagon']
+  ): Observable<OrderDetailResponseDTO> {
+
+    let headers = new HttpHeaders()
+
+    if (includes.length > 0) {
+      headers = headers.set('X-Include', includes.join(','))
+    }
+
+    return this.http.get<OrderDetailResponseDTO>(
+      `${this.endpoint}/${id}`,
+      {headers}
+    ).pipe(
       retry(1)
     )
   }

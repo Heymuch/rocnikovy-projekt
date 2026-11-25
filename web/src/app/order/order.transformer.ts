@@ -1,4 +1,9 @@
-import {OrderOverview, OrderOverviewResponseDTO} from 'src/app/order/order';
+import {
+  OrderOverview,
+  OrderOverviewResponseDTO,
+  OrderDetail,
+  OrderDetailResponseDTO
+} from 'src/app/order/order';
 
 export function transformOrdersResponse(response: OrderOverviewResponseDTO): OrderOverview[] {
   // Ochrana před chybějícími daty
@@ -45,4 +50,45 @@ export function transformOrdersResponse(response: OrderOverviewResponseDTO): Ord
       cargoType
     };
   });
+}
+
+export function transformOrderDetailResponse(
+  response: OrderDetailResponseDTO
+): OrderDetail {
+
+  const {order, extend} = response;
+
+  const stationFrom = extend?.stations?.find(
+    station => station.id === order.route?.stationFrom
+  ) ?? null;
+
+  const stationTo = extend?.stations?.find(
+    station => station.id === order.route?.stationTo
+  ) ?? null;
+
+  const trainSet = extend?.trainSets?.find(
+    train => train.id === order.trainSetId
+  ) ?? null;
+
+  const cargoType = extend?.cargoTypes?.find(
+    cargoType => cargoType.id === order.cargo?.cargoTypeId
+  ) ?? null;
+
+  const wagon = extend?.wagons?.find(
+    wagon => wagon.id === order.cargo?.wagonId
+  ) ?? null;
+
+  const user = extend?.users?.find(
+    user => user.id === order.userId
+  ) ?? null;
+
+  return {
+    ...order,
+    stationFrom,
+    stationTo,
+    trainSet,
+    cargoType,
+    wagon,
+    user
+  };
 }
