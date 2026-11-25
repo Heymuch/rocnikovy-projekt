@@ -14,6 +14,7 @@ import cz.feicargo.cargotype.api.rest.dto.toDTO
 import cz.feicargo.cargotype.persistence.CargoTypeRepository
 import cz.feicargo.route.api.rest.dto.RailwayNodeDTO
 import cz.feicargo.route.api.rest.dto.toDTO
+import cz.feicargo.route.persistence.RailwayGraphRepository
 import cz.feicargo.route.persistence.RailwayNodeRepository
 import cz.feicargo.station.api.rest.dto.StationDTO
 import cz.feicargo.station.api.rest.dto.toDTO
@@ -25,6 +26,7 @@ import cz.feicargo.wagon.persistence.WagonRepository
 import cz.feicargo.user.api.rest.dto.UserDTO
 import cz.feicargo.user.api.rest.dto.toDTO
 import cz.feicargo.user.entity.User
+import kotlin.math.round
 import cz.feicargo.user.persistence.UserRepository
 import kotlin.uuid.Uuid
 
@@ -36,6 +38,7 @@ class GetOrderDetailUseCase(
     private val wagonRepository: WagonRepository,
     private val userRepository: UserRepository,
     private val railwayNodeRepository: RailwayNodeRepository,
+    private val railwayGraphRepository: RailwayGraphRepository,
     private val transactionManager: TransactionManager,
 ) : UseCase<GetOrderDetailUseCase.Context, GetOrderDetailUseCase.Result> {
 
@@ -45,6 +48,23 @@ class GetOrderDetailUseCase(
     override suspend fun invoke(context: Context): Result {
         val response = transactionManager.newTransaction {
             val order = orderRepository.findById(context.orderId) ?: return@newTransaction null
+
+            val routeNodes = order.route?.route.orEmpty()
+            val routeLengthKm = if (routeNodes.size >= 2) {
+                val edges = railwayGraphRepository.selectEdgesBetweenNodes(routeNodes.distinct())
+                val distanceMap = buildMap {
+                    edges.forEach { edge ->
+                        put(edge.nodeAId to edge.nodeBId, edge.distanceMeters)
+                        put(edge.nodeBId to edge.nodeAId, edge.distanceMeters)
+                    }
+                }
+                val totalMeters = routeNodes.zipWithNext().sumOf { (from, to) ->
+                    distanceMap[from to to] ?: 0
+                }
+                round(totalMeters / 10.0) / 100.0
+            } else {
+                0.0
+            }
 
             var extendDTO: OrderDetailExtendDTO? = null
 
@@ -94,6 +114,7 @@ class GetOrderDetailUseCase(
 
             OrderDetailResponseDTO(
                 order = order.toDTO(),
+                routeLengthKm = routeLengthKm,
                 extend = extendDTO
             )
         }

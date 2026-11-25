@@ -22,5 +22,6 @@ data class OrderDetailExtendDTO(
 @Serializable
 data class OrderDetailResponseDTO(
     val order: OrderDTO,
+    val routeLengthKm: Double? = null,
     val extend: OrderDetailExtendDTO? = null
 )

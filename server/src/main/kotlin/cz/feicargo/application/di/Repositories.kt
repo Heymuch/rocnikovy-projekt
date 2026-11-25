@@ -8,7 +8,9 @@ import cz.feicargo.locomotive.persistence.LocomotiveRepository
 import cz.feicargo.locomotive.persistence.exposed.LocomotiveExposedRepository
 import cz.feicargo.order.persistence.OrderRepository
 import cz.feicargo.order.persistence.exposed.OrderExposedRepository
+import cz.feicargo.route.persistence.RailwayGraphRepository
 import cz.feicargo.route.persistence.RailwayNodeRepository
+import cz.feicargo.route.persistence.exposed.RailwayGraphExposedRepository
 import cz.feicargo.route.persistence.exposed.RailwayNodeExposedRepository
 import cz.feicargo.station.persistence.StationRepository
 import cz.feicargo.station.persistence.exposed.StationExposedRepository
@@ -55,5 +57,9 @@ fun DependencyRegistry.repositories() {
 
     provide<RailwayNodeRepository> {
         RailwayNodeExposedRepository()
+    }
+
+    provide<RailwayGraphRepository> {
+        RailwayGraphExposedRepository()
     }
 }
