@@ -14,6 +14,7 @@ import org.jetbrains.exposed.v1.r2dbc.insert
 import org.jetbrains.exposed.v1.r2dbc.insertAndGetId
 import org.jetbrains.exposed.v1.r2dbc.select
 import kotlin.uuid.Uuid
+import kotlin.uuid.toJavaUuid
 
 class OrderExposedRepository : OrderRepository {
     private fun selectQuery() = OrderTable.select(OrderTable.columns)
@@ -146,7 +147,7 @@ class OrderExposedRepository : OrderRepository {
             it[OrderRouteTable.orderId] = orderId
             it[stationFrom] = route.stationFrom
             it[stationTo] = route.stationTo
-            it[OrderRouteTable.route] = emptyList() // TODO: doplnit reálnou trasu
+            it[OrderRouteTable.route] = route.route.map { node -> node.toJavaUuid() }
         }
 
         val cargo = order.cargo ?: throw IllegalStateException("Cargo is required for a new order")

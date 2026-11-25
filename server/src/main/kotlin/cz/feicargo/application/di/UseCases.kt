@@ -63,6 +63,7 @@ fun DependencyRegistry.useCases() {
             stationRepository = resolve(),
             wagonRepository = resolve(),
             userRepository = resolve(),
+            railwayNodeRepository = resolve(),
             transactionManager = resolve(),
         )
     }
@@ -72,6 +73,7 @@ fun DependencyRegistry.useCases() {
             orderRepository = resolve(),
             cargoTypeRepository = resolve(),
             wagonRepository = resolve(),
+            routeService = resolve(),
             transactionManager = resolve(),
         )
     }

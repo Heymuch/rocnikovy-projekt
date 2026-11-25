@@ -7,6 +7,7 @@ import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.dao.id.UuidTable
 import org.jetbrains.exposed.v1.javatime.timestamp
 import java.util.UUID
+import kotlin.uuid.toKotlinUuid
 
 object OrderTable : UuidTable("orders") {
     val userId = uuid("user_id")
@@ -48,6 +49,7 @@ fun ResultRow.toOrderRoute() =
         orderId = this[OrderRouteTable.orderId],
         stationFrom = this[OrderRouteTable.stationFrom],
         stationTo = this[OrderRouteTable.stationTo],
+        route = this[OrderRouteTable.route].map { it.toKotlinUuid() },
     )
 
 fun ResultRow.toOrderCargo() =
