@@ -10,6 +10,7 @@ import cz.feicargo.order.entity.Order
 import cz.feicargo.order.entity.OrderCargo
 import cz.feicargo.order.entity.OrderRoute
 import cz.feicargo.order.persistence.OrderRepository
+import cz.feicargo.route.service.RouteService
 import cz.feicargo.wagon.persistence.WagonRepository
 import java.math.BigDecimal
 import java.time.Instant
@@ -20,6 +21,7 @@ class CreateOrderUseCase(
     private val orderRepository: OrderRepository,
     private val cargoTypeRepository: CargoTypeRepository,
     private val wagonRepository: WagonRepository,
+    private val routeService: RouteService,
     private val transactionManager: TransactionManager,
 ) : UseCase<CreateOrderUseCase.Context, CreateOrderUseCase.Result> {
 
@@ -60,6 +62,9 @@ class CreateOrderUseCase(
         require(request.cargo.volume > 0) { "Cargo volume must be greater than zero." }
         require(request.cargo.weight > 0) { "Cargo weight must be greater than zero." }
 
+        val routeNodes = routeService.findRoute(stationFrom, stationTo)
+        require(routeNodes.isNotEmpty()) { "No railway route found between the selected stations." }
+
         val order = transactionManager.newTransaction {
             val cargoType = cargoTypeRepository.findById(request.cargo.cargoTypeId)
                 ?: throw IllegalArgumentException("Cargo type with ID ${request.cargo.cargoTypeId} was not found.")
@@ -94,6 +99,7 @@ class CreateOrderUseCase(
                     orderId = orderId,
                     stationFrom = stationFrom,
                     stationTo = stationTo,
+                    route = routeNodes,
                 ),
                 cargo = OrderCargo(
                     id = OrderCargo.Id(Uuid.random()),

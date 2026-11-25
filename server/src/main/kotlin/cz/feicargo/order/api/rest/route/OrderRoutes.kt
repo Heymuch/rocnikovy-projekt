@@ -59,7 +59,7 @@ object OrderRoutes {
 
                 parameters {
                     header("X-Include") {
-                        description = "For example: trainSet,cargoType,station,wagon,user"
+                        description = "For example: trainSet,cargoType,station,wagon,user,railwayNode"
                     }
                 }
 

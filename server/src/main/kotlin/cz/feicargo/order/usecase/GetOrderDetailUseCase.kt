@@ -12,6 +12,9 @@ import cz.feicargo.trainset.persistence.TrainSetRepository
 import cz.feicargo.cargotype.api.rest.dto.CargoTypeDTO
 import cz.feicargo.cargotype.api.rest.dto.toDTO
 import cz.feicargo.cargotype.persistence.CargoTypeRepository
+import cz.feicargo.route.api.rest.dto.RailwayNodeDTO
+import cz.feicargo.route.api.rest.dto.toDTO
+import cz.feicargo.route.persistence.RailwayNodeRepository
 import cz.feicargo.station.api.rest.dto.StationDTO
 import cz.feicargo.station.api.rest.dto.toDTO
 import cz.feicargo.station.entity.Station
@@ -32,6 +35,7 @@ class GetOrderDetailUseCase(
     private val stationRepository: StationRepository,
     private val wagonRepository: WagonRepository,
     private val userRepository: UserRepository,
+    private val railwayNodeRepository: RailwayNodeRepository,
     private val transactionManager: TransactionManager,
 ) : UseCase<GetOrderDetailUseCase.Context, GetOrderDetailUseCase.Result> {
 
@@ -50,6 +54,7 @@ class GetOrderDetailUseCase(
                 var fetchedStations: List<StationDTO>? = null
                 var fetchedWagons: List<WagonDTO>? = null
                 var fetchedUsers: List<UserDTO>? = null
+                var fetchedRailwayNodes: List<RailwayNodeDTO>? = null
 
                 if (context.includes.contains("trainSet") && order.trainSetId != null) {
                     fetchedTrainSets = trainSetRepository.selectByIds(listOf(order.trainSetId)).map { it.toDTO() }
@@ -72,12 +77,18 @@ class GetOrderDetailUseCase(
                     fetchedUsers = userRepository.select(listOf(User.Id(order.userId))).map { it.toDTO() }
                 }
 
+                if (context.includes.contains("railwayNode") && order.route != null) {
+                    val nodeIds = order.route.route.distinct()
+                    fetchedRailwayNodes = railwayNodeRepository.selectByIds(nodeIds).map { it.toDTO() }
+                }
+
                 extendDTO = OrderDetailExtendDTO(
                     trainSets = fetchedTrainSets,
                     cargoTypes = fetchedCargoTypes,
                     stations = fetchedStations,
                     wagons = fetchedWagons,
-                    users = fetchedUsers
+                    users = fetchedUsers,
+                    railwayNodes = fetchedRailwayNodes
                 )
             }
 
