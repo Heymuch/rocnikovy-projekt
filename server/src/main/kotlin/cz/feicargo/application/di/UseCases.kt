@@ -53,7 +53,6 @@ fun DependencyRegistry.useCases() {
             wagonRepository = resolve(),
             routeService = resolve(),
             railwayNodeRepository = resolve(),
-            railwayGraphRepository = resolve(),
             cargoTypeRepository = resolve(),
             transactionManager = resolve(),
         )
@@ -68,7 +67,7 @@ fun DependencyRegistry.useCases() {
             wagonRepository = resolve(),
             userRepository = resolve(),
             railwayNodeRepository = resolve(),
-            railwayGraphRepository = resolve(),
+            routeService = resolve(),
             transactionManager = resolve(),
         )
     }
@@ -76,9 +75,7 @@ fun DependencyRegistry.useCases() {
     provide<CreateOrderUseCase> {
         CreateOrderUseCase(
             orderRepository = resolve(),
-            cargoTypeRepository = resolve(),
-            wagonRepository = resolve(),
-            routeService = resolve(),
+            orderCalculationService = resolve(),
             transactionManager = resolve(),
         )
     }

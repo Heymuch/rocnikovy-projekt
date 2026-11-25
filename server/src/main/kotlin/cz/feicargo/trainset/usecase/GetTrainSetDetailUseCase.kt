@@ -12,7 +12,6 @@ import cz.feicargo.order.api.rest.dto.toDTO
 import cz.feicargo.order.persistence.OrderRepository
 import cz.feicargo.route.api.rest.dto.RailwayNodeDTO
 import cz.feicargo.route.api.rest.dto.toDTO
-import cz.feicargo.route.persistence.RailwayGraphRepository
 import cz.feicargo.route.persistence.RailwayNodeRepository
 import cz.feicargo.route.service.RouteService
 import cz.feicargo.station.api.rest.dto.StationDTO
@@ -29,7 +28,6 @@ import cz.feicargo.user.persistence.UserRepository
 import cz.feicargo.wagon.api.rest.dto.WagonDTO
 import cz.feicargo.wagon.api.rest.dto.toDTO
 import cz.feicargo.wagon.persistence.WagonRepository
-import kotlin.math.round
 import kotlin.uuid.Uuid
 
 class GetTrainSetDetailUseCase(
@@ -42,7 +40,6 @@ class GetTrainSetDetailUseCase(
     private val cargoTypeRepository: CargoTypeRepository,
     private val routeService: RouteService,
     private val railwayNodeRepository: RailwayNodeRepository,
-    private val railwayGraphRepository: RailwayGraphRepository,
     private val transactionManager: TransactionManager,
 ) : UseCase<GetTrainSetDetailUseCase.Context, GetTrainSetDetailUseCase.Result> {
     data class Context(
@@ -60,6 +57,7 @@ class GetTrainSetDetailUseCase(
         } ?: return Result(null)
 
         val routeNodes = routeService.findRoute(trainSet.stationFrom, trainSet.stationTo)
+        val routeLengthKm = routeService.calculateRouteLengthKm(routeNodes)
 
         val response =
             transactionManager.newTransaction {
@@ -74,22 +72,6 @@ class GetTrainSetDetailUseCase(
 
                 val stationFromId = trainSet.stationFrom
                 val stationToId = trainSet.stationTo
-
-                val routeLengthKm = if (routeNodes.size >= 2) {
-                    val edges = railwayGraphRepository.selectEdgesBetweenNodes(routeNodes.distinct())
-                    val distanceMap = buildMap {
-                        edges.forEach { edge ->
-                            put(edge.nodeAId to edge.nodeBId, edge.distanceMeters)
-                            put(edge.nodeBId to edge.nodeAId, edge.distanceMeters)
-                        }
-                    }
-                    val totalMeters = routeNodes.zipWithNext().sumOf { (from, to) ->
-                        distanceMap[from to to] ?: 0
-                    }
-                    round(totalMeters / 10.0) / 100.0
-                } else {
-                    0.0
-                }
 
                 val orderDetails =
                     orders.map { order ->
