@@ -222,7 +222,7 @@
 
             <!-- Celková délka trasy -->
             <div class="data-row">
-              <dt>{{ 'trainDetail.routeInfo.distance' | translate }}:</dt>
+            {{ 'orderDetail.routeLogistics.distance' | translate }}
               <dd>
                 @if (order.routeLengthKm !== null) {
                   {{ order.routeLengthKm }} km
@@ -242,7 +242,7 @@
 
         <mat-card-header>
           <mat-card-title class="card-title">
-            {{ 'trainDetail.map.title' | translate }}
+            {{ 'routeMap.title' | translate }}
           </mat-card-title>
         </mat-card-header>
 

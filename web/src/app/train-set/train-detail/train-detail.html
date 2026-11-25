@@ -124,12 +124,16 @@
       <mat-card class="data-card map-card">
         <mat-card-header>
           <mat-card-title class="card-title">
-            {{ 'trainDetail.map.title' | translate }}
+            {{ 'routeMap.title' | translate }}
           </mat-card-title>
         </mat-card-header>
 
         <mat-card-content class="map-content">
-          <app-route-map></app-route-map>
+          <app-route-map
+            [routePoints]="train.routePoints"
+            [stationFrom]="train.stationFrom?.name ?? ''"
+            [stationTo]="train.stationTo?.name ?? ''">
+          </app-route-map>
         </mat-card-content>
       </mat-card>
 

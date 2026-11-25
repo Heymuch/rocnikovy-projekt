@@ -1,5 +1,9 @@
 import { StationDTO } from 'src/app/station/station';
 import {OrderDTO, OrderOverview} from 'src/app/order/order';
+import {
+  RailwayNodeDTO,
+  RoutePoint
+} from 'src/app/commons/route-map/route-map.model';
 
 export type TrainSetDTO = {
   id: string
@@ -58,6 +62,7 @@ export type TrainSetDetailExtendDTO = {
   stations?: StationDTO[] | null
   locomotives?: LocomotiveDTO[] | null
   wagons?: WagonDTO[] | null
+  railwayNodes?: RailwayNodeDTO[] | null
 }
 
 export type TrainSetDetailResponseDTO = {
@@ -89,4 +94,5 @@ export type TrainSetDetail =
   locomotives: LocomotiveDTO[]
   wagons: WagonDTO[]
   orders: TrainSetOrderDetail[]
+  routePoints: RoutePoint[]
 }

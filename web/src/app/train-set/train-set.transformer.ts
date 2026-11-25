@@ -8,6 +8,9 @@ import {
 } from 'src/app/train-set/train-set';
 
 import {StationDTO} from 'src/app/station/station';
+import {
+  transformRoutePoints
+} from 'src/app/commons/route-map/route-map.transformer';
 
 export function transformTrainSetsResponse(
   response: TrainSetOverviewResponseDTO
@@ -66,6 +69,11 @@ export function transformTrainSetDetailResponse(
       cargoType: null
     }));
 
+  const routePoints = transformRoutePoints(
+    response.route,
+    response.extend?.railwayNodes
+  );
+
   return {
     ...response,
 
@@ -79,6 +87,7 @@ export function transformTrainSetDetailResponse(
 
     locomotives: response.extend?.locomotives ?? [],
     wagons: response.extend?.wagons ?? [],
-    orders
+    orders,
+    routePoints
   };
 }
