@@ -6,12 +6,16 @@ import {
 } from 'src/app/train-set/train-set';
 import { StationDTO } from 'src/app/station/station';
 import { CargoDTO, CargoTypeDTO } from 'src/app/cargo/cargo';
+import {
+  RailwayNodeDTO,
+  RoutePoint
+} from 'src/app/commons/route-map/route-map.model';
 
 export type RouteDTO = {
   id: string
   stationFrom: string
   stationTo: string
-  routePoints?: string[]
+  route?: string[] | null
 }
 
 export type OrderDTO = {
@@ -69,10 +73,12 @@ export type OrderDetailExtendDTO = {
   stations?: StationDTO[] | null
   wagons?: WagonDTO[] | null
   users?: UserDTO[] | null
+  railwayNodes?: RailwayNodeDTO[] | null
 }
 
 export type OrderDetailResponseDTO = {
   order: OrderDetailDTO
+  routeLengthKm?: number | null
   extend?: OrderDetailExtendDTO | null
 }
 
@@ -84,4 +90,8 @@ export type OrderDetail = OrderDetailDTO & {
   cargoType: CargoTypeDTO | null
   wagon: WagonDTO | null
   user: UserDTO | null
+  routeLengthKm: number | null
+  routePoints: RoutePoint[]
 }
+
+

@@ -8,7 +8,12 @@ import {
 import {HttpHeaders, HttpParams} from '@angular/common/http'
 
 export type ApiIncludes =
-  'trainSet' | 'cargoType' | 'station' | 'wagon' | 'user'
+  'trainSet' |
+  'cargoType' |
+  'station' |
+  'wagon' |
+  'user' |
+  'railwayNode'
 
 export interface OrderPageRequest {
   pageNumber: number

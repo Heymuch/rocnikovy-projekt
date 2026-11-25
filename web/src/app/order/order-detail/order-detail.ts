@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy, computed } from '@angular/core';
 import { Location, NgClass } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -14,6 +14,7 @@ import { OrderStatusDisplayPipe } from 'src/app/order/order-status-display.pipe'
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { OrderDetailStore } from 'src/app/order/order-detail.store';
+import {RouteMap} from 'src/app/commons/route-map/route-map';
 
 @Component({
   selector: 'app-order-detail',
@@ -29,6 +30,7 @@ import { OrderDetailStore } from 'src/app/order/order-detail.store';
     TranslatePipe,
     NgClass,
     RouterLink,
+    RouteMap
   ],
   providers: [OrderDetailStore],
   templateUrl: './order-detail.html',
@@ -46,6 +48,14 @@ export class OrderDetail implements OnInit {
   isAdmin = true;
 
   protected readonly OrderStatus = OrderStatus;
+
+  readonly showTransportDetails = computed(() => {
+    const status = this.order()?.status;
+
+    return status === OrderStatus.CONFIRMED ||
+      status === OrderStatus.IN_TRANSIT ||
+      status === OrderStatus.COMPLETED;
+  });
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

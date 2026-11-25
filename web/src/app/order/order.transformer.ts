@@ -5,6 +5,10 @@ import {
   OrderDetailResponseDTO
 } from 'src/app/order/order';
 
+import {
+  transformRoutePoints
+} from 'src/app/commons/route-map/route-map.transformer';
+
 export function transformOrdersResponse(response: OrderOverviewResponseDTO): OrderOverview[] {
   // Ochrana před chybějícími daty
   if (!response || !response.items) {
@@ -82,6 +86,11 @@ export function transformOrderDetailResponse(
     user => user.id === order.userId
   ) ?? null;
 
+  const routePoints = transformRoutePoints(
+    order.route?.route,
+    extend?.railwayNodes
+  );
+
   return {
     ...order,
     stationFrom,
@@ -89,6 +98,8 @@ export function transformOrderDetailResponse(
     trainSet,
     cargoType,
     wagon,
-    user
+    user,
+    routeLengthKm: response.routeLengthKm ?? null,
+    routePoints
   };
 }

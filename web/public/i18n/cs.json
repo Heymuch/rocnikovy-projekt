@@ -72,7 +72,7 @@
       "assignedTrain": "Přiřazený vlak (ID)",
       "unassigned": "Nepřiřazeno",
       "assignedWagons": "Přiřazené vagóny",
-      "assignedTrain": "Přiřazený vlak"
+      "distance": "Vzdálenost"
     }
   },
   "trainDetail": {
@@ -87,10 +87,6 @@
       "wagonType": "Typ vagónů",
       "expiration": "Expirace soupravy",
       "totalPrice": "Celková cena"
-    },
-    "map": {
-      "title": "Mapa trasy",
-      "placeholder": "Zobrazení mapy zatím není k dispozici."
     },
     "orders": {
       "title": "Přiřazené objednávky"
@@ -109,5 +105,9 @@
   "validation": {
     "invalid": "Neplatná hodnota",
     "required": "Pole je povinné."
+  },
+  "routeMap": {
+    "title": "Mapa trasy",
+    "noRoute": "Trasa není k dispozici"
   }
 }

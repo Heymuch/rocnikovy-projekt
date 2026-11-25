@@ -72,7 +72,7 @@
       "assignedTrain": "Assigned Train (ID)",
       "unassigned": "Unassigned",
       "assignedWagons": "Assigned Wagons",
-      "assignedTrain": "Assigned Train"
+      "distance": "Distance"
     }
   },
   "trainDetail": {
@@ -87,10 +87,6 @@
       "wagonType": "Wagon Type",
       "expiration": "Train Set Expiration",
       "totalPrice": "Total Price"
-    },
-    "map": {
-      "title": "Route Map",
-      "placeholder": "Map view is currently unavailable."
     },
     "orders": {
       "title": "Assigned Orders"
@@ -109,5 +105,9 @@
   "validation": {
     "invalid": "Invalid value",
     "required": "Field is required."
+  },
+  "routeMap": {
+    "title": "Route Map",
+    "noRoute": "Route is not available"
   }
 }

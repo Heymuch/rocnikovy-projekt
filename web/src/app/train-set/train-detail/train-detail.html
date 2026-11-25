@@ -120,18 +120,20 @@
         </mat-card-content>
       </mat-card>
 
-      <!-- Karta 2: Mapa – napojení později -->
+      <!-- Karta 2: Mapa trasy -->
       <mat-card class="data-card map-card">
         <mat-card-header>
           <mat-card-title class="card-title">
-            {{ 'trainDetail.map.title' | translate }}
+            {{ 'routeMap.title' | translate }}
           </mat-card-title>
         </mat-card-header>
 
         <mat-card-content class="map-content">
-          <div class="map-container">
-            <p>{{ 'trainDetail.map.placeholder' | translate }}</p>
-          </div>
+          <app-route-map
+            [routePoints]="train.routePoints"
+            [stationFrom]="train.stationFrom?.name ?? ''"
+            [stationTo]="train.stationTo?.name ?? ''">
+          </app-route-map>
         </mat-card-content>
       </mat-card>
 
