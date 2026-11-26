@@ -1,6 +1,7 @@
 package cz.feicargo.application.di
 
 import cz.feicargo.cargotype.usecase.GetCargoTypesUseCase
+import cz.feicargo.order.usecase.CalculateOrderUseCase
 import cz.feicargo.order.usecase.CreateOrderUseCase
 import cz.feicargo.order.usecase.GetOrderDetailUseCase
 import cz.feicargo.order.usecase.SearchOrdersUseCase
@@ -53,7 +54,7 @@ fun DependencyRegistry.useCases() {
             wagonRepository = resolve(),
             routeService = resolve(),
             railwayNodeRepository = resolve(),
-            railwayGraphRepository = resolve(),
+            cargoTypeRepository = resolve(),
             transactionManager = resolve(),
         )
     }
@@ -67,7 +68,7 @@ fun DependencyRegistry.useCases() {
             wagonRepository = resolve(),
             userRepository = resolve(),
             railwayNodeRepository = resolve(),
-            railwayGraphRepository = resolve(),
+            routeService = resolve(),
             transactionManager = resolve(),
         )
     }
@@ -75,9 +76,15 @@ fun DependencyRegistry.useCases() {
     provide<CreateOrderUseCase> {
         CreateOrderUseCase(
             orderRepository = resolve(),
-            cargoTypeRepository = resolve(),
-            wagonRepository = resolve(),
-            routeService = resolve(),
+            orderCalculationService = resolve(),
+            transactionManager = resolve(),
+        )
+    }
+
+    provide<CalculateOrderUseCase> {
+        CalculateOrderUseCase(
+            orderCalculationService = resolve(),
+            railwayNodeRepository = resolve(),
             transactionManager = resolve(),
         )
     }

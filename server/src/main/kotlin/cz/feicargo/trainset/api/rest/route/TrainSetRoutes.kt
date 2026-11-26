@@ -51,7 +51,7 @@ object TrainSetRoutes {
 
                 parameters {
                     header("X-Include") {
-                        description = "For example: locomotive,wagon,station,railwayNode"
+                        description = "For example: locomotive,wagon,station,cargoType,railwayNode"
                     }
                 }
 

@@ -1,6 +1,7 @@
 package cz.feicargo.application.di
 
 import cz.feicargo.cargotype.api.rest.controller.GetCargoTypesRestController
+import cz.feicargo.order.api.rest.controller.CalculateOrderRestController
 import cz.feicargo.order.api.rest.controller.CreateOrderRestController
 import cz.feicargo.order.api.rest.controller.GetOrderDetailRestController
 import cz.feicargo.order.api.rest.controller.SearchOrdersRestController
@@ -50,5 +51,11 @@ fun DependencyRegistry.controllers() {
         CreateOrderRestController(
             useCase = resolve(),
             )
+    }
+
+    provide<CalculateOrderRestController> {
+        CalculateOrderRestController(
+            useCase = resolve(),
+        )
     }
 }
