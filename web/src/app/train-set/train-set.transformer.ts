@@ -1,4 +1,3 @@
-
 import {
   TrainSetOverview,
   TrainSetOverviewResponseDTO,
@@ -45,6 +44,7 @@ export function transformTrainSetDetailResponse(
   response: TrainSetDetailResponseDTO
 ): TrainSetDetail {
 
+  // Mapa stanic podle ID
   const stationsMap = response.extend?.stations?.reduce(
     (acc, station) => {
       acc[station.id] = station;
@@ -53,6 +53,15 @@ export function transformTrainSetDetailResponse(
     {} as Record<string, StationDTO>
   ) || {};
 
+  // Mapa typů zboží podle ID
+  const cargoTypesMap = new Map(
+    response.extend?.cargoTypes?.map(cargoType => [
+      cargoType.id,
+      cargoType
+    ]) ?? []
+  );
+
+  // Transformace přiřazených objednávek
   const orders: TrainSetOrderDetail[] =
     response.orders.map(({order, user}) => ({
       ...order,
@@ -66,9 +75,12 @@ export function transformTrainSetDetailResponse(
         ? stationsMap[order.route.stationTo] ?? null
         : null,
 
-      cargoType: null
+      cargoType: order.cargo
+        ? cargoTypesMap.get(order.cargo.cargoTypeId) ?? null
+        : null
     }));
 
+  // Transformace souřadnic železniční trasy
   const routePoints = transformRoutePoints(
     response.route,
     response.extend?.railwayNodes

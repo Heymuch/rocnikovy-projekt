@@ -4,6 +4,7 @@ import {
   RailwayNodeDTO,
   RoutePoint
 } from 'src/app/commons/route-map/route-map.model';
+import {CargoTypeDTO} from 'src/app/cargo/cargo';
 
 export type TrainSetDTO = {
   id: string
@@ -63,6 +64,7 @@ export type TrainSetDetailExtendDTO = {
   locomotives?: LocomotiveDTO[] | null
   wagons?: WagonDTO[] | null
   railwayNodes?: RailwayNodeDTO[] | null
+  cargoTypes?: CargoTypeDTO[] | null
 }
 
 export type TrainSetDetailResponseDTO = {
