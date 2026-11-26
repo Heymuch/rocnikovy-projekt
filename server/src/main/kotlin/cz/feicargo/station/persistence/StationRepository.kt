@@ -5,4 +5,5 @@ import cz.feicargo.station.entity.Station
 
 interface StationRepository : Repository.Read<Station> {
     suspend fun selectByIds(ids: List<Station.Id>): List<Station>
+    suspend fun search(query: String?, page: Int, size: Int): Pair<List<Station>, Long>
 }

@@ -61,4 +61,41 @@ class StationExposedRepository : StationRepository {
             .map(ResultRow::toStation)
             .toList()
     }
+
+    override suspend fun search(
+        query: String?,
+        page: Int,
+        size: Int,
+    ): Pair<List<Station>, Long> {
+        if (query.isNullOrBlank()) {
+            val baseQuery = selectQuery()
+            val totalCount = baseQuery.count()
+            val items = baseQuery
+                .orderBy(StationTable.name to SortOrder.ASC)
+                .limit(size)
+                .offset((page * size).toLong())
+                .map(ResultRow::toStation)
+                .toList()
+            return items to totalCount
+        }
+
+        val tsQueryStr = query.toPrefixTsQuery().ifEmpty { return emptyList<Station>() to 0L }
+        val tsQuery = toTsQuery(tsQueryStr)
+
+        val baseQuery = selectQuery()
+            .where { StationTable.searchVector tsMatch tsQuery }
+
+        val totalCount = baseQuery.count()
+        val items = baseQuery
+            .orderBy(
+                tsRank(StationTable.searchVector, tsQuery) to SortOrder.DESC,
+                StationTable.name to SortOrder.ASC,
+            )
+            .limit(size)
+            .offset((page * size).toLong())
+            .map(ResultRow::toStation)
+            .toList()
+
+        return items to totalCount
+    }
 }

@@ -11,12 +11,10 @@ class Stations {
     @Resource("/search")
     class Search(
         val parent: Stations = Stations(),
-        val query: String,
-    ) {
-        init {
-            require(query.isNotEmpty() && query.isNotBlank())
-        }
-    }
+        val query: String? = null,
+        val page: Int = 0,
+        val size: Int = 20,
+    )
 
     @Serializable
     @Resource("/{id}")

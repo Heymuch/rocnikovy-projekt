@@ -10,18 +10,20 @@ class SearchForStationsUseCase(
     private val transactionManager: TransactionManager,
 ) : UseCase<SearchForStationsUseCase.Context, SearchForStationsUseCase.Result> {
     data class Context(
-        val fulltextSearchValue: String,
+        val fulltextSearchValue: String?,
+        val page: Int,
+        val size: Int,
     ) : UseCase.Context
 
     data class Result(
         val stations: List<Station>,
+        val totalCount: Long,
     ) : UseCase.Result
 
     override suspend fun invoke(context: Context): Result {
-        val stations =
-            transactionManager.newTransaction {
-                stationRepository.select(context.fulltextSearchValue)
-            }
-        return Result(stations)
+        val (stations, totalCount) = transactionManager.newTransaction {
+            stationRepository.search(context.fulltextSearchValue, context.page, context.size)
+        }
+        return Result(stations, totalCount)
     }
 }
