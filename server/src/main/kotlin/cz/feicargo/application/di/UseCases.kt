@@ -3,6 +3,7 @@ package cz.feicargo.application.di
 import cz.feicargo.cargotype.usecase.GetCargoTypesUseCase
 import cz.feicargo.order.usecase.CalculateOrderUseCase
 import cz.feicargo.order.usecase.CreateOrderUseCase
+import cz.feicargo.order.usecase.DeleteOrderUseCase
 import cz.feicargo.order.usecase.GetOrderDetailUseCase
 import cz.feicargo.order.usecase.SearchOrdersUseCase
 import cz.feicargo.order.usecase.UpdateOrderUseCase
@@ -94,6 +95,13 @@ fun DependencyRegistry.useCases() {
         UpdateOrderUseCase(
             orderRepository = resolve(),
             orderCalculationService = resolve(),
+            transactionManager = resolve(),
+        )
+    }
+
+    provide<DeleteOrderUseCase> {
+        DeleteOrderUseCase(
+            orderRepository = resolve(),
             transactionManager = resolve(),
         )
     }

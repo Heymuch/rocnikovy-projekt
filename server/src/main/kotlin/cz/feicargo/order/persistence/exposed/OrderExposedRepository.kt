@@ -10,6 +10,7 @@ import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.r2dbc.andWhere
+import org.jetbrains.exposed.v1.r2dbc.deleteWhere
 import org.jetbrains.exposed.v1.r2dbc.insert
 import org.jetbrains.exposed.v1.r2dbc.insertAndGetId
 import org.jetbrains.exposed.v1.r2dbc.select
@@ -198,5 +199,10 @@ class OrderExposedRepository : OrderRepository {
         }
 
         return order
+    }
+
+    override suspend fun delete(id: Uuid): Boolean {
+        val deletedCount = OrderTable.deleteWhere { OrderTable.id eq id }
+        return deletedCount > 0
     }
 }

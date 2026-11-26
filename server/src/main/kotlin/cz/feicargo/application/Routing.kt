@@ -36,6 +36,7 @@ fun Application.routingModule() {
             with(OrderRoutes.Create) { post() }
             with(OrderRoutes.Calculate) { post() }
             with(OrderRoutes.Update) { put() }
+            with(OrderRoutes.Delete) { delete() }
         }
     }
 }

@@ -31,6 +31,12 @@ class Orders {
         val parent: Orders = Orders(),
         val id: String,
     )
+    @Serializable
+    @Resource("/{id}")
+    class Delete(
+        val parent: Orders = Orders(),
+        val id: String,
+    )
 }
 
 

@@ -16,6 +16,8 @@ import cz.feicargo.order.api.rest.dto.request.OrderCalculateRequestDTO
 import cz.feicargo.order.api.rest.dto.request.OrderCreateRequestDTO
 import cz.feicargo.order.api.rest.controller.UpdateOrderRestController
 import cz.feicargo.order.api.rest.dto.request.OrderUpdateRequestDTO
+import cz.feicargo.order.api.rest.controller.DeleteOrderRestController
+import io.ktor.server.resources.delete
 import io.ktor.server.resources.put
 import io.ktor.openapi.jsonSchema
 import io.ktor.utils.io.ExperimentalKtorApi
@@ -106,7 +108,7 @@ object OrderRoutes {
                     val xInclude = call.request.headers["X-Include"]
                     val includes = xInclude?.split(",")?.map { it.trim() } ?: emptyList()
 
-                    this.invoke(CalculateOrderRestController.Context(call, includes))
+                    CalculateOrderRestController.Context(call, includes).use()
                 }
             }.describe {
                 summary = "Calculate estimated order price, wagons and route"
@@ -135,7 +137,7 @@ object OrderRoutes {
                     // TODO opravit
                     val dummyUserId = kotlin.uuid.Uuid.parse("11111111-1111-1111-1111-111111111111")
 
-                    this.invoke(UpdateOrderRestController.Context(call, request.id, dummyUserId))
+                    UpdateOrderRestController.Context(call, request.id, dummyUserId).use()
                 }
             }.describe {
                 summary = "Update an existing order (only allowed in IN_QUEUE status)"
@@ -148,6 +150,27 @@ object OrderRoutes {
                     HttpStatusCode.OK { description = "Order was successfully updated." }
                     HttpStatusCode.BadRequest { description = "Invalid request data or no route found." }
                     HttpStatusCode.Forbidden { description = "User is not allowed to update this order." }
+                    HttpStatusCode.NotFound { description = "Order not found." }
+                    HttpStatusCode.Conflict { description = "Order is not in IN_QUEUE status." }
+                }
+            }
+    }
+
+    object Delete {
+        fun Route.delete() =
+            delete<Orders.Delete> { request ->
+                with(application.dependencies.resolve<DeleteOrderRestController>()) {
+                    // Dočasně zafixované ID testovacího uživatele (Firma A), později z JWT tokenu
+                    val dummyUserId = kotlin.uuid.Uuid.parse("11111111-1111-1111-1111-111111111111")
+
+                    DeleteOrderRestController.Context(call, request.id, dummyUserId).use()
+                }
+            }.describe {
+                summary = "Delete an existing order (only allowed in IN_QUEUE status)"
+                tag("Orders")
+                responses {
+                    HttpStatusCode.NoContent { description = "Order was successfully deleted." }
+                    HttpStatusCode.Forbidden { description = "User is not allowed to delete this order." }
                     HttpStatusCode.NotFound { description = "Order not found." }
                     HttpStatusCode.Conflict { description = "Order is not in IN_QUEUE status." }
                 }

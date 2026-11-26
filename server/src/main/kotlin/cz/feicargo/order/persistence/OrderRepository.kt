@@ -14,4 +14,5 @@ interface OrderRepository {
     suspend fun findById(id: Uuid): Order?
     suspend fun create(order: Order): Order
     suspend fun update(order: Order): Order
+    suspend fun delete(id: Uuid): Boolean
 }
