@@ -109,5 +109,14 @@
   "routeMap": {
     "title": "Mapa trasy",
     "noRoute": "Trasa není k dispozici"
+  },
+  "pagination": {
+    "itemsPerPage": "Záznamů na stránku:",
+    "nextPage": "Další stránka",
+    "previousPage": "Předchozí stránka",
+    "firstPage": "První stránka",
+    "lastPage": "Poslední stránka",
+    "of": "z",
+    "ariaLabel": "Stránkování tabulky"
   }
 }

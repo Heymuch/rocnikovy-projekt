@@ -23,7 +23,7 @@ const initialState: OrdersOverviewState = {
   isLoading: false,
   error: false,
   page: 0,
-  size: 25,
+  size: 10,
   totalCount: 0,
 };
 
@@ -68,9 +68,12 @@ export const OrdersOverviewStore = signalStore(
       )
     ),
 
-    // Čistá pomocná metoda, pokud chceš změnit stránku přímo z komponenty
-    changePage(pageNumber: number) {
-      this.loadOrders({ pageNumber, pageSize: state.size(), includes: ['trainSet', 'cargoType', 'station'] });
+    // Změna stránky nebo počtu záznamů na stránku
+    changePage(pageNumber: number, pageSize: number) {
+      this.loadOrders({
+        pageNumber,
+        pageSize
+      });
     }
   }))
 )

@@ -28,6 +28,12 @@ export interface OrderPageRequest {
 export class OrdersService extends ApiService {
   private readonly endpoint = `${this.apiUrl}/orders`
 
+  private readonly overviewIncludes: ApiIncludes[] = [
+    'trainSet',
+    'cargoType',
+    'station'
+  ]
+
   searchOrders(request: OrderPageRequest): Observable<OrderOverviewResponseDTO> {
 
     let params = new HttpParams()
@@ -38,10 +44,12 @@ export class OrdersService extends ApiService {
       params = params.set('userId', request.userId)
     }
 
+    const includes = request.includes ?? this.overviewIncludes
+
     let headers = new HttpHeaders()
 
-    if (request.includes && request.includes.length > 0) {
-      headers = headers.set('X-Include', request.includes.join(','))
+    if (includes.length > 0) {
+      headers = headers.set('X-Include', includes.join(','))
     }
 
     return this.http.get<OrderOverviewResponseDTO>(`${this.endpoint}/search`, {

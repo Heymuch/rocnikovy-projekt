@@ -249,6 +249,53 @@ mat-card.data-card {
 }
 
 /* =========================================================
+   6.1. Shared pagination
+   ========================================================= */
+
+.paginated-table {
+  width: 100%;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--app-radius-md);
+  background: var(--md-sys-color-surface-container-lowest);
+  box-shadow: var(--app-shadow-card);
+  overflow: hidden;
+
+  .table-container {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  mat-paginator {
+    border-top: 2px solid var(--md-sys-color-surface-container-high);
+  }
+}
+
+mat-paginator {
+  display: block;
+  width: 100%;
+
+  @include mat.paginator-overrides((
+    container-background-color: var(--md-sys-color-surface-container-lowest),
+    container-text-color: var(--md-sys-color-on-surface-variant),
+    container-text-font: 'Inter',
+    container-text-size: 0.875rem,
+    select-trigger-text-size: 0.875rem,
+    container-size: 64px,
+    enabled-icon-color: var(--md-sys-color-primary),
+    page-size-select-width: 80px
+  ));
+
+  @include mat.form-field-overrides((
+    outlined-container-shape: var(--app-radius-sm),
+    outlined-outline-color: var(--md-sys-color-outline-variant),
+    outlined-hover-outline-color: var(--md-sys-color-primary),
+    outlined-focus-outline-color: var(--md-sys-color-primary)
+  ));
+}
+
+/* =========================================================
    7. Status chips
    ========================================================= */
 .status-chip {
