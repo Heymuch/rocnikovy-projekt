@@ -14,6 +14,9 @@ import cz.feicargo.order.api.rest.controller.GetOrderDetailRestController
 import cz.feicargo.order.api.rest.controller.CreateOrderRestController
 import cz.feicargo.order.api.rest.dto.request.OrderCalculateRequestDTO
 import cz.feicargo.order.api.rest.dto.request.OrderCreateRequestDTO
+import cz.feicargo.order.api.rest.controller.UpdateOrderRestController
+import cz.feicargo.order.api.rest.dto.request.OrderUpdateRequestDTO
+import io.ktor.server.resources.put
 import io.ktor.openapi.jsonSchema
 import io.ktor.utils.io.ExperimentalKtorApi
 
@@ -120,6 +123,33 @@ object OrderRoutes {
                 responses {
                     HttpStatusCode.OK { description = "Order calculation result." }
                     HttpStatusCode.BadRequest { description = "Invalid request parameters or no route found." }
+                }
+            }
+    }
+
+    object Update {
+        fun Route.put() =
+            put<Orders.Update> { request ->
+                with(application.dependencies.resolve<UpdateOrderRestController>()) {
+                    // Dočasně zafixované ID testovacího uživatele (Firma A), později z JWT tokenu
+                    // TODO opravit
+                    val dummyUserId = kotlin.uuid.Uuid.parse("11111111-1111-1111-1111-111111111111")
+
+                    this.invoke(UpdateOrderRestController.Context(call, request.id, dummyUserId))
+                }
+            }.describe {
+                summary = "Update an existing order (only allowed in IN_QUEUE status)"
+                tag("Orders")
+                requestBody {
+                    description = "Updated order data"
+                    schema = jsonSchema<OrderUpdateRequestDTO>()
+                }
+                responses {
+                    HttpStatusCode.OK { description = "Order was successfully updated." }
+                    HttpStatusCode.BadRequest { description = "Invalid request data or no route found." }
+                    HttpStatusCode.Forbidden { description = "User is not allowed to update this order." }
+                    HttpStatusCode.NotFound { description = "Order not found." }
+                    HttpStatusCode.Conflict { description = "Order is not in IN_QUEUE status." }
                 }
             }
     }

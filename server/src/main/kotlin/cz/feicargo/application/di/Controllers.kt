@@ -5,6 +5,7 @@ import cz.feicargo.order.api.rest.controller.CalculateOrderRestController
 import cz.feicargo.order.api.rest.controller.CreateOrderRestController
 import cz.feicargo.order.api.rest.controller.GetOrderDetailRestController
 import cz.feicargo.order.api.rest.controller.SearchOrdersRestController
+import cz.feicargo.order.api.rest.controller.UpdateOrderRestController
 import cz.feicargo.station.api.rest.controller.SearchForStationsRestController
 import cz.feicargo.trainset.api.rest.controller.GetTrainSetDetailRestController
 import cz.feicargo.trainset.api.rest.controller.SearchTrainSetsRestController
@@ -55,6 +56,12 @@ fun DependencyRegistry.controllers() {
 
     provide<CalculateOrderRestController> {
         CalculateOrderRestController(
+            useCase = resolve(),
+        )
+    }
+
+    provide<UpdateOrderRestController> {
+        UpdateOrderRestController(
             useCase = resolve(),
         )
     }

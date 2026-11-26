@@ -13,6 +13,7 @@ import org.jetbrains.exposed.v1.r2dbc.andWhere
 import org.jetbrains.exposed.v1.r2dbc.insert
 import org.jetbrains.exposed.v1.r2dbc.insertAndGetId
 import org.jetbrains.exposed.v1.r2dbc.select
+import org.jetbrains.exposed.v1.r2dbc.update
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
 
@@ -165,6 +166,35 @@ class OrderExposedRepository : OrderRepository {
             it[id] = Uuid.random()
             it[OrderStatusHistoryTable.orderId] = orderId
             it[status] = order.status
+        }
+
+        return order
+    }
+
+    override suspend fun update(order: Order): Order {
+        val orderId = order.id.value
+
+        OrderTable.update({ OrderTable.id eq orderId }) {
+            it[name] = order.name
+            it[totalPrice] = order.totalPrice
+            it[preferredDeparture] = order.preferredDeparture
+            it[preferredArrival] = order.preferredArrival
+        }
+
+        val route = order.route ?: throw IllegalStateException("Route is required for updating an order.")
+        OrderRouteTable.update({ OrderRouteTable.orderId eq orderId }) {
+            it[stationFrom] = route.stationFrom
+            it[stationTo] = route.stationTo
+            it[OrderRouteTable.route] = route.route.map { node -> node.toJavaUuid() }
+        }
+
+        val cargo = order.cargo ?: throw IllegalStateException("Cargo is required for updating an order.")
+        OrderCargoTable.update({ OrderCargoTable.orderId eq orderId }) {
+            it[cargoTypeId] = cargo.cargoTypeId
+            it[volume] = cargo.volume
+            it[weight] = cargo.weight
+            it[wagonId] = cargo.wagonId
+            it[wagonCount] = cargo.wagonCount
         }
 
         return order

@@ -25,6 +25,12 @@ class Orders {
     class Calculate(
         val parent: Orders = Orders(),
     )
+    @Serializable
+    @Resource("/{id}")
+    class Update(
+        val parent: Orders = Orders(),
+        val id: String,
+    )
 }
 
 

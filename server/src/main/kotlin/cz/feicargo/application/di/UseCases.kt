@@ -5,6 +5,7 @@ import cz.feicargo.order.usecase.CalculateOrderUseCase
 import cz.feicargo.order.usecase.CreateOrderUseCase
 import cz.feicargo.order.usecase.GetOrderDetailUseCase
 import cz.feicargo.order.usecase.SearchOrdersUseCase
+import cz.feicargo.order.usecase.UpdateOrderUseCase
 import cz.feicargo.station.usecase.SearchForStationsUseCase
 import cz.feicargo.trainset.usecase.GetTrainSetDetailUseCase
 import cz.feicargo.trainset.usecase.SearchTrainSetsUseCase
@@ -85,6 +86,14 @@ fun DependencyRegistry.useCases() {
         CalculateOrderUseCase(
             orderCalculationService = resolve(),
             railwayNodeRepository = resolve(),
+            transactionManager = resolve(),
+        )
+    }
+
+    provide<UpdateOrderUseCase> {
+        UpdateOrderUseCase(
+            orderRepository = resolve(),
+            orderCalculationService = resolve(),
             transactionManager = resolve(),
         )
     }

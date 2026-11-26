@@ -13,4 +13,5 @@ interface OrderRepository {
     suspend fun selectByTrainSetId(trainSetId: Uuid): List<Order>
     suspend fun findById(id: Uuid): Order?
     suspend fun create(order: Order): Order
+    suspend fun update(order: Order): Order
 }
