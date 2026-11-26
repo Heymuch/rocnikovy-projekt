@@ -1,4 +1,3 @@
-
 import {Injectable} from '@angular/core'
 import {ApiService} from 'src/app/commons/api.service'
 import {Observable, retry} from 'rxjs'
@@ -25,16 +24,22 @@ export interface TrainSetPageRequest {
 export class TrainSetsService extends ApiService {
   private readonly endpoint = `${this.apiUrl}/train-sets`
 
+  private readonly overviewIncludes: TrainSetApiIncludes[] = [
+    'station'
+  ]
+
   searchTrainSets(request: TrainSetPageRequest): Observable<TrainSetOverviewResponseDTO> {
 
     const params = new HttpParams()
       .set('page', request.pageNumber)
       .set('size', request.pageSize)
 
+    const includes = request.includes ?? this.overviewIncludes
+
     let headers = new HttpHeaders()
 
-    if (request.includes && request.includes.length > 0) {
-      headers = headers.set('X-Include', request.includes.join(','))
+    if (includes.length > 0) {
+      headers = headers.set('X-Include', includes.join(','))
     }
 
     return this.http.get<TrainSetOverviewResponseDTO>(`${this.endpoint}/search`, {

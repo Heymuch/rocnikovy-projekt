@@ -1,11 +1,26 @@
 <div class="page-container">
   <h1>{{ 'menu.trainOverview' | translate }}</h1>
 
-  @if (store.isLoading()) {
-    <p>{{ 'loading' | translate }}</p>
-  } @else if (store.error()) {
-    <p>{{ 'loadError' | translate }}</p>
-  } @else {
-    <app-train-table [trains]="trains()"></app-train-table>
-  }
+  <div appPaginatedTable>
+
+    @if (store.isLoading()) {
+      <p>{{ 'loading' | translate }}</p>
+    } @else if (store.error()) {
+      <p>{{ 'loadError' | translate }}</p>
+    } @else {
+      <app-train-table
+        [trains]="trains()">
+      </app-train-table>
+    }
+
+    <mat-paginator
+      [length]="store.totalCount()"
+      [pageIndex]="store.page()"
+      [pageSize]="store.size()"
+      [disabled]="store.isLoading()"
+      (page)="onPageChange($event)"
+      [attr.aria-label]="'pagination.ariaLabel' | translate">
+    </mat-paginator>
+
+  </div>
 </div>

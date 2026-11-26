@@ -32,7 +32,7 @@ const initialState: TrainsOverviewState = {
   isLoading: false,
   error: false,
   page: 0,
-  size: 25,
+  size: 10,
   totalCount: 0
 };
 
@@ -58,6 +58,8 @@ export const TrainsOverviewStore = signalStore(
 
                 patchState(state, {
                   trains: transformedTrains,
+                  page: response.page,
+                  size: response.size,
                   totalCount: response.totalCount,
                   isLoading: false
                 });
@@ -79,11 +81,10 @@ export const TrainsOverviewStore = signalStore(
       )
     ),
 
-    changePage(pageNumber: number) {
+    changePage(pageNumber: number, pageSize: number) {
       this.loadTrains({
         pageNumber,
-        pageSize: state.size(),
-        includes: ['station']
+        pageSize
       });
     }
 
