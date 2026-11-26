@@ -1,6 +1,7 @@
 package cz.feicargo.order.api.rest.route
 
 import cz.feicargo.order.api.rest.Orders
+import cz.feicargo.order.api.rest.controller.CalculateOrderRestController
 import cz.feicargo.order.api.rest.controller.SearchOrdersRestController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.plugins.di.dependencies
@@ -11,6 +12,7 @@ import io.ktor.server.routing.application
 import io.ktor.server.routing.openapi.describe
 import cz.feicargo.order.api.rest.controller.GetOrderDetailRestController
 import cz.feicargo.order.api.rest.controller.CreateOrderRestController
+import cz.feicargo.order.api.rest.dto.request.OrderCalculateRequestDTO
 import cz.feicargo.order.api.rest.dto.request.OrderCreateRequestDTO
 import io.ktor.openapi.jsonSchema
 import io.ktor.utils.io.ExperimentalKtorApi
@@ -90,6 +92,34 @@ object OrderRoutes {
                 responses {
                     HttpStatusCode.Created { description = "Order was created and is in the queue" }
                     HttpStatusCode.BadRequest { description = "Bad data" }
+                }
+            }
+    }
+
+    object Calculate {
+        fun Route.post() =
+            post<Orders.Calculate> {
+                with(application.dependencies.resolve<CalculateOrderRestController>()) {
+                    val xInclude = call.request.headers["X-Include"]
+                    val includes = xInclude?.split(",")?.map { it.trim() } ?: emptyList()
+
+                    this.invoke(CalculateOrderRestController.Context(call, includes))
+                }
+            }.describe {
+                summary = "Calculate estimated order price, wagons and route"
+                tag("Orders")
+                parameters {
+                    header("X-Include") {
+                        description = "For example: railwayNode"
+                    }
+                }
+                requestBody {
+                    description = "Order parameters for price and route calculation"
+                    schema = jsonSchema<OrderCalculateRequestDTO>()
+                }
+                responses {
+                    HttpStatusCode.OK { description = "Order calculation result." }
+                    HttpStatusCode.BadRequest { description = "Invalid request parameters or no route found." }
                 }
             }
     }

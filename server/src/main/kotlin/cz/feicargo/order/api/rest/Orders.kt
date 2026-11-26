@@ -20,6 +20,11 @@ class Orders {
         val parent: Orders = Orders(),
         val id: String
     )
+    @Serializable
+    @Resource("/calculate")
+    class Calculate(
+        val parent: Orders = Orders(),
+    )
 }
 
 
