@@ -10,7 +10,8 @@ export type TrainSetApiIncludes =
   'station' |
   'locomotive' |
   'wagon' |
-  'railwayNode'
+  'railwayNode' |
+  'cargoType'
 
 export interface TrainSetPageRequest {
   pageNumber: number
@@ -47,7 +48,7 @@ export class TrainSetsService extends ApiService {
   getTrainSetDetail(
     id: string,
     includes: TrainSetApiIncludes[] =
-    ['locomotive', 'wagon', 'station', 'railwayNode']
+    ['locomotive', 'wagon', 'station', 'cargoType', 'railwayNode']
   ): Observable<TrainSetDetailResponseDTO> {
 
     let headers = new HttpHeaders()
