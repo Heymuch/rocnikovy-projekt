@@ -16,10 +16,28 @@ import { routes } from './app.routes';
 import { authInterceptor, OidcSecurityService, provideAuth } from 'angular-auth-oidc-client';
 import { tap } from 'rxjs';
 
+import {
+  MatPaginatorIntl,
+  MAT_PAGINATOR_DEFAULT_OPTIONS
+} from '@angular/material/paginator';
+import { PaginatorIntl } from 'src/app/commons/paginator-intl';
+
 registerLocaleData(localeCs, 'cs-CZ');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {
+      provide: MatPaginatorIntl,
+      useClass: PaginatorIntl
+    },
+    {
+      provide: MAT_PAGINATOR_DEFAULT_OPTIONS,
+      useValue: {
+        pageSize: 10,
+        pageSizeOptions: [5, 10, 25, 50],
+        showFirstLastButtons: false
+      }
+    },
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withXhr(), withInterceptors([authInterceptor()])),
