@@ -51,8 +51,11 @@
     "back": "Zpět",
     "actions": {
       "edit": "EDITOVAT",
-      "cancel": "ZRUŠIT"
-    },
+      "cancel": "ZRUŠIT OBJEDNÁVKU",
+      "cancelling": "RUŠENÍ OBJEDNÁVKY...",
+      "cancelConfirm": "Opravdu chcete zrušit tuto objednávku? Tuto akci nelze vrátit zpět.",
+      "cancelError": "Objednávku se nepodařilo zrušit."
+  },
     "cargoInfo": {
       "title": "Informace o objednávce",
       "client": "Zadavatel",
