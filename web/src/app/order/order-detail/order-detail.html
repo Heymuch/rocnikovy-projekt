@@ -37,13 +37,30 @@
           {{ 'orderDetail.actions.edit' | translate }}
         </button>
 
-        <!-- TODO: Napojit zrušení objednávky -->
-        <button class="btn-primary btn-cancel">
-          {{ 'orderDetail.actions.cancel' | translate }}
+        <button
+          type="button"
+          class="btn-primary btn-cancel"
+          [disabled]="store.isDeleting()"
+          (click)="cancelOrder()">
+
+          @if (store.isDeleting()) {
+            {{ 'orderDetail.actions.cancelling' | translate }}
+          } @else {
+            {{ 'orderDetail.actions.cancel' | translate }}
+          }
+
         </button>
       </div>
     }
   </mat-toolbar>
+
+  @if (store.deleteError()) {
+    <div class="page-container">
+      <p class="action-error" role="alert">
+        {{ 'orderDetail.actions.cancelError' | translate }}
+      </p>
+    </div>
+  }
 
   <div
     class="page-container grid-cards grid-cards--two-columns order-detail-grid"

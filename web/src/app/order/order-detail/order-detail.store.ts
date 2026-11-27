@@ -1,5 +1,5 @@
 import {inject} from '@angular/core';
-import {pipe, switchMap, tap} from 'rxjs';
+import {Router} from '@angular/router';
 import {
   patchState,
   signalStore,
@@ -9,6 +9,7 @@ import {
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {HttpErrorResponse} from '@angular/common/http';
 import {tapResponse} from '@ngrx/operators';
+import {exhaustMap, pipe, switchMap, tap} from 'rxjs';
 
 import {
   OrderDetail,
@@ -28,6 +29,8 @@ interface OrderDetailState {
   order: OrderDetail | null;
   isLoading: boolean;
   error: boolean;
+  isDeleting: boolean;
+  deleteError: boolean;
 }
 
 interface OrderDetailRequest {
@@ -38,20 +41,27 @@ interface OrderDetailRequest {
 const initialState: OrderDetailState = {
   order: null,
   isLoading: false,
-  error: false
+  error: false,
+  isDeleting: false,
+  deleteError: false
 };
 
 export const OrderDetailStore = signalStore(
   withState(initialState),
 
-  withMethods((state, ordersService = inject(OrdersService)) => ({
+  withMethods((
+    state,
+    ordersService = inject(OrdersService),
+    router = inject(Router)
+  ) => ({
 
     loadOrder: rxMethod<OrderDetailRequest>(
       pipe(
         tap(() => patchState(state, {
           order: null,
           isLoading: true,
-          error: false
+          error: false,
+          deleteError: false
         })),
 
         switchMap(({id, isAdmin}) => {
@@ -97,6 +107,43 @@ export const OrderDetailStore = signalStore(
           );
         })
       )
+    ),
+
+    deleteOrder: rxMethod<string>(
+      pipe(
+        exhaustMap((id) => {
+
+          patchState(state, {
+            isDeleting: true,
+            deleteError: false
+          });
+
+          return ordersService.deleteOrder(id).pipe(
+            tapResponse({
+              next: () => {
+                patchState(state, {
+                  isDeleting: false
+                });
+
+                void router.navigate(['/my-orders']);
+              },
+
+              error: (err: HttpErrorResponse | Error) => {
+                console.error(
+                  'Chyba při rušení objednávky:',
+                  err
+                );
+
+                patchState(state, {
+                  isDeleting: false,
+                  deleteError: true
+                });
+              }
+            })
+          );
+        })
+      )
     )
+
   }))
 );

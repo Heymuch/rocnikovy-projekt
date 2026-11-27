@@ -1188,3 +1188,21 @@ mat-card.data-card.form-card {
 .mat-mdc-tooltip {
   display: none !important;
 }
+
+/* Shared action errors */
+
+.action-error {
+  padding: 1rem;
+  margin: 1rem 0 0;
+
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+
+  border-radius: var(--app-radius-sm);
+  font-size: 0.875rem;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

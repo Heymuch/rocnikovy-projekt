@@ -11,7 +11,7 @@ import { MatDivider } from '@angular/material/list';
 import { OrderStatus } from 'src/app/order/order-status/order-status';
 import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
 import { OrderStatusDisplayPipe } from 'src/app/order/order-status/order-status-display.pipe';
-import { TranslatePipe } from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 import { OrderDetailStore } from 'src/app/order/order-detail/order-detail.store';
 import {RouteMap} from 'src/app/commons/route-map/route-map';
@@ -44,6 +44,7 @@ export class OrderDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
 
   readonly store = inject(OrderDetailStore);
+  private readonly translate = inject(TranslateService);
   readonly order = this.store.order;
 
   // TODO: Napojit na skutečnou roli uživatele z Keycloaku.
@@ -72,5 +73,25 @@ export class OrderDetail implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  cancelOrder(): void {
+    const order = this.order();
+
+    if (
+      !order ||
+      order.status !== OrderStatus.IN_QUEUE ||
+      this.store.isDeleting()
+    ) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      this.translate.instant('orderDetail.actions.cancelConfirm')
+    );
+
+    if (confirmed) {
+      this.store.deleteOrder(order.id);
+    }
   }
 }

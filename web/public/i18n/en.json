@@ -51,8 +51,11 @@
     "back": "Back",
     "actions": {
       "edit": "EDIT",
-      "cancel": "CANCEL"
-    },
+      "cancel": "CANCEL ORDER",
+      "cancelling": "CANCELLING ORDER...",
+      "cancelConfirm": "Are you sure you want to cancel this order? This action cannot be undone.",
+      "cancelError": "The order could not be cancelled."
+  },
     "cargoInfo": {
       "title": "Order Information",
       "client": "Client",
@@ -155,5 +158,12 @@
       "cancel": "Cancel",
       "next": "Next"
     }
+  },
+  "actions": {
+    "edit": "EDIT",
+    "cancel": "CANCEL ORDER",
+    "cancelling": "CANCELLING ORDER...",
+    "cancelConfirm": "Are you sure you want to cancel this order? This action cannot be undone.",
+    "cancelError": "The order could not be cancelled."
   }
 }

@@ -79,4 +79,10 @@ export class OrdersService extends ApiService {
       retry(1)
     )
   }
+
+  deleteOrder(id: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.endpoint}/${id}`
+    );
+  }
 }
