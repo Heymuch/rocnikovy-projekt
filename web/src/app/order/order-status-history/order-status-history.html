@@ -1,0 +1,59 @@
+<div class="status-history">
+
+  @if (history().length > 0) {
+
+    <ol class="status-timeline">
+
+      @for (item of history(); track item.id; let last = $last) {
+
+        <li
+          class="status-timeline-item"
+          [class.current]="last">
+
+          <div class="status-timeline-marker">
+
+            <mat-icon aria-hidden="true">
+              {{ last ? 'radio_button_checked' : 'check_circle' }}
+            </mat-icon>
+
+          </div>
+
+          <div class="status-timeline-content">
+
+            <span
+              class="status-chip"
+              [ngClass]="'status-' + item.status.toLowerCase()">
+
+              {{ item.status | orderStatusDisplay | translate }}
+
+            </span>
+
+            <span class="status-timeline-date">
+              {{ item.changedAt | daytimeDisplay }}
+            </span>
+
+            @if (last) {
+
+              <span class="status-timeline-current">
+                {{ 'orderDetail.statusHistory.currentStatus' | translate }}
+              </span>
+
+            }
+
+          </div>
+
+        </li>
+
+      }
+
+    </ol>
+
+  } @else {
+
+    <p class="status-history-empty">
+      {{ 'orderDetail.statusHistory.noHistory' | translate }}
+    </p>
+
+  }
+
+</div>

@@ -54,7 +54,7 @@
       "cancel": "ZRUŠIT"
     },
     "cargoInfo": {
-      "title": "Informace o nákladu",
+      "title": "Informace o objednávce",
       "client": "Zadavatel",
       "cargoType": "Typ zboží",
       "volume": "Objem",
@@ -73,6 +73,11 @@
       "unassigned": "Nepřiřazeno",
       "assignedWagons": "Přiřazené vagóny",
       "distance": "Vzdálenost"
+    },
+    "statusHistory": {
+      "title": "Historie objednávky",
+      "currentStatus": "Aktuální stav",
+      "noHistory": "Historie objednávky zatím není k dispozici."
     }
   },
   "trainDetail": {

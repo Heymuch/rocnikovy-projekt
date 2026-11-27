@@ -100,6 +100,11 @@ export function transformOrderDetailResponse(
     wagon,
     user,
     routeLengthKm: response.routeLengthKm ?? null,
-    routePoints
+    routePoints,
+    statusHistory: [...(response.statusHistory ?? [])]
+      .sort((a, b) =>
+        new Date(a.changedAt).getTime() -
+        new Date(b.changedAt).getTime()
+      )
   };
 }

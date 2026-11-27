@@ -54,7 +54,7 @@
       "cancel": "CANCEL"
     },
     "cargoInfo": {
-      "title": "Cargo Information",
+      "title": "Order Information",
       "client": "Client",
       "cargoType": "Cargo Type",
       "volume": "Volume",
@@ -73,6 +73,11 @@
       "unassigned": "Unassigned",
       "assignedWagons": "Assigned Wagons",
       "distance": "Distance"
+    },
+    "statusHistory": {
+      "title": "Order history",
+      "currentStatus": "Current status",
+      "noHistory": "No order history available yet."
     }
   },
   "trainDetail": {

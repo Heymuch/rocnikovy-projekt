@@ -15,6 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 import { OrderDetailStore } from 'src/app/order/order-detail.store';
 import {RouteMap} from 'src/app/commons/route-map/route-map';
+import { OrderStatusHistory } from 'src/app/order/order-status-history/order-status-history';
 
 @Component({
   selector: 'app-order-detail',
@@ -30,7 +31,8 @@ import {RouteMap} from 'src/app/commons/route-map/route-map';
     TranslatePipe,
     NgClass,
     RouterLink,
-    RouteMap
+    RouteMap,
+    OrderStatusHistory
   ],
   providers: [OrderDetailStore],
   templateUrl: './order-detail.html',

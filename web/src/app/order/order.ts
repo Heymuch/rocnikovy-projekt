@@ -76,9 +76,16 @@ export type OrderDetailExtendDTO = {
   railwayNodes?: RailwayNodeDTO[] | null
 }
 
+export type OrderStatusHistoryDTO = {
+  id: string
+  status: OrderStatus
+  changedAt: string
+}
+
 export type OrderDetailResponseDTO = {
   order: OrderDetailDTO
   routeLengthKm?: number | null
+  statusHistory: OrderStatusHistoryDTO[]
   extend?: OrderDetailExtendDTO | null
 }
 
@@ -92,6 +99,7 @@ export type OrderDetail = OrderDetailDTO & {
   user: UserDTO | null
   routeLengthKm: number | null
   routePoints: RoutePoint[]
+  statusHistory: OrderStatusHistoryDTO[]
 }
 
 

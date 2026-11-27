@@ -2,11 +2,81 @@
   padding-top: 2.5rem;
 }
 
-.full-width-card {
-  grid-column: 1 / -1;
+/* Order detail layout */
+
+.order-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-areas:
+    "info info logistics logistics"
+    "history map map map";
+
+  align-items: stretch;
+  gap: 2rem;
+
+  /* Layout without route map */
+
+  &.without-map {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "info logistics"
+      "info history";
+
+    grid-template-rows: auto 1fr;
+  }
 }
+
+/* Grid areas */
+
+.order-info-card {
+  grid-area: info;
+}
+
+.logistics-card {
+  grid-area: logistics;
+}
+
+.history-card {
+  grid-area: history;
+}
+
+.map-card {
+  grid-area: map;
+}
+
+.order-info-card,
+.logistics-card,
+.history-card,
+.map-card {
+  min-width: 0;
+}
+
+/* Route map */
 
 .map-content {
   margin-top: 1rem;
   min-height: 400px;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 900px) {
+  .order-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "info"
+      "logistics"
+      "history"
+      "map";
+
+    &.without-map {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        "info"
+        "logistics"
+        "history";
+
+      grid-template-rows: auto;
+    }
+  }
 }
