@@ -10,6 +10,7 @@ import cz.feicargo.order.entity.OrderCargo
 import cz.feicargo.order.entity.OrderRoute
 import cz.feicargo.order.persistence.OrderRepository
 import cz.feicargo.order.service.OrderCalculationService
+import cz.feicargo.order.validation.OrderValidator
 import java.time.Instant
 import kotlin.uuid.Uuid
 
@@ -30,14 +31,15 @@ class CreateOrderUseCase(
 
     override suspend fun invoke(context: Context): Result {
         val request = context.requestDTO
-        val now = Instant.now()
-
-        require(request.name.isNotBlank()) { "Order name must not be blank." }
 
         val preferredDeparture = Instant.parse(request.preferredDeparture)
         val preferredArrival = Instant.parse(request.preferredArrival)
-        require(preferredDeparture.isAfter(now)) { "Preferred departure must be in the future." }
-        require(preferredArrival.isAfter(preferredDeparture)) { "Preferred arrival must be after preferred departure." }
+
+        OrderValidator.validateOrderDetails(
+            name = request.name,
+            preferredDeparture = preferredDeparture,
+            preferredArrival = preferredArrival,
+        )
 
         val stationFrom = Uuid.parse(request.route.stationFrom)
         val stationTo = Uuid.parse(request.route.stationTo)

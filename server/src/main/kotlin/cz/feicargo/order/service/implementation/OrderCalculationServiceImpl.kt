@@ -4,6 +4,7 @@ import cz.feicargo.cargotype.persistence.CargoTypeRepository
 import cz.feicargo.commons.persistence.TransactionManager
 import cz.feicargo.order.service.OrderCalculationResult
 import cz.feicargo.order.service.OrderCalculationService
+import cz.feicargo.order.validation.OrderValidator
 import cz.feicargo.route.service.RouteService
 import cz.feicargo.wagon.persistence.WagonRepository
 import java.math.BigDecimal
@@ -38,9 +39,12 @@ class OrderCalculationServiceImpl(
         volume: Double,
         weight: Double,
     ): OrderCalculationResult {
-        require(stationFrom != stationTo) { "Origin and destination stations must be different." }
-        require(volume > 0) { "Cargo volume must be greater than zero." }
-        require(weight > 0) { "Cargo weight must be greater than zero." }
+        OrderValidator.validateCalculationInput(
+            stationFrom = stationFrom,
+            stationTo = stationTo,
+            volume = volume,
+            weight = weight,
+        )
 
         val routeNodes = routeService.findRoute(stationFrom, stationTo)
         require(routeNodes.isNotEmpty()) { "No railway route found between the selected stations." }
