@@ -118,5 +118,12 @@
     "lastPage": "Poslední stránka",
     "of": "z",
     "ariaLabel": "Stránkování tabulky"
+  },
+  "stationCombobox": {
+    "stationFrom": "Výchozí stanice",
+    "stationTo": "Cílová stanice",
+    "search": "Vyhledat stanici...",
+    "noResults": "Nebyly nalezeny žádné stanice.",
+    "loadMore": "Načíst další záznamy"
   }
 }

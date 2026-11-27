@@ -1,16 +1,37 @@
 <form [formGroup]="formGroup">
-<mat-form-field>
-  <mat-label>{{ 'name' | translate }}</mat-label>
-  <input matInput [formControl]="name" [maxLength]="maxLengths.name" />
-  <mat-hint>{{ name.value?.length ?? 0 }}/{{ maxLengths.name }}</mat-hint>
-  @if (name.invalid) {
-    <mat-error>{{ name.errors | validationError | translate }}</mat-error>
-  }
-</mat-form-field>
 
-<!--  Select:-->
-<!-- Z backendu se to vrátí tak jak to tam je (anglicky např. WOOD) - pak dořešit -->
-  <app-cargo-type-select [control]="cargoTypeId" />
+  <mat-form-field>
+    <mat-label>{{ 'name' | translate }}</mat-label>
+
+    <input
+      matInput
+      [formControl]="name"
+      [maxLength]="maxLengths.name"
+    />
+
+    <mat-hint>
+      {{ name.value?.length ?? 0 }}/{{ maxLengths.name }}
+    </mat-hint>
+
+    @if (name.invalid) {
+      <mat-error>
+        {{ name.errors | validationError | translate }}
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <app-cargo-type-select
+    [control]="cargoTypeId"
+  />
+
+  <app-station-combobox
+    [control]="stationFrom"
+    label="stationCombobox.stationFrom"
+  />
+
+  <app-station-combobox
+    [control]="stationTo"
+    label="stationCombobox.stationTo"
+  />
+
 </form>
-
-

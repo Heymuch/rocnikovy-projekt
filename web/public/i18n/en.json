@@ -118,5 +118,12 @@
     "lastPage": "Last page",
     "of": "of",
     "ariaLabel": "Table pagination"
+  },
+  "stationCombobox": {
+    "stationFrom": "Departure station",
+    "stationTo": "Destination station",
+    "search": "Search for a station...",
+    "noResults": "No stations found.",
+    "loadMore": "Load more records"
   }
 }

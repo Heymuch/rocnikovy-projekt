@@ -1,6 +1,12 @@
-export type StationDTO =  {
+export type StationDTO = {
   id: string
   name: string
 }
 
-// export type StationDTO = Station & {}
+export type PaginatedStationResponseDTO = {
+  items: StationDTO[]
+  page: number
+  size: number
+  totalCount: number
+  totalPages: number
+}
