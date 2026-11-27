@@ -2,7 +2,7 @@ import {
   OrderOverview,
   OrderOverviewResponseDTO,
   OrderDetail,
-  OrderDetailResponseDTO
+  OrderDetailResponseDTO, OrderCalculateResponseDTO, OrderCalculation
 } from 'src/app/order/order';
 
 import {
@@ -106,5 +106,21 @@ export function transformOrderDetailResponse(
         new Date(a.changedAt).getTime() -
         new Date(b.changedAt).getTime()
       )
+  };
+}
+
+export function transformOrderCalculationResponse(
+  response: OrderCalculateResponseDTO,
+): OrderCalculation {
+  return {
+    totalPrice: response.totalPrice,
+    routeLengthKm: response.routeLengthKm,
+    wagonCount: response.wagonCount,
+    wagon: response.wagon,
+    cargoType: response.cargoType,
+    routePoints: transformRoutePoints(
+      response.route,
+      response.extend?.railwayNodes,
+    ),
   };
 }

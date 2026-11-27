@@ -69,3 +69,19 @@ export class ArrivalErrorStateMatcher implements ErrorStateMatcher {
     return hasControlError || hasGroupError;
   }
 }
+
+/**
+ * Křížový validátor na úrovni FormGroup: výchozí a cílová stanice nesmí být stejné.
+ */
+export const differentStationsValidator: ValidatorFn = (
+  group: AbstractControl,
+): ValidationErrors | null => {
+  const from = group.get('stationFrom')?.value;
+  const to = group.get('stationTo')?.value;
+
+  if (!from || !to) {
+    return null;
+  }
+
+  return from === to ? { sameStations: true } : null;
+};

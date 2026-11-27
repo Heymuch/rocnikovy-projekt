@@ -102,4 +102,52 @@ export type OrderDetail = OrderDetailDTO & {
   statusHistory: OrderStatusHistoryDTO[]
 }
 
+export type OrderCalculateRequestDTO = {
+  stationFrom: string;
+  stationTo: string;
+  cargoTypeId: number;
+  volume: number;
+  weight: number;
+};
 
+export type OrderCalculateResponseDTO = {
+  totalPrice: number;
+  routeLengthKm: number;
+  wagonCount: number;
+  wagon: WagonDTO;
+  cargoType: CargoTypeDTO;
+  route: string[];
+  extend?: {
+    railwayNodes?: RailwayNodeDTO[] | null;
+  } | null;
+};
+
+// UI model pro krok souhrnu (s přemapovanými body pro mapu)
+export type OrderCalculation = {
+  totalPrice: number;
+  routeLengthKm: number;
+  wagonCount: number;
+  wagon: WagonDTO;
+  cargoType: CargoTypeDTO;
+  routePoints: RoutePoint[];
+};
+
+export type OrderCreateRequestDTO = {
+  name: string;
+  preferredDeparture: string;
+  preferredArrival: string;
+  route: {
+    stationFrom: string;
+    stationTo: string;
+  };
+  cargo: {
+    cargoTypeId: number;
+    volume: number;
+    weight: number;
+  };
+};
+
+export type OrderCreateResponseDTO = {
+  order: OrderDetailDTO;
+  routeLengthKm?: number | null;
+};
