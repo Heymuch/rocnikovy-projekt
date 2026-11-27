@@ -9,8 +9,11 @@
     }
   </mat-select>
 
-  @let err = control().errors | validationError;
-  @if (control().invalid && (control().touched || control().dirty) && err) {
-    <mat-error>{{ err.key | translate: err.params }}</mat-error>
+  @if (control().invalid && (control().touched || control().dirty)) {
+    @if (control().errors | validationError; as err) {
+      <mat-error>
+        {{ err.key | translate: err.params }}
+      </mat-error>
+    }
   }
 </mat-form-field>
