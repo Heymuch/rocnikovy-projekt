@@ -9,8 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { OrderStatusHistoryDTO } from 'src/app/order/order';
-import { OrderStatusDisplayPipe } from 'src/app/order/order-status-display.pipe';
 import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
+import { OrderStatusDisplayPipe } from 'src/app/order/order-status/order-status-display.pipe';
 
 @Component({
   selector: 'app-order-status-history',

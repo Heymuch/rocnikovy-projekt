@@ -26,9 +26,10 @@
 
   </mat-form-field>
 
-  @if (control().invalid && control().touched) {
+  @let err = control().errors | validationError;
+  @if (control().invalid && control().touched && err) {
     <div class="station-error">
-      {{ control().errors | validationError | translate }}
+      {{ err.key | translate: err.params }}
     </div>
   }
 
