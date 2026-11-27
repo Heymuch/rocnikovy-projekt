@@ -21,11 +21,18 @@ import {
   MAT_PAGINATOR_DEFAULT_OPTIONS
 } from '@angular/material/paginator';
 import { PaginatorIntl } from 'src/app/commons/paginator-intl';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_TIMEPICKER_CONFIG } from '@angular/material/timepicker';
 
 registerLocaleData(localeCs, 'cs-CZ');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideNativeDateAdapter(),
+    {
+      provide: MAT_TIMEPICKER_CONFIG,
+      useValue: { interval: '15m' },
+    },
     {
       provide: MatPaginatorIntl,
       useClass: PaginatorIntl

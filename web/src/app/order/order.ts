@@ -1,4 +1,4 @@
-import { OrderStatus } from 'src/app/order/order-status';
+import { OrderStatus } from 'src/app/order/order-status/order-status';
 import {
   TrainSetDTO,
   WagonDTO,

@@ -1,28 +1,108 @@
+<!--TODO: PŘEKLADY-->
 <form [formGroup]="formGroup">
-
+  <!-- Název objednávky -->
   <mat-form-field>
     <mat-label>{{ 'name' | translate }}</mat-label>
-
-    <input
-      matInput
-      [formControl]="name"
-      [maxLength]="maxLengths.name"
-    />
-
-    <mat-hint>
-      {{ name.value?.length ?? 0 }}/{{ maxLengths.name }}
-    </mat-hint>
-
-    @if (name.invalid) {
-      <mat-error>
-        {{ name.errors | validationError | translate }}
-      </mat-error>
+    <input matInput [formControl]="name" [maxLength]="validation.name.maxLength" />
+    <mat-hint>{{ name.value?.length ?? 0 }}/{{ validation.name.maxLength }}</mat-hint>
+    @let nameErr = name.errors | validationError;
+    @if (name.invalid && nameErr) {
+      <mat-error>{{ nameErr.key | translate: nameErr.params }}</mat-error>
     }
   </mat-form-field>
 
-  <app-cargo-type-select
-    [control]="cargoTypeId"
-  />
+  <!-- Preferovaný odjezd (datum + čas sdílejí jednu kontrolku) -->
+  <mat-form-field>
+    <mat-label>{{ 'preferredDepartureDate' | translate }}</mat-label>
+    <input
+      matInput
+      [matDatepicker]="departureDatePicker"
+      [formControl]="preferredDeparture"
+      [min]="minDate"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="departureDatePicker" />
+    <mat-datepicker #departureDatePicker />
+    @let depErr = preferredDeparture.errors | validationError;
+    @if (preferredDeparture.invalid && depErr) {
+      <mat-error>{{ depErr.key | translate: depErr.params }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>{{ 'preferredDepartureTime' | translate }}</mat-label>
+    <input matInput [matTimepicker]="departureTimePicker" [formControl]="preferredDeparture" />
+    <mat-timepicker-toggle matIconSuffix [for]="departureTimePicker" />
+    <mat-timepicker #departureTimePicker />
+  </mat-form-field>
+
+  <!-- Preferovaný příjezd (datum + čas sdílejí jednu kontrolku) -->
+  <mat-form-field>
+    <mat-label>{{ 'preferredArrivalDate' | translate }}</mat-label>
+    <input
+      matInput
+      [matDatepicker]="arrivalDatePicker"
+      [formControl]="preferredArrival"
+      [min]="minArrivalDate"
+      [errorStateMatcher]="arrivalErrorMatcher"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="arrivalDatePicker" />
+    <mat-datepicker #arrivalDatePicker />
+    @let arrErr = (preferredArrival.errors ?? formGroup.errors) | validationError;
+    @if ((preferredArrival.invalid || formGroup.hasError('arrivalBeforeDeparture')) && arrErr) {
+      <mat-error>{{ arrErr.key | translate: arrErr.params }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>{{ 'preferredArrivalTime' | translate }}</mat-label>
+    <input
+      matInput
+      [matTimepicker]="arrivalTimePicker"
+      [formControl]="preferredArrival"
+      [errorStateMatcher]="arrivalErrorMatcher"
+    />
+    <mat-timepicker-toggle matIconSuffix [for]="arrivalTimePicker" />
+    <mat-timepicker #arrivalTimePicker />
+  </mat-form-field>
+
+  <!-- Typ zboží -->
+  <app-cargo-type-select [control]="cargoTypeId" />
+
+  <!-- Objem nákladu -->
+  <mat-form-field>
+    <mat-label>{{ 'volume' | translate }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [formControl]="volume"
+      [min]="validation.cargo.volume.min"
+      [max]="validation.cargo.volume.max"
+      [step]="validation.cargo.volume.step"
+    />
+    <span matTextSuffix>m³</span>
+    @let volErr = volume.errors | validationError;
+    @if (volume.invalid && volErr) {
+      <mat-error>{{ volErr.key | translate: volErr.params }}</mat-error>
+    }
+  </mat-form-field>
+
+  <!-- Hmotnost nákladu -->
+  <mat-form-field>
+    <mat-label>{{ 'weight' | translate }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [formControl]="weight"
+      [min]="validation.cargo.weight.min"
+      [max]="validation.cargo.weight.max"
+      [step]="validation.cargo.weight.step"
+    />
+    <span matTextSuffix>t</span>
+    @let weightErr = weight.errors | validationError;
+    @if (weight.invalid && weightErr) {
+      <mat-error>{{ weightErr.key | translate: weightErr.params }}</mat-error>
+    }
+  </mat-form-field>
 
   <app-station-combobox
     [control]="stationFrom"
@@ -33,5 +113,6 @@
     [control]="stationTo"
     label="stationCombobox.stationTo"
   />
-
 </form>
+
+

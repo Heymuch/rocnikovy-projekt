@@ -108,8 +108,16 @@
     }
   },
   "validation": {
-    "invalid": "Neplatná hodnota",
-    "required": "Pole je povinné."
+    "required": "Toto pole je povinné.",
+    "maxLength": "Maximální délka je {{ max }} znaků.",
+    "min": "Minimální hodnota je {{ min }}.",
+    "max": "Maximální hodnota je {{ max }}.",
+    "invalidDate": "Zadejte platné datum.",
+    "invalidTime": "Zadejte platný čas.",
+    "minDepartureDate": "Termín musí být alespoň {{ days }} dní dopředu.",
+    "arrivalBeforeDeparture": "Příjezd musí být až po odjezdu.",
+    "dateTooEarly": "Zvolené datum je příliš brzy.",
+    "invalid": "Neplatná hodnota."
   },
   "routeMap": {
     "title": "Mapa trasy",
