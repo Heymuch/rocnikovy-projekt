@@ -1,16 +1,85 @@
+<!--TODO: PŘEKLADY-->
 <form [formGroup]="formGroup">
-<mat-form-field>
-  <mat-label>{{ 'name' | translate }}</mat-label>
-  <input matInput [formControl]="name" [maxLength]="maxLengths.name" />
-  <mat-hint>{{ name.value?.length ?? 0 }}/{{ maxLengths.name }}</mat-hint>
-  @if (name.invalid) {
-    <mat-error>{{ name.errors | validationError | translate }}</mat-error>
-  }
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ 'name' | translate }}</mat-label>
+    <input matInput [formControl]="name" [maxLength]="validation.name.maxLength" />
+    <mat-hint>{{ name.value?.length ?? 0 }}/{{ validation.name.maxLength }}</mat-hint>
+    @if (name.invalid) {
+      <mat-error>{{ name.errors | validationError | translate }}</mat-error>
+    }
+  </mat-form-field>
 
-<!--  Select:-->
-<!-- Z backendu se to vrátí tak jak to tam je (anglicky např. WOOD) - pak dořešit -->
+  <!-- Preferovaný odjezd (datum + čas sdílejí jednu kontrolku) -->
+  <mat-form-field>
+    <mat-label>{{ 'preferredDepartureDate' | translate }}</mat-label>
+    <input matInput [matDatepicker]="departureDatePicker" [formControl]="preferredDeparture" />
+    <mat-datepicker-toggle matIconSuffix [for]="departureDatePicker" />
+    <mat-datepicker #departureDatePicker />
+    @if (preferredDeparture.invalid) {
+      <mat-error>{{ preferredDeparture.errors | validationError | translate }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>{{ 'preferredDepartureTime' | translate }}</mat-label>
+    <input matInput [matTimepicker]="departureTimePicker" [formControl]="preferredDeparture" />
+    <mat-timepicker-toggle matIconSuffix [for]="departureTimePicker" />
+    <mat-timepicker #departureTimePicker />
+  </mat-form-field>
+
+  <!-- Preferovaný příjezd (datum + čas sdílejí jednu kontrolku) -->
+  <mat-form-field>
+    <mat-label>{{ 'preferredArrivalDate' | translate }}</mat-label>
+    <input matInput [matDatepicker]="arrivalDatePicker" [formControl]="preferredArrival" />
+    <mat-datepicker-toggle matIconSuffix [for]="arrivalDatePicker" />
+    <mat-datepicker #arrivalDatePicker />
+    @if (preferredArrival.invalid) {
+      <mat-error>{{ preferredArrival.errors | validationError | translate }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>{{ 'preferredArrivalTime' | translate }}</mat-label>
+    <input matInput [matTimepicker]="arrivalTimePicker" [formControl]="preferredArrival" />
+    <mat-timepicker-toggle matIconSuffix [for]="arrivalTimePicker" />
+    <mat-timepicker #arrivalTimePicker />
+  </mat-form-field>
+
   <app-cargo-type-select [control]="cargoTypeId" />
+
+  <!-- Objem nákladu -->
+  <mat-form-field>
+    <mat-label>{{ 'volume' | translate }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [formControl]="volume"
+      [min]="validation.cargo.volume.min"
+      [max]="validation.cargo.volume.max"
+      [step]="validation.cargo.volume.step"
+    />
+    <span matTextSuffix>m³</span>
+    @if (volume.invalid) {
+      <mat-error>{{ volume.errors | validationError | translate }}</mat-error>
+    }
+  </mat-form-field>
+
+  <!-- Hmotnost nákladu -->
+  <mat-form-field>
+    <mat-label>{{ 'weight' | translate }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [formControl]="weight"
+      [min]="validation.cargo.weight.min"
+      [max]="validation.cargo.weight.max"
+      [step]="validation.cargo.weight.step"
+    />
+    <span matTextSuffix>t</span>
+    @if (weight.invalid) {
+      <mat-error>{{ weight.errors | validationError | translate }}</mat-error>
+    }
+  </mat-form-field>
 </form>
 
 
