@@ -1,0 +1,131 @@
+<div
+  class="station-combobox"
+  cdkOverlayOrigin
+  #origin="cdkOverlayOrigin">
+
+  <mat-form-field
+    appearance="outline"
+    class="station-field"
+    (click)="toggleDropdown()">
+
+    <mat-label>{{ label() | translate }}</mat-label>
+
+    <input
+      matInput
+      readonly
+      [value]="selectedStation()?.name ?? ''"
+      [disabled]="control().disabled"
+      [required]="control().hasValidator(requiredValidator)"
+      [attr.aria-expanded]="isOpen()"
+      (keydown.enter)="$event.preventDefault(); toggleDropdown()"
+      (keydown.escape)="closeDropdown()">
+
+    <mat-icon matSuffix>
+      {{ isOpen() ? 'expand_less' : 'expand_more' }}
+    </mat-icon>
+
+  </mat-form-field>
+
+  @if (control().invalid && control().touched) {
+    <div class="station-error">
+      {{ control().errors | validationError | translate }}
+    </div>
+  }
+
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  [cdkConnectedOverlayWidth]="origin.elementRef.nativeElement.offsetWidth"
+  (overlayOutsideClick)="closeDropdown()"
+  (detach)="closeDropdown()">
+
+  <div
+    class="station-dropdown"
+    (keydown.escape)="closeDropdown()">
+
+    <div class="station-search">
+
+      <mat-form-field
+        appearance="outline"
+        subscriptSizing="dynamic">
+
+        <mat-icon matPrefix>search</mat-icon>
+
+        <input
+          matInput
+          [value]="searchQuery()"
+          [placeholder]="'stationCombobox.search' | translate"
+          (input)="onSearchChange($event)">
+
+      </mat-form-field>
+
+    </div>
+
+    <div class="station-options">
+
+      @for (station of store.stations(); track station.id) {
+
+        <button
+          type="button"
+          class="station-option"
+          [class.selected]="control().value === station.id"
+          (click)="selectStation(station)">
+
+          <span>{{ station.name }}</span>
+
+          @if (control().value === station.id) {
+            <mat-icon>check</mat-icon>
+          }
+
+        </button>
+
+      }
+
+      @if (store.isLoading()) {
+        <div class="station-message">
+          {{ 'loading' | translate }}
+        </div>
+      }
+
+      @if (store.error()) {
+        <div class="station-message station-error">
+          {{ 'loadError' | translate }}
+        </div>
+      }
+
+      @if (
+        !store.isLoading() &&
+        !store.error() &&
+        store.stations().length === 0
+        ) {
+        <div class="station-message">
+          {{ 'stationCombobox.noResults' | translate }}
+        </div>
+      }
+
+      @if (store.hasMore()) {
+
+        <div class="station-footer">
+
+          <button
+            mat-stroked-button
+            type="button"
+            [disabled]="store.isLoading()"
+            (click)="loadMore()">
+
+            {{ 'stationCombobox.loadMore' | translate }}
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</ng-template>

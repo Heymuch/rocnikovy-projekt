@@ -333,6 +333,199 @@ div.mat-mdc-select-panel {
 }
 
 /* =========================================================
+   6.2. Shared station combobox
+   ========================================================= */
+
+app-station-combobox {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.station-combobox {
+  width: 100%;
+}
+
+/* Shared form field appearance */
+
+.station-field,
+.station-search {
+  @include mat.form-field-overrides((
+    outlined-container-shape: var(--app-radius-sm),
+    outlined-outline-color: var(--md-sys-color-outline-variant),
+    outlined-hover-outline-color: var(--md-sys-color-primary),
+    outlined-focus-outline-color: var(--md-sys-color-primary),
+    outlined-focus-label-text-color: var(--md-sys-color-primary)
+  ));
+}
+
+/* Main station field */
+
+.station-field {
+  width: 100%;
+  cursor: pointer;
+
+  input {
+    cursor: pointer;
+  }
+
+  mat-icon {
+    color: var(--md-sys-color-primary);
+  }
+}
+
+/* Dropdown panel */
+
+.station-dropdown {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  overflow: hidden;
+
+  background: #ffffff;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--app-radius-md);
+  box-shadow: var(--app-shadow-card);
+}
+
+/* Search field */
+
+.station-search {
+  padding: 0.75rem;
+  border-bottom: 2px solid var(--md-sys-color-surface-container-high);
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  mat-icon {
+    color: var(--md-sys-color-primary);
+  }
+}
+
+/* Scrollable station list */
+
+.station-options {
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-sys-color-outline-variant) transparent;
+}
+
+/* Individual station */
+
+.station-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  width: 100%;
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
+
+  font-family: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+
+  span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  &:hover {
+    background: var(--md-sys-color-surface-container-high);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: -2px;
+  }
+
+  &.selected {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-primary);
+    font-weight: 600;
+  }
+
+  mat-icon {
+    flex-shrink: 0;
+    color: var(--md-sys-color-primary);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Load more records */
+
+.station-footer {
+  padding: 0.75rem;
+  border-top: 2px solid var(--md-sys-color-surface-container-high);
+
+  button {
+    width: 100%;
+    min-height: 36px;
+
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--app-radius-sm);
+    color: var(--md-sys-color-primary);
+
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      background: var(--md-sys-color-surface-container-high);
+      border-color: var(--md-sys-color-primary);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+}
+
+/* Loading, empty state and errors */
+
+.station-message {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.station-error {
+  color: var(--md-sys-color-error);
+  font-size: 0.75rem;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 600px) {
+  .station-options {
+    max-height: 200px;
+  }
+}
+
+/* =========================================================
    7. Status chips
    ========================================================= */
 .status-chip {
