@@ -1,5 +1,6 @@
 package cz.feicargo.order.api.rest.route
 
+import cz.feicargo.application.authenticatedUser
 import cz.feicargo.order.api.rest.Orders
 import cz.feicargo.order.api.rest.controller.CalculateOrderRestController
 import cz.feicargo.order.api.rest.controller.SearchOrdersRestController
@@ -18,7 +19,9 @@ import cz.feicargo.order.api.rest.controller.UpdateOrderRestController
 import cz.feicargo.order.api.rest.dto.request.OrderUpdateRequestDTO
 import cz.feicargo.order.api.rest.controller.DeleteOrderRestController
 import io.ktor.server.resources.delete
+import io.ktor.server.response.respond
 import io.ktor.server.resources.put
+
 import io.ktor.openapi.jsonSchema
 import io.ktor.utils.io.ExperimentalKtorApi
 
@@ -27,10 +30,17 @@ object OrderRoutes {
     object Search {
         fun Route.get() =
             get<Orders.Search> { request ->
+                val user = call.authenticatedUser()
+                if (!user.isAdmin && !request.userId.isNullOrBlank() && !request.userId.equals(user.id.toString(), ignoreCase = true)) {
+                    call.respond(HttpStatusCode.Forbidden, "You are not allowed to view orders of another user.")
+                    return@get
+                }
+
                 with(application.dependencies.resolve<SearchOrdersRestController>()) {
+                    val effectiveUserId = if (user.isAdmin) request.userId else user.id.toString()
                     val xInclude = call.request.headers["X-Include"]
                     val includes = xInclude?.split(",")?.map { it.trim() } ?: emptyList()
-                    SearchOrdersRestController.Context(call, request.page, request.size, request.userId, includes).use()
+                    SearchOrdersRestController.Context(call, request.page, request.size, effectiveUserId, includes).use()
                 }
             }.describe {
                 summary = "Overview for orders with pagination and optional user filter"
@@ -43,9 +53,8 @@ object OrderRoutes {
                 }
 
                 responses {
-                    HttpStatusCode.OK {
-                        description = "Paginated list of orders"
-                    }
+                    HttpStatusCode.OK { description = "Paginated list of orders" }
+                    HttpStatusCode.Forbidden { description = "User is not allowed to view orders of another user" }
                 }
             }
     }
@@ -54,11 +63,12 @@ object OrderRoutes {
         fun Route.get() =
             get<Orders.Detail> { request ->
                 with(application.dependencies.resolve<GetOrderDetailRestController>()) {
+                    val user = call.authenticatedUser()
                     val uuid = kotlin.uuid.Uuid.parse(request.id)
                     val xInclude = call.request.headers["X-Include"]
                     val includes = xInclude?.split(",")?.map { it.trim() } ?: emptyList()
 
-                    GetOrderDetailRestController.Context(call, uuid, includes).use()
+                    GetOrderDetailRestController.Context(call, uuid, user.id, user.isAdmin, includes).use()
                 }
             }.describe {
                 summary = "Detail of an order"
@@ -72,6 +82,7 @@ object OrderRoutes {
 
                 responses {
                     HttpStatusCode.OK { description = "Detail of an order with optional extended data" }
+                    HttpStatusCode.Forbidden { description = "User is not allowed to view this order" }
                     HttpStatusCode.NotFound { description = "Order not found" }
                 }
             }
@@ -80,12 +91,14 @@ object OrderRoutes {
     object Create {
         fun Route.post() =
             post<Orders> {
+                val user = call.authenticatedUser()
+                if (user.isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, "Admins are not allowed to create orders.")
+                    return@post
+                }
                 with(application.dependencies.resolve<CreateOrderRestController>()) {
-                    // Dočasně tu zafixujeme ID testovacího uživatele z našeho SQL skriptu,
-                    // později toto ID budeme číst např. z JWTPrincipal hlaviček po autorizaci.
-                    // TODO opravit
-                    val dummyUserId = kotlin.uuid.Uuid.parse("11111111-1111-1111-1111-111111111111")
-                    CreateOrderRestController.Context(call, dummyUserId).use()
+                    val user = call.authenticatedUser()
+                    CreateOrderRestController.Context(call, user.id).use()
                 }
             }.describe {
                 summary = "Create new order"
@@ -133,11 +146,8 @@ object OrderRoutes {
         fun Route.put() =
             put<Orders.Update> { request ->
                 with(application.dependencies.resolve<UpdateOrderRestController>()) {
-                    // Dočasně zafixované ID testovacího uživatele (Firma A), později z JWT tokenu
-                    // TODO opravit
-                    val dummyUserId = kotlin.uuid.Uuid.parse("11111111-1111-1111-1111-111111111111")
-
-                    UpdateOrderRestController.Context(call, request.id, dummyUserId).use()
+                    val user = call.authenticatedUser()
+                    UpdateOrderRestController.Context(call, request.id, user.id, user.isAdmin).use()
                 }
             }.describe {
                 summary = "Update an existing order (only allowed in IN_QUEUE status)"
@@ -160,10 +170,8 @@ object OrderRoutes {
         fun Route.delete() =
             delete<Orders.Delete> { request ->
                 with(application.dependencies.resolve<DeleteOrderRestController>()) {
-                    // Dočasně zafixované ID testovacího uživatele (Firma A), později z JWT tokenu
-                    val dummyUserId = kotlin.uuid.Uuid.parse("11111111-1111-1111-1111-111111111111")
-
-                    DeleteOrderRestController.Context(call, request.id, dummyUserId).use()
+                    val user = call.authenticatedUser()
+                    DeleteOrderRestController.Context(call, request.id, user.id, user.isAdmin).use()
                 }
             }.describe {
                 summary = "Delete an existing order (only allowed in IN_QUEUE status)"

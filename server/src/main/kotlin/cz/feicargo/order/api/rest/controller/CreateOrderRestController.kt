@@ -15,7 +15,6 @@ class CreateOrderRestController(
 
     data class Context(
         override val call: ApplicationCall,
-        // TODO Prozatím ID uživatele vyřešíme takto ručně (do budoucna se získá z tokenu)
         val userId: Uuid
     ) : RestController.Context
 

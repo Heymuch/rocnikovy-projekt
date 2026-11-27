@@ -41,14 +41,29 @@ class GetOrderDetailUseCase(
     private val transactionManager: TransactionManager,
 ) : UseCase<GetOrderDetailUseCase.Context, GetOrderDetailUseCase.Result> {
 
-    data class Context(val orderId: Uuid, val includes: List<String>) : UseCase.Context
-    data class Result(val detail: OrderDetailResponseDTO?) : UseCase.Result
+    data class Context(
+        val orderId: Uuid,
+        val userId: Uuid,
+        val isAdmin: Boolean,
+        val includes: List<String>,
+    ) : UseCase.Context
 
-    override suspend fun invoke(context: Context): Result {
-        val response = transactionManager.newTransaction {
-            val order = orderRepository.findById(context.orderId) ?: return@newTransaction null
+    sealed interface Result : UseCase.Result {
+        data class Success(val detail: OrderDetailResponseDTO) : Result
+        data object NotFound : Result
+        data object Forbidden : Result
+    }
+
+    override suspend fun invoke(context: Context): Result =
+        transactionManager.newTransaction {
+            val order = orderRepository.findById(context.orderId)
+                ?: return@newTransaction Result.NotFound
+
+            if (!context.isAdmin && order.userId != context.userId) {
+                return@newTransaction Result.Forbidden
+            }
+
             val statusHistory = orderRepository.selectStatusHistoryByOrderId(context.orderId)
-
             val routeLengthKm = routeService.calculateRouteLengthKm(order.route?.route.orEmpty())
 
             var extendDTO: OrderDetailExtendDTO? = null
@@ -93,17 +108,17 @@ class GetOrderDetailUseCase(
                     stations = fetchedStations,
                     wagons = fetchedWagons,
                     users = fetchedUsers,
-                    railwayNodes = fetchedRailwayNodes
+                    railwayNodes = fetchedRailwayNodes,
                 )
             }
 
-            OrderDetailResponseDTO(
-                order = order.toDTO(),
-                routeLengthKm = routeLengthKm,
-                statusHistory = statusHistory.map { it.toDTO() },
-                extend = extendDTO
+            Result.Success(
+                OrderDetailResponseDTO(
+                    order = order.toDTO(),
+                    routeLengthKm = routeLengthKm,
+                    statusHistory = statusHistory.map { it.toDTO() },
+                    extend = extendDTO,
+                ),
             )
         }
-        return Result(response)
-    }
 }

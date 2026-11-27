@@ -13,6 +13,7 @@ class DeleteOrderUseCase(
     data class Context(
         val orderId: Uuid,
         val userId: Uuid,
+        val isAdmin: Boolean,
     ) : UseCase.Context
 
     sealed interface Result : UseCase.Result {
@@ -27,8 +28,7 @@ class DeleteOrderUseCase(
             val existingOrder = orderRepository.findById(context.orderId)
                 ?: return@newTransaction Result.NotFound
 
-            // TODO: Po napojení Keycloaku povolit mazání i pro uživatele s rolí ADMIN
-            if (existingOrder.userId != context.userId) {
+            if (!context.isAdmin && existingOrder.userId != context.userId) {
                 return@newTransaction Result.Forbidden
             }
 

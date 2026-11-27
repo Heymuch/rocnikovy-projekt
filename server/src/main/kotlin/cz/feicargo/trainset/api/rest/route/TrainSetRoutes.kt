@@ -1,11 +1,13 @@
 package cz.feicargo.trainset.api.rest.route
 
+import cz.feicargo.application.authenticatedUser
 import cz.feicargo.trainset.api.rest.TrainSets
 import cz.feicargo.trainset.api.rest.controller.GetTrainSetDetailRestController
 import cz.feicargo.trainset.api.rest.controller.SearchTrainSetsRestController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.plugins.di.dependencies
 import io.ktor.server.resources.get
+import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.application
 import io.ktor.server.routing.openapi.describe
@@ -17,6 +19,10 @@ object TrainSetRoutes {
     object Search {
         fun Route.get() =
             get<TrainSets.Search> { request ->
+                if (!call.authenticatedUser().isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, "Admin access required.")
+                    return@get
+                }
                 with(application.dependencies.resolve<SearchTrainSetsRestController>()) {
                     val xInclude = call.request.headers["X-Include"]
                     val includes = xInclude?.split(",")?.map { it.trim() } ?: emptyList()
@@ -39,6 +45,10 @@ object TrainSetRoutes {
     object GetDetail {
         fun Route.get() =
             get<TrainSets.Detail> { request ->
+                if (!call.authenticatedUser().isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, "Admin access required.")
+                    return@get
+                }
                 with(application.dependencies.resolve<GetTrainSetDetailRestController>()) {
                     val uuid = Uuid.parse(request.id)
                     val xInclude = call.request.headers["X-Include"]

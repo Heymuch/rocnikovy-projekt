@@ -8,6 +8,7 @@ import io.ktor.http.ContentType
 import io.ktor.openapi.OpenApiInfo
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.auth.authenticate
 import io.ktor.server.plugins.swagger.swaggerUI
 import io.ktor.server.resources.Resources
 import io.ktor.server.routing.openapi.OpenApiDocSource
@@ -25,18 +26,21 @@ fun Application.routingModule() {
                     contentType = ContentType.Application.Yaml,
                 )
         }
-        route("/api") {
-            with(StationsRoutes.Search) { get() }
-            with(StationsRoutes.Get) { get() }
-            with(CargoTypeRoutes.GetAll) { get() }
-            with(TrainSetRoutes.Search) { get() }
-            with(TrainSetRoutes.GetDetail) { get() }
-            with(OrderRoutes.Search) { get() }
-            with(OrderRoutes.GetDetail) { get() }
-            with(OrderRoutes.Create) { post() }
-            with(OrderRoutes.Calculate) { post() }
-            with(OrderRoutes.Update) { put() }
-            with(OrderRoutes.Delete) { delete() }
+        authenticate(AUTH_JWT) {
+            install(BlockedUserPlugin)
+            route("/api") {
+                with(StationsRoutes.Search) { get() }
+                with(StationsRoutes.Get) { get() }
+                with(CargoTypeRoutes.GetAll) { get() }
+                with(TrainSetRoutes.Search) { get() }
+                with(TrainSetRoutes.GetDetail) { get() }
+                with(OrderRoutes.Search) { get() }
+                with(OrderRoutes.GetDetail) { get() }
+                with(OrderRoutes.Create) { post() }
+                with(OrderRoutes.Calculate) { post() }
+                with(OrderRoutes.Update) { put() }
+                with(OrderRoutes.Delete) { delete() }
+            }
         }
     }
 }

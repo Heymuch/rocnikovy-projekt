@@ -17,13 +17,14 @@ class UpdateOrderRestController(
         override val call: ApplicationCall,
         val orderIdRaw: String,
         val userId: Uuid,
+        val isAdmin: Boolean,
     ) : RestController.Context
 
     override suspend fun invoke(ctx: Context) {
         val orderId = Uuid.parse(ctx.orderIdRaw)
         val requestDTO = ctx.call.receive<OrderUpdateRequestDTO>()
 
-        when (val result = useCase.invoke(UpdateOrderUseCase.Context(orderId, ctx.userId, requestDTO))) {
+        when (val result = useCase.invoke(UpdateOrderUseCase.Context(orderId, ctx.userId, ctx.isAdmin, requestDTO))) {
             is UpdateOrderUseCase.Result.Success ->
                 ctx.call.respond(HttpStatusCode.OK, result.detail)
 

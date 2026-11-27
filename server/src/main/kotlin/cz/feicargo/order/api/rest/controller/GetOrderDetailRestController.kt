@@ -13,17 +13,22 @@ class GetOrderDetailRestController(
 
     data class Context(
         override val call: ApplicationCall,
-        val id: Uuid,
-        val includes: List<String>
+        val orderId: Uuid,
+        val userId: Uuid,
+        val isAdmin: Boolean,
+        val includes: List<String>,
     ) : RestController.Context
 
     override suspend fun invoke(ctx: Context) {
-        val result = useCase.invoke(GetOrderDetailUseCase.Context(ctx.id, ctx.includes))
+        when (val result = useCase.invoke(GetOrderDetailUseCase.Context(ctx.orderId, ctx.userId, ctx.isAdmin, ctx.includes))) {
+            is GetOrderDetailUseCase.Result.Success ->
+                ctx.call.respond(HttpStatusCode.OK, result.detail)
 
-        if (result.detail == null) {
-            ctx.call.respond(HttpStatusCode.NotFound, "Order was not found.")
-            return
+            is GetOrderDetailUseCase.Result.NotFound ->
+                ctx.call.respond(HttpStatusCode.NotFound, "Order not found.")
+
+            is GetOrderDetailUseCase.Result.Forbidden ->
+                ctx.call.respond(HttpStatusCode.Forbidden, "You do not have permission to view this order.")
         }
-        ctx.call.respond(HttpStatusCode.OK, result.detail)
     }
 }

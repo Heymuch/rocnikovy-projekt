@@ -6,7 +6,13 @@ ktor:
             - cz.feicargo.application.DatabaseKt.databaseModule
             - cz.feicargo.application.DependencyInjectionKt.dependencyInjectionModule
             - cz.feicargo.application.SerializationKt.serializationModule
+            - cz.feicargo.application.AuthenticationKt.authenticationModule
             - cz.feicargo.application.RoutingKt.routingModule
+
+keycloak:
+    issuer: "http://localhost:8180/realms/feicargo"
+    jwksUrl: "http://localhost:8180/realms/feicargo/protocol/openid-connect/certs"
+    audience: "feicargo-server"
 
 postgresql:
     server: localhost

@@ -15,12 +15,13 @@ class DeleteOrderRestController(
         override val call: ApplicationCall,
         val orderIdRaw: String,
         val userId: Uuid,
+        val isAdmin: Boolean,
     ) : RestController.Context
 
     override suspend fun invoke(ctx: Context) {
         val orderId = Uuid.parse(ctx.orderIdRaw)
 
-        when (val result = useCase.invoke(DeleteOrderUseCase.Context(orderId, ctx.userId))) {
+        when (val result = useCase.invoke(DeleteOrderUseCase.Context(orderId, ctx.userId, ctx.isAdmin))) {
             is DeleteOrderUseCase.Result.Success ->
                 ctx.call.respond(HttpStatusCode.NoContent)
 

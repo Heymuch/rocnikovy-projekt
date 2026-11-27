@@ -21,6 +21,7 @@ class UpdateOrderUseCase(
     data class Context(
         val orderId: Uuid,
         val userId: Uuid,
+        val isAdmin: Boolean,
         val requestDTO: OrderUpdateRequestDTO,
     ) : UseCase.Context
 
@@ -49,8 +50,7 @@ class UpdateOrderUseCase(
             orderRepository.findById(context.orderId)
         } ?: return Result.NotFound
 
-        // TODO: Po napojení Keycloaku povolit úpravu i pro uživatele s rolí ADMIN
-        if (existingOrder.userId != context.userId) {
+        if (!context.isAdmin && existingOrder.userId != context.userId) {
             return Result.Forbidden
         }
 
