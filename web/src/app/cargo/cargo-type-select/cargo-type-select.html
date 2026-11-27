@@ -9,7 +9,8 @@
     }
   </mat-select>
 
-  @if (control().invalid && (control().touched || control().dirty)) {
-    <mat-error>{{ control().errors | validationError | translate }}</mat-error>
+  @let err = control().errors | validationError;
+  @if (control().invalid && (control().touched || control().dirty) && err) {
+    <mat-error>{{ err.key | translate: err.params }}</mat-error>
   }
 </mat-form-field>

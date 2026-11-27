@@ -7,6 +7,12 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { CargoTypeSelect } from 'src/app/cargo/cargo-type-select/cargo-type-select';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MatTimepicker, MatTimepickerInput, MatTimepickerToggle } from '@angular/material/timepicker';
+import {
+  arrivalAfterDepartureValidator,
+  ArrivalErrorStateMatcher,
+  getMinDepartureDate,
+  minDepartureDateValidator
+} from 'src/app/order/order.validators';
 
 @Component({
   selector: 'app-new-order',
@@ -36,14 +42,22 @@ export class NewOrder {
   readonly #fb = inject(FormBuilder);
 
   protected readonly validation = ORDER_VALIDATION;
+  protected readonly minDate = getMinDepartureDate();
+  protected readonly arrivalErrorMatcher = new ArrivalErrorStateMatcher();
 
   readonly formGroup = this.#fb.group({
     name: this.#fb.control<string | null>(null, [
       Validators.required,
       Validators.maxLength(this.validation.name.maxLength),
     ]),
-    preferredDeparture: this.#fb.control<Date | null>(null, [Validators.required]),
-    preferredArrival: this.#fb.control<Date | null>(null, [Validators.required]),
+    preferredDeparture: this.#fb.control<Date | null>(null, [
+      Validators.required,
+      minDepartureDateValidator(),
+    ]),
+    preferredArrival: this.#fb.control<Date | null>(null, [
+      Validators.required,
+      minDepartureDateValidator(),
+    ]),
     cargo: this.#fb.group({
       cargoTypeId: this.#fb.control<number | null>(null, [Validators.required]),
       volume: this.#fb.control<number | null>(null, [
@@ -57,7 +71,9 @@ export class NewOrder {
         Validators.max(this.validation.cargo.weight.max),
       ]),
     }),
-  });
+  },
+    { validators: [arrivalAfterDepartureValidator] },
+    );
 
   get name(): FormControl<string | null> {
     return this.formGroup.controls.name;
@@ -81,5 +97,13 @@ export class NewOrder {
 
   get weight(): FormControl<number | null> {
     return this.formGroup.controls.cargo.controls.weight;
+  }
+
+  protected get minArrivalDate(): Date {
+    const departure = this.preferredDeparture.value;
+    if (departure instanceof Date && departure.getTime() > this.minDate.getTime()) {
+      return departure;
+    }
+    return this.minDate;
   }
 }

@@ -7,7 +7,7 @@ import {
 
 import { OrdersTable } from 'src/app/order/orders-table/orders-table';
 import { TranslatePipe } from '@ngx-translate/core';
-import { OrdersOverviewStore } from 'src/app/order/orders-overview.store';
+import { OrdersOverviewStore } from 'src/app/order/my-orders/orders-overview.store';
 import {
   MatPaginatorModule,
   PageEvent

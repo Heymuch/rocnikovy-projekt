@@ -8,12 +8,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/list';
 
-import { OrderStatus } from 'src/app/order/order-status';
+import { OrderStatus } from 'src/app/order/order-status/order-status';
 import { DaytimeDisplayPipe } from 'src/app/commons/daytime-display.pipe';
-import { OrderStatusDisplayPipe } from 'src/app/order/order-status-display.pipe';
+import { OrderStatusDisplayPipe } from 'src/app/order/order-status/order-status-display.pipe';
 import { TranslatePipe } from '@ngx-translate/core';
 
-import { OrderDetailStore } from 'src/app/order/order-detail.store';
+import { OrderDetailStore } from 'src/app/order/order-detail/order-detail.store';
 import {RouteMap} from 'src/app/commons/route-map/route-map';
 
 @Component({

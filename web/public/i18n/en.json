@@ -103,8 +103,16 @@
     }
   },
   "validation": {
-    "invalid": "Invalid value",
-    "required": "Field is required."
+    "required": "This field is required.",
+    "maxLength": "Maximum length is {{ max }} characters.",
+    "min": "Minimum value is {{ min }}.",
+    "max": "Maximum value is {{ max }}.",
+    "invalidDate": "Please enter a valid date.",
+    "invalidTime": "Please enter a valid time.",
+    "minDepartureDate": "Date must be at least {{ days }} days in advance.",
+    "arrivalBeforeDeparture": "Arrival must be after departure.",
+    "dateTooEarly": "Selected date is too early.",
+    "invalid": "Invalid value."
   },
   "routeMap": {
     "title": "Route Map",

@@ -2,6 +2,9 @@ export const ORDER_VALIDATION = {
   name: {
     maxLength: 100,
   },
+  dates: {
+    minDaysBeforeDeparture: 7,
+  },
   cargo: {
     volume: {
       min: 1,

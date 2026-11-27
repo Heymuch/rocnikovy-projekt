@@ -1,5 +1,5 @@
 // todo: smazat až budou
-import {OrderStatus} from 'src/app/order/order-status';
+import {OrderStatus} from 'src/app/order/order-status/order-status';
 import {RouteDTO} from 'src/app/order/order';
 
 export type Order = {
