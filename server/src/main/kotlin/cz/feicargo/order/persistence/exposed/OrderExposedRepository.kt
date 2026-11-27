@@ -2,6 +2,7 @@ package cz.feicargo.order.persistence.exposed
 
 import cz.feicargo.order.entity.Order
 import cz.feicargo.order.persistence.OrderRepository
+import cz.feicargo.order.entity.OrderStatusHistory
 import kotlinx.coroutines.flow.associateBy
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
@@ -205,4 +206,12 @@ class OrderExposedRepository : OrderRepository {
         val deletedCount = OrderTable.deleteWhere { OrderTable.id eq id }
         return deletedCount > 0
     }
+
+    override suspend fun selectStatusHistoryByOrderId(orderId: Uuid): List<OrderStatusHistory> =
+        OrderStatusHistoryTable
+            .select(OrderStatusHistoryTable.columns)
+            .where { OrderStatusHistoryTable.orderId eq orderId }
+            .orderBy(OrderStatusHistoryTable.changedAt to SortOrder.ASC)
+            .map(ResultRow::toOrderStatusHistory)
+            .toList()
 }

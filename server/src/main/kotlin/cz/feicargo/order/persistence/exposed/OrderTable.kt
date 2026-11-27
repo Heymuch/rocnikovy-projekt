@@ -3,6 +3,7 @@ package cz.feicargo.order.persistence.exposed
 import cz.feicargo.order.entity.Order
 import cz.feicargo.order.entity.OrderCargo
 import cz.feicargo.order.entity.OrderRoute
+import cz.feicargo.order.entity.OrderStatusHistory
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.dao.id.UuidTable
 import org.jetbrains.exposed.v1.javatime.timestamp
@@ -41,7 +42,15 @@ object OrderCargoTable : UuidTable("order_cargoes") {
 object OrderStatusHistoryTable : UuidTable("order_status_history") {
     val orderId = uuid("order_id")
     val status = text("status")
+    val changedAt = timestamp("changed_at")
 }
+
+fun ResultRow.toOrderStatusHistory() = OrderStatusHistory(
+    id = this[OrderStatusHistoryTable.id].value.let(OrderStatusHistory::Id),
+    orderId = this[OrderStatusHistoryTable.orderId],
+    status = this[OrderStatusHistoryTable.status],
+    changedAt = this[OrderStatusHistoryTable.changedAt],
+)
 
 fun ResultRow.toOrderRoute() =
     OrderRoute(

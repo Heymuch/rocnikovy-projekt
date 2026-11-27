@@ -47,6 +47,7 @@ class GetOrderDetailUseCase(
     override suspend fun invoke(context: Context): Result {
         val response = transactionManager.newTransaction {
             val order = orderRepository.findById(context.orderId) ?: return@newTransaction null
+            val statusHistory = orderRepository.selectStatusHistoryByOrderId(context.orderId)
 
             val routeLengthKm = routeService.calculateRouteLengthKm(order.route?.route.orEmpty())
 
@@ -99,6 +100,7 @@ class GetOrderDetailUseCase(
             OrderDetailResponseDTO(
                 order = order.toDTO(),
                 routeLengthKm = routeLengthKm,
+                statusHistory = statusHistory.map { it.toDTO() },
                 extend = extendDTO
             )
         }

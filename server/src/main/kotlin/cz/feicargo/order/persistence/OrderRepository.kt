@@ -1,6 +1,7 @@
 package cz.feicargo.order.persistence
 
 import cz.feicargo.order.entity.Order
+import cz.feicargo.order.entity.OrderStatusHistory
 import kotlin.uuid.Uuid
 
 interface OrderRepository {
@@ -15,4 +16,5 @@ interface OrderRepository {
     suspend fun create(order: Order): Order
     suspend fun update(order: Order): Order
     suspend fun delete(id: Uuid): Boolean
+    suspend fun selectStatusHistoryByOrderId(orderId: Uuid): List<OrderStatusHistory>
 }
