@@ -6,8 +6,10 @@
     <p>{{ 'newOrder.description' | translate }}</p>
   </header>
 
+  @if (store.step() === 'form') {
   <form
     [formGroup]="formGroup"
+    (ngSubmit)="calculate()"
     class="form-layout form-layout--two-columns">
 
     <!-- Karta 1: Informace o objednávce -->
@@ -375,22 +377,22 @@
     <!-- Tlačítka -->
     <div class="form-actions form-full-width">
 
-      <!-- TODO: Napojit zrušení nové objednávky -->
       <button
         type="button"
-        class="btn-primary btn-cancel">
+        class="btn-primary btn-cancel"
+        (click)="cancel()"
+        [disabled]="store.isCalculating()">
 
         {{ 'newOrder.actions.cancel' | translate }}
 
       </button>
 
-      <!-- TODO: Napojit další krok a výpočet ceny -->
       <button
-        type="button"
+        type="submit"
         class="btn-primary"
-        [disabled]="formGroup.invalid">
+        [disabled]="formGroup.invalid || store.isCalculating()">
 
-        {{ 'newOrder.actions.next' | translate }}
+        {{ (store.isCalculating() ? 'loading' : 'newOrder.actions.next') | translate }}
 
         <mat-icon aria-hidden="true">
           arrow_forward
@@ -401,5 +403,56 @@
     </div>
 
   </form>
+  } @else if (store.calculation(); as calc) {
+    <!-- Krok 2: Souhrn a potvrzení objednávky (bez stylování) -->
+    <section>
+      <h2>{{ 'newOrder.summaryTitle' | translate }}</h2>
+
+      <dl>
+        <dt>{{ 'orderDetail.cargoInfo.price' | translate }}</dt>
+        <dd>{{ calc.totalPrice | number: '1.2-2' }} Kč</dd>
+
+        <dt>{{ 'orderDetail.routeLogistics.distance' | translate }}</dt>
+        <dd>{{ calc.routeLengthKm | number: '1.2-2' }} km</dd>
+
+        <dt>{{ 'newOrder.wagonCount' | translate }}</dt>
+        <dd>{{ calc.wagonCount }}</dd>
+
+        <dt>{{ 'newOrder.wagonType' | translate }}</dt>
+        <dd>{{ calc.wagon.name }}</dd>
+
+        <dt>{{ 'orderDetail.cargoInfo.cargoType' | translate }}</dt>
+        <dd>{{ 'cargoTypes.' + calc.cargoType.name | translate }}</dd>
+      </dl>
+
+      <app-route-map [routePoints]="calc.routePoints" />
+
+      @if (store.error(); as errorKey) {
+        <p>{{ errorKey | translate }}</p>
+      }
+
+      <div>
+        <button
+          type="button"
+          class="btn-primary btn-cancel"
+          (click)="store.backToForm()"
+          [disabled]="store.isSubmitting()">
+
+          {{ 'newOrder.actions.back' | translate }}
+
+        </button>
+
+        <button
+          type="button"
+          class="btn-primary"
+          (click)="submitOrder()"
+          [disabled]="store.isSubmitting()">
+
+          {{ (store.isSubmitting() ? 'loading' : 'newOrder.actions.submit') | translate }}
+
+        </button>
+      </div>
+    </section>
+  }
 
 </div>

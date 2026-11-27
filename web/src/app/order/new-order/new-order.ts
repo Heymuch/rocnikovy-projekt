@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatError, MatFormField, MatHint, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ORDER_VALIDATION } from 'src/app/order/order.validation';
@@ -17,6 +17,11 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { NewOrderStore } from 'src/app/order/new-order/new-order.store';
+import { Router } from '@angular/router';
+import { OrderCalculateRequestDTO, OrderCreateRequestDTO } from 'src/app/order/order';
+import { RouteMap } from 'src/app/commons/route-map/route-map';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-order',
@@ -40,14 +45,20 @@ import { MatDividerModule } from '@angular/material/divider';
     MatTimepicker,
     MatCardModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    RouteMap,
+    DecimalPipe
   ],
+  providers: [NewOrderStore],
   templateUrl: './new-order.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './new-order.scss',
 })
 export class NewOrder {
   readonly #fb = inject(FormBuilder);
+  readonly #router = inject(Router);
+
+  readonly store = inject(NewOrderStore);
 
   protected readonly validation = ORDER_VALIDATION;
   protected readonly minDate = getMinDepartureDate();
@@ -113,6 +124,14 @@ export class NewOrder {
     return this.formGroup.controls.cargo.controls.weight;
   }
 
+  get stationFrom(): FormControl<string | null> {
+    return this.formGroup.controls.stationFrom;
+  }
+
+  get stationTo(): FormControl<string | null> {
+    return this.formGroup.controls.stationTo;
+  }
+
   protected get minArrivalDate(): Date {
     const departure = this.preferredDeparture.value;
     if (departure instanceof Date && departure.getTime() > this.minDate.getTime()) {
@@ -121,11 +140,49 @@ export class NewOrder {
     return this.minDate;
   }
 
-  get stationFrom(): FormControl<string | null> {
-    return this.formGroup.controls.stationFrom;
+  protected cancel(): void {
+    this.#router.navigate(['/my-orders']);
   }
 
-  get stationTo(): FormControl<string | null> {
-    return this.formGroup.controls.stationTo;
+  protected calculate(): void {
+    if (this.formGroup.invalid || this.store.isCalculating()) {
+      this.formGroup.markAllAsTouched();
+      return;
+    }
+
+    const payload: OrderCalculateRequestDTO = {
+      stationFrom: this.stationFrom.value!,
+      stationTo: this.stationTo.value!,
+      cargoTypeId: this.cargoTypeId.value!,
+      volume: this.volume.value!,
+      weight: this.weight.value!,
+    };
+
+    this.store.calculateOrder(payload);
   }
+
+  protected submitOrder(): void {
+    if (this.formGroup.invalid || this.store.isSubmitting()) {
+      return;
+    }
+
+    const payload: OrderCreateRequestDTO = {
+      name: this.name.value!.trim(),
+      preferredDeparture: this.preferredDeparture.value!.toISOString(),
+      preferredArrival: this.preferredArrival.value!.toISOString(),
+      route: {
+        stationFrom: this.stationFrom.value!,
+        stationTo: this.stationTo.value!,
+      },
+      cargo: {
+        cargoTypeId: this.cargoTypeId.value!,
+        volume: this.volume.value!,
+        weight: this.weight.value!,
+      },
+    };
+
+    this.store.createOrder(payload);
+  }
+
+
 }

@@ -3,8 +3,9 @@ import {ApiService} from 'src/app/commons/api.service'
 import {Observable, retry} from 'rxjs'
 import {
   OrderOverviewResponseDTO,
-  OrderDetailResponseDTO
-} from 'src/app/order/order'
+  OrderDetailResponseDTO, OrderCalculateRequestDTO, OrderCalculateResponseDTO, OrderCreateRequestDTO,
+  OrderCreateResponseDTO
+} from 'src/app/order/order';
 import {HttpHeaders, HttpParams} from '@angular/common/http'
 
 export type ApiIncludes =
@@ -84,5 +85,26 @@ export class OrdersService extends ApiService {
     return this.http.delete<void>(
       `${this.endpoint}/${id}`
     );
+  }
+
+  calculateOrder(
+    payload: OrderCalculateRequestDTO,
+    includes: ApiIncludes[] = ['railwayNode'],
+  ): Observable<OrderCalculateResponseDTO> {
+    let headers = new HttpHeaders();
+
+    if (includes.length > 0) {
+      headers = headers.set('X-Include', includes.join(','));
+    }
+
+    return this.http.post<OrderCalculateResponseDTO>(
+      `${this.endpoint}/calculate`,
+      payload,
+      { headers },
+    );
+  }
+
+  createOrder(payload: OrderCreateRequestDTO): Observable<OrderCreateResponseDTO> {
+    return this.http.post<OrderCreateResponseDTO>(this.endpoint, payload);
   }
 }
