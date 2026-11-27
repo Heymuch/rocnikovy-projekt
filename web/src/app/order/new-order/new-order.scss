@@ -1,0 +1,60 @@
+.new-order-page {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+/* Departure and arrival stations */
+
+.station-route {
+  display: flex;
+  flex-direction: column;
+}
+
+.station-route-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+}
+
+.station-route-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 56px;
+
+  mat-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+}
+
+.departure-marker {
+  color: #32834f;
+}
+
+.arrival-marker {
+  color: var(--md-sys-color-error);
+}
+
+.station-route-connector {
+  width: 2px;
+  height: 24px;
+  margin: -12px 0 12px 13px;
+
+  border-left: 2px dashed
+  var(--md-sys-color-outline-variant);
+}
+
+@media (max-width: 600px) {
+  .new-order-page {
+    padding-top: 1.5rem;
+  }
+
+  .station-route-row {
+    gap: 0.5rem;
+  }
+}

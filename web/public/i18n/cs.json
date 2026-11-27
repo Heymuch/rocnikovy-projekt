@@ -138,5 +138,22 @@
     "search": "Vyhledat stanici...",
     "noResults": "Nebyly nalezeny žádné stanice.",
     "loadMore": "Načíst další záznamy"
+  },
+  "volume": "Objem",
+  "weight": "Hmotnost",
+  "preferredDepartureDate": "Datum",
+  "preferredDepartureTime": "Čas",
+  "preferredArrivalDate": "Datum",
+  "preferredArrivalTime": "Čas",
+  "newOrder": {
+    "description": "Vyplňte údaje o požadované přepravě zboží.",
+    "orderName": "Název objednávky",
+    "routeTitle": "Trasa přepravy",
+    "datesTitle": "Termíny přepravy",
+    "departureInfo": "Odjezd je možné naplánovat nejdříve za {{ days }} dní.",
+    "actions": {
+      "cancel": "Zrušit",
+      "next": "Další"
+    }
   }
 }

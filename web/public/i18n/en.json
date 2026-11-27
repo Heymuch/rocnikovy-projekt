@@ -138,5 +138,22 @@
     "search": "Search for a station...",
     "noResults": "No stations found.",
     "loadMore": "Load more records"
+  },
+  "volume": "Volume",
+  "weight": "Weight",
+  "preferredDepartureDate": "Date",
+  "preferredDepartureTime": "Time",
+  "preferredArrivalDate": "Date",
+  "preferredArrivalTime": "Time",
+  "newOrder": {
+    "description": "Enter the details of your requested freight transport.",
+    "orderName": "Order name",
+    "routeTitle": "Transport route",
+    "datesTitle": "Transport dates",
+    "departureInfo": "Departure can be scheduled at least {{ days }} days in advance.",
+    "actions": {
+      "cancel": "Cancel",
+      "next": "Next"
+    }
   }
 }

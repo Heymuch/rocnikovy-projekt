@@ -741,6 +741,147 @@ app-order-status-history {
   &.btn-cancel { border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface-variant); }
   &.btn-cancel:hover:not(:disabled) { background: var(--md-sys-color-surface-container-highest); color: var(--md-sys-color-on-surface); opacity: 1; transform: none; }
   &.btn-cancel:disabled { border-color: var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface-container-low); opacity: 0.7; }
+
+  /* Shared form layout */
+
+  .form-page-header {
+    margin-bottom: 2rem;
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin: 0;
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 0.95rem;
+    }
+  }
+
+  .form-layout {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .form-card {
+    min-width: 0;
+  }
+
+  mat-card.data-card.form-card {
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+
+      mat-icon {
+        flex-shrink: 0;
+        color: var(--md-sys-color-primary);
+      }
+    }
+  }
+
+  .form-divider {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1rem;
+  }
+
+  .form-group-title {
+    margin: 0 0 0.75rem;
+    color: var(--md-sys-color-on-surface);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  /* Shared Material form fields */
+
+  .form-layout {
+    @include mat.form-field-overrides((
+      outlined-container-shape: var(--app-radius-sm),
+      outlined-outline-color: var(--md-sys-color-outline-variant),
+      outlined-hover-outline-color: var(--md-sys-color-primary),
+      outlined-focus-outline-color: var(--md-sys-color-primary),
+      outlined-focus-label-text-color: var(--md-sys-color-primary)
+    ));
+
+    mat-form-field {
+      width: 100%;
+      min-width: 0;
+    }
+
+    app-cargo-type-select {
+      display: block;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .mat-mdc-form-field-icon-suffix {
+      color: var(--md-sys-color-primary);
+    }
+  }
+
+  /* Form information message */
+
+  .form-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    margin: 0.5rem 0 0;
+
+    font-size: 0.875rem;
+    color: var(--md-sys-color-on-surface-variant);
+
+    mat-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+    }
+  }
+
+  /* Form actions */
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* Responsive forms */
+
+  @media (max-width: 600px) {
+    .form-layout {
+      gap: 1.25rem;
+    }
+
+    .form-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .form-actions {
+      justify-content: stretch;
+
+      button {
+        flex: 1;
+      }
+    }
+  }
+
 }
 
 /* =========================================================
@@ -802,4 +943,248 @@ app-order-status-history {
   mat-card.data-card .data-row { gap: 0.75rem; }
   .route-header { font-size: 1rem; }
   .route-header mat-icon { margin-inline: 0.15rem; }
+}
+
+/* =========================================================
+   11. Shared form layout and controls
+   ========================================================= */
+
+.form-page-header {
+  margin-bottom: 2rem;
+
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.95rem;
+  }
+}
+
+/* Form layout */
+
+.form-layout {
+  display: grid;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.form-layout--two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-full-width {
+  grid-column: 1 / -1;
+}
+
+/* Form cards */
+
+mat-card.data-card.form-card {
+  min-width: 0;
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    mat-icon {
+      flex-shrink: 0;
+      color: var(--md-sys-color-primary);
+    }
+  }
+}
+
+.form-divider {
+  margin-bottom: 1.5rem !important;
+  border-top-color: var(--md-sys-color-outline-variant);
+}
+
+/* Form fields layout */
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1rem;
+}
+
+.form-row--date-time {
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.form-group {
+  min-width: 0;
+}
+
+.form-group-title {
+  margin: 0 0 0.75rem;
+  color: var(--md-sys-color-on-surface);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Material form fields */
+
+.form-layout mat-form-field {
+  width: 100%;
+  min-width: 0;
+
+  @include mat.form-field-overrides((
+    outlined-container-shape: var(--app-radius-sm),
+    outlined-outline-color: var(--md-sys-color-outline-variant),
+    outlined-hover-outline-color: var(--md-sys-color-primary),
+    outlined-focus-outline-color: var(--md-sys-color-primary),
+    outlined-focus-label-text-color: var(--md-sys-color-primary),
+    outlined-error-outline-color: var(--md-sys-color-error),
+    error-text-color: var(--md-sys-color-error)
+  ));
+
+  .mat-mdc-form-field-icon-suffix {
+    color: var(--md-sys-color-primary);
+  }
+}
+
+.form-layout app-cargo-type-select,
+.form-layout app-station-combobox {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Form information message */
+
+.form-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  margin: 0.75rem 0 0;
+
+  font-size: 0.875rem;
+  color: var(--md-sys-color-on-surface-variant);
+
+  mat-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: var(--md-sys-color-primary);
+  }
+}
+
+/* Form actions */
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Responsive forms */
+
+@media (max-width: 900px) {
+  .form-layout--two-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .form-row--responsive {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .form-layout {
+    gap: 1.25rem;
+  }
+
+  .form-page-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-row,
+  .form-row--date-time {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .form-actions {
+    button {
+      flex: 1;
+    }
+  }
+}
+
+/* =========================================================
+   12. Shared datepicker and timepicker
+   ========================================================= */
+
+:root {
+  @include mat.datepicker-overrides((
+    calendar-container-background-color: #ffffff,
+    calendar-container-shape: var(--app-radius-md),
+
+    calendar-date-selected-state-background-color: var(--md-sys-color-primary),
+    calendar-date-selected-state-text-color: #ffffff,
+
+    calendar-date-today-outline-color: var(--md-sys-color-primary),
+    calendar-date-today-selected-state-outline-color: #ffffff,
+
+    calendar-date-hover-state-background-color: var(--md-sys-color-surface-container-high),
+    calendar-date-focus-state-background-color: var(--md-sys-color-secondary-container),
+
+    calendar-date-disabled-state-text-color: #b0b8bc
+  ));
+
+  @include mat.timepicker-overrides((
+    container-background-color: #ffffff,
+    container-shape: var(--app-radius-sm)
+  ));
+}
+
+.mat-datepicker-content,
+.mat-timepicker-panel {
+  background-color: #ffffff !important;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--app-radius-md) !important;
+  box-shadow: var(--app-shadow-card);
+}
+
+.mat-timepicker-panel {
+  .mat-mdc-option:hover {
+    background-color: var(--md-sys-color-surface-container-high);
+  }
+
+  /* Disabled calendar dates */
+
+  .mat-calendar-body-disabled {
+    cursor: not-allowed !important;
+
+    .mat-calendar-body-cell-content {
+      color: #b0b8bc !important;
+      background-color: transparent !important;
+    }
+  }
+
+  .mat-mdc-option[aria-selected="true"] {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-primary);
+  }
+}
+
+/* =========================================================
+   13. Disable Material tooltips
+   ========================================================= */
+
+.mat-mdc-tooltip {
+  display: none !important;
 }

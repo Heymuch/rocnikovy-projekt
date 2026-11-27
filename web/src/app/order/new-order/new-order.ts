@@ -14,6 +14,9 @@ import {
   getMinDepartureDate,
   minDepartureDateValidator
 } from 'src/app/order/order.validators';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-new-order',
@@ -34,7 +37,10 @@ import {
     MatDatepicker,
     MatTimepickerInput,
     MatTimepickerToggle,
-    MatTimepicker
+    MatTimepicker,
+    MatCardModule,
+    MatIconModule,
+    MatDividerModule
   ],
   templateUrl: './new-order.html',
   changeDetection: ChangeDetectionStrategy.Eager,
