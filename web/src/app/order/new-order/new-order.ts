@@ -148,14 +148,15 @@ export class NewOrder {
   get stationTo(): FormControl<string | null> {
     return this.formGroup.controls.stationTo;
   }
-  // TODO
-  // protected get minArrivalDate(): Date {
-  //   const departure = this.preferredDeparture.value;
-  //   if (departure instanceof Date && departure.getTime() > this.minDate.getTime()) {
-  //     return departure;
-  //   }
-  //   return this.minDate;
-  // }
+
+
+  protected get minArrivalDate(): Date {
+    const departure = this.preferredDepartureDate.value;
+    if (departure instanceof Date && departure.getTime() > this.minDate.getTime()) {
+      return departure;
+    }
+    return this.minDate;
+  }
 
   protected cancel(): void {
     this.#router.navigate(['/my-orders']);

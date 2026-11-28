@@ -45,10 +45,24 @@ export function minDepartureDateValidator(
 export const arrivalAfterDepartureValidator: ValidatorFn = (
   group: AbstractControl,
 ): ValidationErrors | null => {
-  const departure = group.get('preferredDeparture')?.value;
-  const arrival = group.get('preferredArrival')?.value;
+  const depDate = group.get('preferredDeparture.date')?.value;
+  const depTime = group.get('preferredDeparture.time')?.value;
+  const arrDate = group.get('preferredArrival.date')?.value;
+  const arrTime = group.get('preferredArrival.time')?.value;
 
-  if (!(departure instanceof Date) || !(arrival instanceof Date)) {
+  if (
+    !(depDate instanceof Date) ||
+    !(depTime instanceof Date) ||
+    !(arrDate instanceof Date) ||
+    !(arrTime instanceof Date)
+  ) {
+    return null;
+  }
+
+  const departure = combineDateAndTime(depDate, depTime);
+  const arrival = combineDateAndTime(arrDate, arrTime);
+
+  if (!departure || !arrival) {
     return null;
   }
 
@@ -56,7 +70,7 @@ export const arrivalAfterDepartureValidator: ValidatorFn = (
 };
 
 /**
- * Zobrazí chybový stav na poli příjezdu i v případě křížové chyby na FormGroup.
+ * Zobrazí chybový stav na polích příjezdu i v případě křížové chyby na hlavní FormGroup.
  */
 export class ArrivalErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: AbstractControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -64,12 +78,11 @@ export class ArrivalErrorStateMatcher implements ErrorStateMatcher {
     const isInteracted = (control?.dirty || control?.touched || isSubmitted);
     const hasControlError = !!(control?.invalid && isInteracted);
     const hasGroupError = !!(
-      control?.parent?.hasError('arrivalBeforeDeparture') && isInteracted
+      control?.parent?.parent?.hasError('arrivalBeforeDeparture') && isInteracted
     );
     return hasControlError || hasGroupError;
   }
 }
-
 
 export const differentStationsValidator: ValidatorFn = (
   group: AbstractControl,

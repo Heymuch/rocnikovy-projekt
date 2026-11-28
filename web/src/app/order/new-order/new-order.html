@@ -304,21 +304,14 @@
                   {{ 'preferredArrivalDate' | translate }}
                 </mat-label>
 
-<!--                TODO: ZMĚNIT!!!-->
-<!--                <input-->
-<!--                  matInput-->
-<!--                  [matDatepicker]="arrivalDatePicker"-->
-<!--                  [formControl]="preferredArrivalDate"-->
-<!--                  [min]="minArrivalDate"-->
-<!--                  [errorStateMatcher]="arrivalErrorMatcher"-->
-<!--                />-->
-
                 <input
                   matInput
                   [matDatepicker]="arrivalDatePicker"
                   [formControl]="preferredArrivalDate"
+                  [min]="minArrivalDate"
                   [errorStateMatcher]="arrivalErrorMatcher"
                 />
+
                 <mat-datepicker-toggle
                   matIconSuffix
                   [for]="arrivalDatePicker"
@@ -404,6 +397,10 @@
       </mat-card-content>
 
     </mat-card>
+
+    @if (store.error(); as errorKey) {
+      <p class="form-full-width">{{ errorKey | translate }}</p>
+    }
 
     <!-- Tlačítka -->
     <div class="form-actions form-full-width">
