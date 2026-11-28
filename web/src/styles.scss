@@ -367,10 +367,14 @@ app-station-combobox {
 
   input {
     cursor: pointer;
+    caret-color: transparent !important;
+    user-select: none;
+    pointer-events: none;
   }
 
   mat-icon {
     color: var(--md-sys-color-primary);
+    cursor: pointer;
   }
 }
 

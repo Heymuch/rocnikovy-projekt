@@ -77,6 +77,22 @@ export class StationCombobox {
 
   }
 
+  protected onOutsideClick(
+    event: MouseEvent,
+    origin: HTMLElement
+  ): void {
+
+    if (
+      event.target instanceof Node &&
+      origin.contains(event.target)
+    ) {
+      return;
+    }
+
+    this.closeDropdown();
+
+  }
+
   protected onSearchChange(event: Event): void {
 
     const query = (event.target as HTMLInputElement).value;
