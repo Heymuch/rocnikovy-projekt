@@ -15,7 +15,7 @@ alter table "railway_nodes"
 -- Pokud cesta neexistuje, nevrací žádný řádek; pro "p_from" = "p_to" vrací jeden uzel.
 create or replace function "find_shortest_path"(
     "p_from" uuid,
-    "p_to" uuid
+    "p_to" uuid1_
 ) returns table (
     "seq"     integer,
     "node_id" uuid

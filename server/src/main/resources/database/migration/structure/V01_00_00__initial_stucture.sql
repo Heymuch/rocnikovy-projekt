@@ -66,6 +66,7 @@ create table "wagons" (
     "gross_weight_limit"  double precision not null, -- t
     "volume_capacity"     double precision not null, -- m3
     "rent_price"          double precision not null, -- Kč/km
+    "fixed_rent_price"    double precision not null, -- fixní cena za pronájem 1 vagónu (Kč)
     primary key ( "id" )
 );
 
@@ -74,6 +75,7 @@ create table "locomotives" (
     "name"              text not null,
     "max_towing_weight" double precision not null, -- t
     "max_speed"         double precision not null, -- km/h
+    "fixed_rent_price"  double precision not null, -- fixní cena za pronájem lokomotivy (Kč)
     primary key ( "id" )
 );
 
@@ -106,7 +108,8 @@ create table "orders" (
     "name"                text not null,
     "status"              text not null,
     "code"                text not null,
-    "total_price"         numeric(12, 2) not null, -- Kč
+    "total_price"         numeric(12, 2) not null, -- celková cena v Kč (včetně locomotive_price)
+    "locomotive_price"    numeric(12, 2) not null, -- započítaná částka za lokomotivu v Kč
     "load_date"           timestamp with time zone,
     "unload_date"         timestamp with time zone,
     "preferred_departure" timestamp with time zone not null,
