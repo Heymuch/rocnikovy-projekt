@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { MatError, MatFormField, MatHint, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ORDER_VALIDATION } from 'src/app/order/order.validation';
@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { OrderCalculateRequestDTO, OrderCreateRequestDTO } from 'src/app/order/order';
 import { RouteMap } from 'src/app/commons/route-map/route-map';
 import { DecimalPipe } from '@angular/common';
+import { StationDTO } from 'src/app/station/station';
 
 @Component({
   selector: 'app-new-order',
@@ -63,6 +64,8 @@ export class NewOrder {
   protected readonly validation = ORDER_VALIDATION;
   protected readonly minDate = getMinDepartureDate();
   protected readonly arrivalErrorMatcher = new ArrivalErrorStateMatcher();
+  protected readonly selectedStationFrom = signal<StationDTO | null>(null);
+  protected readonly selectedStationTo = signal<StationDTO | null>(null);
 
   readonly formGroup = this.#fb.group({
     name: this.#fb.control<string | null>(null, [

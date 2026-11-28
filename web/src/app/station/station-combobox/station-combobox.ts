@@ -3,7 +3,7 @@ import {
   inject,
   input,
   signal,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy, model
 } from '@angular/core';
 
 import { FormControl, Validators } from '@angular/forms';
@@ -44,8 +44,7 @@ export class StationCombobox {
 
   protected readonly isOpen = signal(false);
   protected readonly searchQuery = signal('');
-
-  protected readonly selectedStation = signal<StationDTO | null>(null);
+  readonly selectedStation = model<StationDTO | null>(null);
 
   protected toggleDropdown(): void {
 

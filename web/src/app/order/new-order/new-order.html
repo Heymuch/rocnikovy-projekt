@@ -153,6 +153,7 @@
 
             <app-station-combobox
               [control]="stationFrom"
+              [(selectedStation)]="selectedStationFrom"
               label="stationCombobox.stationFrom"
             />
 
@@ -175,6 +176,7 @@
 
             <app-station-combobox
               [control]="stationTo"
+              [(selectedStation)]="selectedStationTo"
               label="stationCombobox.stationTo"
             />
 
@@ -454,7 +456,11 @@
         <dd>{{ 'cargoTypes.' + calc.cargoType.name | translate }}</dd>
       </dl>
 
-      <app-route-map [routePoints]="calc.routePoints" />
+    <app-route-map
+      [routePoints]="calc.routePoints"
+      [stationFrom]="selectedStationFrom()?.name ?? ''"
+      [stationTo]="selectedStationTo()?.name ?? ''"
+    />
 
       @if (store.error(); as errorKey) {
         <p>{{ errorKey | translate }}</p>
