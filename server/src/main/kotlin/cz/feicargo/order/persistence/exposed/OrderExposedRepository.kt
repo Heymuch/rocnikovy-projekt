@@ -3,6 +3,7 @@ package cz.feicargo.order.persistence.exposed
 import cz.feicargo.order.entity.Order
 import cz.feicargo.order.persistence.OrderRepository
 import cz.feicargo.order.entity.OrderStatusHistory
+import cz.feicargo.order.persistence.UserOrderStats
 import kotlinx.coroutines.flow.associateBy
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
@@ -16,6 +17,7 @@ import org.jetbrains.exposed.v1.r2dbc.insert
 import org.jetbrains.exposed.v1.r2dbc.insertAndGetId
 import org.jetbrains.exposed.v1.r2dbc.select
 import org.jetbrains.exposed.v1.r2dbc.update
+import java.math.BigDecimal
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid
 
@@ -216,4 +218,36 @@ class OrderExposedRepository : OrderRepository {
             .orderBy(OrderStatusHistoryTable.changedAt to SortOrder.ASC)
             .map(ResultRow::toOrderStatusHistory)
             .toList()
+
+    override suspend fun selectUserStats(userIds: List<Uuid>): Map<Uuid, UserOrderStats> {
+        if (userIds.isEmpty()) return emptyMap()
+
+        val orderRows = OrderTable
+            .select(OrderTable.id, OrderTable.userId, OrderTable.totalPrice)
+            .where { OrderTable.userId inList userIds }
+            .toList()
+
+        if (orderRows.isEmpty()) return emptyMap()
+
+        val orderIds = orderRows.map { it[OrderTable.id].value }
+
+        val lastChangeByOrderId = OrderStatusHistoryTable
+            .select(OrderStatusHistoryTable.orderId, OrderStatusHistoryTable.changedAt)
+            .where { OrderStatusHistoryTable.orderId inList orderIds }
+            .toList()
+            .groupBy { it[OrderStatusHistoryTable.orderId] }
+            .mapValues { (_, rows) -> rows.maxOfOrNull { it[OrderStatusHistoryTable.changedAt] } }
+
+        return orderRows
+            .groupBy { it[OrderTable.userId] }
+            .mapValues { (_, rows) ->
+                UserOrderStats(
+                    ordersCount = rows.size,
+                    totalSpent = rows.fold(BigDecimal.ZERO) { acc, row -> acc + row[OrderTable.totalPrice] },
+                    lastActivityAt = rows
+                        .mapNotNull { lastChangeByOrderId[it[OrderTable.id].value] }
+                        .maxOrNull(),
+                )
+            }
+    }
 }

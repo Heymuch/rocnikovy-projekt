@@ -10,6 +10,8 @@ import cz.feicargo.order.api.rest.controller.UpdateOrderRestController
 import cz.feicargo.station.api.rest.controller.SearchForStationsRestController
 import cz.feicargo.trainset.api.rest.controller.GetTrainSetDetailRestController
 import cz.feicargo.trainset.api.rest.controller.SearchTrainSetsRestController
+import cz.feicargo.user.api.rest.controller.BlockUserRestController
+import cz.feicargo.user.api.rest.controller.SearchUsersRestController
 import io.ktor.server.plugins.di.DependencyRegistry
 
 fun DependencyRegistry.controllers() {
@@ -69,6 +71,18 @@ fun DependencyRegistry.controllers() {
 
     provide<DeleteOrderRestController> {
         DeleteOrderRestController(
+            useCase = resolve(),
+        )
+    }
+
+    provide<SearchUsersRestController> {
+        SearchUsersRestController(
+            useCase = resolve(),
+        )
+    }
+
+    provide<BlockUserRestController> {
+        BlockUserRestController(
             useCase = resolve(),
         )
     }

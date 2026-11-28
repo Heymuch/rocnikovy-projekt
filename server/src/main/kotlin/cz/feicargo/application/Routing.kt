@@ -4,6 +4,7 @@ import cz.feicargo.cargotype.api.rest.route.CargoTypeRoutes
 import cz.feicargo.order.api.rest.route.OrderRoutes
 import cz.feicargo.station.api.rest.route.StationsRoutes
 import cz.feicargo.trainset.api.rest.route.TrainSetRoutes
+import cz.feicargo.user.api.rest.route.UserRoutes
 import io.ktor.http.ContentType
 import io.ktor.openapi.OpenApiInfo
 import io.ktor.server.application.Application
@@ -40,6 +41,8 @@ fun Application.routingModule() {
                 with(OrderRoutes.Calculate) { post() }
                 with(OrderRoutes.Update) { put() }
                 with(OrderRoutes.Delete) { delete() }
+                with(UserRoutes.Search) { get() }
+                with(UserRoutes.Block) { patch() }
             }
         }
     }

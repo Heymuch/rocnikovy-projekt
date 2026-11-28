@@ -10,6 +10,8 @@ import cz.feicargo.order.usecase.UpdateOrderUseCase
 import cz.feicargo.station.usecase.SearchForStationsUseCase
 import cz.feicargo.trainset.usecase.GetTrainSetDetailUseCase
 import cz.feicargo.trainset.usecase.SearchTrainSetsUseCase
+import cz.feicargo.user.usecase.BlockUserUseCase
+import cz.feicargo.user.usecase.SearchUsersUseCase
 import io.ktor.server.plugins.di.DependencyRegistry
 
 fun DependencyRegistry.useCases() {
@@ -102,6 +104,21 @@ fun DependencyRegistry.useCases() {
     provide<DeleteOrderUseCase> {
         DeleteOrderUseCase(
             orderRepository = resolve(),
+            transactionManager = resolve(),
+        )
+    }
+
+    provide<SearchUsersUseCase> {
+        SearchUsersUseCase(
+            userRepository = resolve(),
+            orderRepository = resolve(),
+            transactionManager = resolve(),
+        )
+    }
+
+    provide<BlockUserUseCase> {
+        BlockUserUseCase(
+            userRepository = resolve(),
             transactionManager = resolve(),
         )
     }
