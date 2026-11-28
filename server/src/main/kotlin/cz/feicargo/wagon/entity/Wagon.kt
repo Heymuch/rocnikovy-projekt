@@ -10,6 +10,7 @@ data class Wagon(
     val grossWeightLimit: Double,
     val volumeCapacity: Double,
     val rentPrice: Double,
+    val fixedRentPrice: Double,
 ) : Entity {
     @JvmInline
     value class Id(val value: Long)

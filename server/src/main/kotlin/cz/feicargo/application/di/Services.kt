@@ -18,6 +18,7 @@ fun DependencyRegistry.services() {
             routeService = resolve(),
             cargoTypeRepository = resolve(),
             wagonRepository = resolve(),
+            locomotiveRepository = resolve(),
             transactionManager = resolve(),
         )
     }

@@ -7,10 +7,12 @@ import kotlinx.serialization.Serializable
 data class LocomotiveDTO(
     val id: Long,
     val name: String,
+    val fixedRentPrice: Double,
 )
 
 fun Locomotive.toDTO() =
     LocomotiveDTO(
         this.id.value,
         this.name,
+        fixedRentPrice = this.fixedRentPrice,
     )

@@ -13,6 +13,7 @@ data class Order(
     val status: String,
     val code: String,
     val totalPrice: BigDecimal,
+    val locomotivePrice: BigDecimal,
     val loadDate: Instant?,
     val unloadDate: Instant?,
     val preferredDeparture: Instant,

@@ -17,6 +17,7 @@ object OrderTable : UuidTable("orders") {
     val status = text("status")
     val code = text("code")
     val totalPrice = decimal("total_price", 12, 2)
+    val locomotivePrice = decimal("locomotive_price", 12, 2)
     val loadDate = timestamp("load_date").nullable()
     val unloadDate = timestamp("unload_date").nullable()
     val preferredDeparture = timestamp("preferred_departure")
@@ -83,6 +84,7 @@ fun ResultRow.toOrder(
     status = this[OrderTable.status],
     code = this[OrderTable.code],
     totalPrice = this[OrderTable.totalPrice],
+    locomotivePrice = this[OrderTable.locomotivePrice],
     loadDate = this[OrderTable.loadDate],
     unloadDate = this[OrderTable.unloadDate],
     preferredDeparture = this[OrderTable.preferredDeparture],

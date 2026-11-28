@@ -138,6 +138,7 @@ class OrderExposedRepository : OrderRepository {
             it[status] = order.status
             it[code] = order.code
             it[totalPrice] = order.totalPrice
+            it[locomotivePrice] = order.locomotivePrice
             it[loadDate] = order.loadDate
             it[unloadDate] = order.unloadDate
             it[preferredDeparture] = order.preferredDeparture
@@ -179,6 +180,7 @@ class OrderExposedRepository : OrderRepository {
         OrderTable.update({ OrderTable.id eq orderId }) {
             it[name] = order.name
             it[totalPrice] = order.totalPrice
+            it[locomotivePrice] = order.locomotivePrice
             it[preferredDeparture] = order.preferredDeparture
             it[preferredArrival] = order.preferredArrival
         }

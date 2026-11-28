@@ -63,6 +63,7 @@ class CreateOrderUseCase(
                 status = "IN_QUEUE",
                 code = "ORD-${orderId.toString().substring(0, 8).uppercase()}",
                 totalPrice = calculation.totalPrice,
+                locomotivePrice = calculation.maxLocomotivePrice,
                 loadDate = null,
                 unloadDate = null,
                 preferredDeparture = preferredDeparture,

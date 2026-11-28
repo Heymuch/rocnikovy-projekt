@@ -6,6 +6,8 @@ import cz.feicargo.commons.usecase.UseCase
 import cz.feicargo.order.api.rest.dto.request.OrderCalculateRequestDTO
 import cz.feicargo.order.api.rest.dto.response.OrderCalculateExtendDTO
 import cz.feicargo.order.api.rest.dto.response.OrderCalculateResponseDTO
+import cz.feicargo.order.api.rest.dto.response.OrderPriceBreakdownDTO
+import cz.feicargo.order.api.rest.dto.response.RemainingWagonCapacityDTO
 import cz.feicargo.order.service.OrderCalculationService
 import cz.feicargo.route.api.rest.dto.toDTO
 import cz.feicargo.route.persistence.RailwayNodeRepository
@@ -52,8 +54,19 @@ class CalculateOrderUseCase(
 
         val responseDTO = OrderCalculateResponseDTO(
             totalPrice = calculation.totalPrice.toDouble(),
+            priceBreakdown = OrderPriceBreakdownDTO(
+                wagonFixedPrice = calculation.wagonFixedPrice.toDouble(),
+                wagonDistancePrice = calculation.wagonDistancePrice.toDouble(),
+                wagonsTotalPrice = calculation.wagonsTotalPrice.toDouble(),
+                energyPrice = calculation.energyPrice.toDouble(),
+                maxLocomotivePrice = calculation.maxLocomotivePrice.toDouble(),
+            ),
             routeLengthKm = calculation.routeLengthKm,
             wagonCount = calculation.wagonCount,
+            remainingWagonCapacity = RemainingWagonCapacityDTO(
+                weight = calculation.remainingWeightCapacity,
+                volume = calculation.remainingVolumeCapacity,
+            ),
             wagon = calculation.wagon.toDTO(),
             cargoType = calculation.cargoType.toDTO(),
             route = calculation.routeNodes.map { it.toString() },

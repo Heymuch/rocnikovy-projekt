@@ -18,4 +18,10 @@ class LocomotiveExposedRepository : LocomotiveRepository {
             .map(ResultRow::toLocomotive)
             .toList()
     }
+
+    override suspend fun selectAll(): List<Locomotive> =
+        LocomotiveTable
+            .select(LocomotiveTable.columns)
+            .map(ResultRow::toLocomotive)
+            .toList()
 }

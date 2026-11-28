@@ -6,10 +6,12 @@ import org.jetbrains.exposed.v1.core.dao.id.LongIdTable
 
 object LocomotiveTable : LongIdTable("locomotives") {
     val name = text("name")
+    val fixedRentPrice = double("fixed_rent_price")
 }
 
 fun ResultRow.toLocomotive() =
     Locomotive(
         id = this[LocomotiveTable.id].value.let(Locomotive::Id),
         name = this[LocomotiveTable.name],
+        fixedRentPrice = this[LocomotiveTable.fixedRentPrice],
     )
