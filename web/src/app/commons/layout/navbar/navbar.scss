@@ -83,3 +83,48 @@
   .app-toolbar-sticky a[mat-button],
   .app-toolbar-sticky button[mat-button] { min-width: 0; padding-inline: 0.5rem; font-size: 0.8rem; }
 }
+
+/* Logged-in user */
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.25rem 1rem;
+  margin-right: 0.5rem;
+
+  border-right: 1px solid var(--md-sys-color-outline-variant);
+
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: default;
+
+  mat-icon {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    font-size: 26px;
+    color: var(--md-sys-color-primary);
+  }
+}
+
+.navbar-username {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .navbar-user {
+    padding-inline: 0.5rem;
+    margin-right: 0;
+    font-size: 0.8rem;
+  }
+
+  .navbar-username {
+    max-width: 100px;
+  }
+}

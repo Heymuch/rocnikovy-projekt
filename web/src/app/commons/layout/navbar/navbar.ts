@@ -20,6 +20,7 @@ export class Navbar {
   readonly isAdmin = this.#authService.isAdmin();
   readonly isCustomer = this.#authService.isCustomer();
   readonly isAuthenticated = this.#authService.isAuthenticated();
+  readonly username = this.#authService.username;
 
   currentLanguage = 'cs';
 

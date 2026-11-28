@@ -16,6 +16,13 @@
 
   <span class="spacer"></span>
 
+  @if (isAuthenticated && username()) {
+    <div class="navbar-user">
+      <mat-icon aria-hidden="true">account_circle</mat-icon>
+      <span class="navbar-username">{{ username() }}</span>
+    </div>
+  }
+
   <button type="button" mat-button (click)="toggleLanguage()">
     <mat-icon>language</mat-icon>
     {{ currentLanguage === 'cs' ? 'EN' : 'CS' }}

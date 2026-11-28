@@ -63,8 +63,7 @@
   }
 
   <div
-    class="page-container grid-cards grid-cards--two-columns order-detail-grid"
-    [class.without-map]="!showTransportDetails()">
+    class="page-container grid-cards grid-cards--two-columns order-detail-grid">
 
     <!-- Karta 1: Informace o objednávce -->
     <mat-card class="data-card order-info-card">
@@ -302,23 +301,21 @@
     </mat-card>
 
     <!-- Karta 4: Mapa trasy -->
-    @if (showTransportDetails()) {
-      <mat-card class="data-card map-card">
-        <mat-card-header>
-          <mat-card-title class="card-title">
-            {{ 'routeMap.title' | translate }}
-          </mat-card-title>
-        </mat-card-header>
+    <mat-card class="data-card map-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">
+          {{ 'routeMap.title' | translate }}
+        </mat-card-title>
+      </mat-card-header>
 
-        <mat-card-content class="map-content">
-          <app-route-map
-            [routePoints]="order.routePoints"
-            [stationFrom]="order.stationFrom?.name ?? ''"
-            [stationTo]="order.stationTo?.name ?? ''">
-          </app-route-map>
-        </mat-card-content>
-      </mat-card>
-    }
+      <mat-card-content class="map-content">
+        <app-route-map
+          [routePoints]="order.routePoints"
+          [stationFrom]="order.stationFrom?.name ?? ''"
+          [stationTo]="order.stationTo?.name ?? ''">
+        </app-route-map>
+      </mat-card-content>
+    </mat-card>
 
   </div>
 

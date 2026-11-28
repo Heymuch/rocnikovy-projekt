@@ -13,17 +13,6 @@
 
   align-items: stretch;
   gap: 2rem;
-
-  /* Layout without route map */
-
-  &.without-map {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-areas:
-      "info logistics"
-      "info history";
-
-    grid-template-rows: auto 1fr;
-  }
 }
 
 /* Grid areas */
@@ -68,15 +57,5 @@
       "logistics"
       "history"
       "map";
-
-    &.without-map {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas:
-        "info"
-        "logistics"
-        "history";
-
-      grid-template-rows: auto;
-    }
   }
 }
