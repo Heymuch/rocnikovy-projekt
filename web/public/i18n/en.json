@@ -120,7 +120,8 @@
     "minDepartureDate": "Date must be at least {{ days }} days in advance.",
     "arrivalBeforeDeparture": "Arrival must be after departure.",
     "dateTooEarly": "Selected date is too early.",
-    "invalid": "Invalid value."
+    "invalid": "Invalid value.",
+    "sameStationsError": "The source and destination stations cannot be the same."
   },
   "routeMap": {
     "title": "Route Map",

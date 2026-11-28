@@ -182,6 +182,11 @@
 
         </div>
 
+        @if (formGroup.hasError('sameStations') && (stationFrom.touched || stationTo.touched)) {
+          <p>{{ 'validation.sameStationsError' | translate }}</p>
+        }
+
+
       </mat-card-content>
 
     </mat-card>

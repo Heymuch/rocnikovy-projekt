@@ -120,7 +120,8 @@
     "minDepartureDate": "Termín musí být alespoň {{ days }} dní dopředu.",
     "arrivalBeforeDeparture": "Příjezd musí být až po odjezdu.",
     "dateTooEarly": "Zvolené datum je příliš brzy.",
-    "invalid": "Neplatná hodnota."
+    "invalid": "Neplatná hodnota.",
+    "sameStationsError": "Výchozí a cílová stanice nesmí být stejné."
   },
   "routeMap": {
     "title": "Mapa trasy",

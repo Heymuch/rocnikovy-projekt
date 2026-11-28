@@ -10,7 +10,7 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
 import { MatTimepicker, MatTimepickerInput, MatTimepickerToggle } from '@angular/material/timepicker';
 import {
   arrivalAfterDepartureValidator,
-  ArrivalErrorStateMatcher,
+  ArrivalErrorStateMatcher, differentStationsValidator,
   getMinDepartureDate,
   minDepartureDateValidator
 } from 'src/app/order/order.validators';
@@ -97,7 +97,7 @@ export class NewOrder {
         Validators.required
       ]),
   },
-    { validators: [arrivalAfterDepartureValidator] },
+    { validators: [arrivalAfterDepartureValidator, differentStationsValidator] },
     );
 
   get name(): FormControl<string | null> {
