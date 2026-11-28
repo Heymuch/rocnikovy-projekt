@@ -6,6 +6,21 @@ import cz.feicargo.wagon.api.rest.dto.WagonDTO
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class OrderPriceBreakdownDTO(
+    val wagonFixedPrice: Double,
+    val wagonDistancePrice: Double,
+    val wagonsTotalPrice: Double,
+    val energyPrice: Double,
+    val maxLocomotivePrice: Double,
+)
+
+@Serializable
+data class RemainingWagonCapacityDTO(
+    val weight: Double,
+    val volume: Double,
+)
+
+@Serializable
 data class OrderCalculateExtendDTO(
     val railwayNodes: List<RailwayNodeDTO>? = null,
 )
@@ -13,8 +28,10 @@ data class OrderCalculateExtendDTO(
 @Serializable
 data class OrderCalculateResponseDTO(
     val totalPrice: Double,
+    val priceBreakdown: OrderPriceBreakdownDTO,
     val routeLengthKm: Double,
     val wagonCount: Int,
+    val remainingWagonCapacity: RemainingWagonCapacityDTO,
     val wagon: WagonDTO,
     val cargoType: CargoTypeDTO,
     val route: List<String>,

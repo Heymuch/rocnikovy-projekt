@@ -7,10 +7,12 @@ import kotlinx.serialization.Serializable
 data class WagonDTO(
     val id: Long,
     val name: String,
+    val fixedRentPrice: Double,
 )
 
 fun Wagon.toDTO() =
     WagonDTO(
         id = this.id.value,
         name = this.name,
+        fixedRentPrice = this.fixedRentPrice,
     )

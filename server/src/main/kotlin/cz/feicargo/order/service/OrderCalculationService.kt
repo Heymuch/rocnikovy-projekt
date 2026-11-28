@@ -11,7 +11,14 @@ data class OrderCalculationResult(
     val wagonCount: Int,
     val routeNodes: List<Uuid>,
     val routeLengthKm: Double,
-    val totalPrice: BigDecimal,
+    val wagonFixedPrice: BigDecimal,       // Fixní pronájem vagónů (wagonCount * fixedRentPrice)
+    val wagonDistancePrice: BigDecimal,    // Variabilní pronájem vagónů (km * rentPrice * wagonCount)
+    val wagonsTotalPrice: BigDecimal,      // Celkem za vagóny (fixní + variabilní)
+    val energyPrice: BigDecimal,           // Energie / trakce podle hmotnosti (km * weight * 0.50)
+    val maxLocomotivePrice: BigDecimal,    // Fixní cena nejdražší lokomotivy
+    val totalPrice: BigDecimal,            // Celková maximální cena
+    val remainingWeightCapacity: Double,   // Zbývající volná nosnost v posledním vagónu (t)
+    val remainingVolumeCapacity: Double,   // Zbývající volný objem v posledním vagónu (m3)
 )
 
 interface OrderCalculationService {

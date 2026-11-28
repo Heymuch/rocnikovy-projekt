@@ -11,6 +11,7 @@ object WagonTable : LongIdTable("wagons") {
     val grossWeightLimit = double("gross_weight_limit")
     val volumeCapacity = double("volume_capacity")
     val rentPrice = double("rent_price")
+    val fixedRentPrice = double("fixed_rent_price")
 }
 
 fun ResultRow.toWagon() = Wagon(
@@ -21,4 +22,5 @@ fun ResultRow.toWagon() = Wagon(
     grossWeightLimit = this[WagonTable.grossWeightLimit],
     volumeCapacity = this[WagonTable.volumeCapacity],
     rentPrice = this[WagonTable.rentPrice],
+    fixedRentPrice = this[WagonTable.fixedRentPrice],
 )

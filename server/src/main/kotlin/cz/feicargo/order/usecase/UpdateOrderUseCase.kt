@@ -71,6 +71,7 @@ class UpdateOrderUseCase(
         val updatedOrder = existingOrder.copy(
             name = request.name.trim(),
             totalPrice = calculation.totalPrice,
+            locomotivePrice = calculation.maxLocomotivePrice,
             preferredDeparture = preferredDeparture,
             preferredArrival = preferredArrival,
             route = OrderRoute(
