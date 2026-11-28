@@ -10,7 +10,7 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
 import { MatTimepicker, MatTimepickerInput, MatTimepickerToggle } from '@angular/material/timepicker';
 import {
   arrivalAfterDepartureValidator,
-  ArrivalErrorStateMatcher, differentStationsValidator,
+  ArrivalErrorStateMatcher, combineDateAndTime, differentStationsValidator,
   getMinDepartureDate,
   minDepartureDateValidator
 } from 'src/app/order/order.validators';
@@ -69,14 +69,20 @@ export class NewOrder {
       Validators.required,
       Validators.maxLength(this.validation.name.maxLength),
     ]),
-    preferredDeparture: this.#fb.control<Date | null>(null, [
-      Validators.required,
-      minDepartureDateValidator(),
-    ]),
-    preferredArrival: this.#fb.control<Date | null>(null, [
-      Validators.required,
-      minDepartureDateValidator(),
-    ]),
+      preferredDeparture: this.#fb.group({
+        date: this.#fb.control<Date | null>(null, [
+          Validators.required,
+          minDepartureDateValidator(),
+        ]),
+        time: this.#fb.control<Date | null>(null, [Validators.required]),
+      }),
+      preferredArrival: this.#fb.group({
+        date: this.#fb.control<Date | null>(null, [
+          Validators.required,
+          minDepartureDateValidator(),
+        ]),
+        time: this.#fb.control<Date | null>(null, [Validators.required]),
+      }),
     cargo: this.#fb.group({
       cargoTypeId: this.#fb.control<number | null>(null, [Validators.required]),
       volume: this.#fb.control<number | null>(null, [
@@ -104,12 +110,20 @@ export class NewOrder {
     return this.formGroup.controls.name;
   }
 
-  get preferredDeparture(): FormControl<Date | null> {
-    return this.formGroup.controls.preferredDeparture;
+  get preferredDepartureDate(): FormControl<Date | null> {
+    return this.formGroup.controls.preferredDeparture.controls.date;
   }
 
-  get preferredArrival(): FormControl<Date | null> {
-    return this.formGroup.controls.preferredArrival;
+  get preferredDepartureTime(): FormControl<Date | null> {
+    return this.formGroup.controls.preferredDeparture.controls.time;
+  }
+
+  get preferredArrivalDate(): FormControl<Date | null> {
+    return this.formGroup.controls.preferredArrival.controls.date;
+  }
+
+  get preferredArrivalTime(): FormControl<Date | null> {
+    return this.formGroup.controls.preferredArrival.controls.time;
   }
 
   get cargoTypeId(): FormControl<number | null> {
@@ -131,14 +145,14 @@ export class NewOrder {
   get stationTo(): FormControl<string | null> {
     return this.formGroup.controls.stationTo;
   }
-
-  protected get minArrivalDate(): Date {
-    const departure = this.preferredDeparture.value;
-    if (departure instanceof Date && departure.getTime() > this.minDate.getTime()) {
-      return departure;
-    }
-    return this.minDate;
-  }
+  // TODO
+  // protected get minArrivalDate(): Date {
+  //   const departure = this.preferredDeparture.value;
+  //   if (departure instanceof Date && departure.getTime() > this.minDate.getTime()) {
+  //     return departure;
+  //   }
+  //   return this.minDate;
+  // }
 
   protected cancel(): void {
     this.#router.navigate(['/my-orders']);
@@ -166,10 +180,24 @@ export class NewOrder {
       return;
     }
 
+    const departure = combineDateAndTime(
+      this.preferredDepartureDate.value,
+      this.preferredDepartureTime.value,
+    );
+    const arrival = combineDateAndTime(
+      this.preferredArrivalDate.value,
+      this.preferredArrivalTime.value,
+    );
+
+    if (!departure || !arrival) {
+      return;
+    }
+
+
     const payload: OrderCreateRequestDTO = {
       name: this.name.value!.trim(),
-      preferredDeparture: this.preferredDeparture.value!.toISOString(),
-      preferredArrival: this.preferredArrival.value!.toISOString(),
+      preferredDeparture: departure.toISOString(),
+      preferredArrival: arrival.toISOString(),
       route: {
         stationFrom: this.stationFrom.value!,
         stationTo: this.stationTo.value!,
@@ -180,9 +208,6 @@ export class NewOrder {
         weight: this.weight.value!,
       },
     };
-
     this.store.createOrder(payload);
   }
-
-
 }

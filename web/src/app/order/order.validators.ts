@@ -83,3 +83,21 @@ export const differentStationsValidator: ValidatorFn = (
 
   return from === to ? { sameStations: true } : null;
 };
+
+export function combineDateAndTime(
+  date: Date | null | undefined,
+  time: Date | null | undefined,
+): Date | null {
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  const result = new Date(date);
+  if (time instanceof Date && !Number.isNaN(time.getTime())) {
+    result.setHours(time.getHours(), time.getMinutes(), 0, 0);
+  } else {
+    result.setHours(0, 0, 0, 0);
+  }
+
+  return result;
+}

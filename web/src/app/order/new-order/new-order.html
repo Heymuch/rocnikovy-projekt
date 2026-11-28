@@ -228,7 +228,7 @@
                 <input
                   matInput
                   [matDatepicker]="departureDatePicker"
-                  [formControl]="preferredDeparture"
+                  [formControl]="preferredDepartureDate"
                   [min]="minDate"
                 />
 
@@ -239,12 +239,11 @@
 
                 <mat-datepicker #departureDatePicker />
 
-                @let depErr =
-                preferredDeparture.errors | validationError;
+                @let depDateErr = preferredDepartureDate.errors | validationError;
 
-                @if (preferredDeparture.invalid && depErr) {
+                @if (preferredDepartureDate.invalid && depDateErr) {
                   <mat-error>
-                    {{ depErr.key | translate: depErr.params }}
+                    {{ depDateErr.key | translate: depDateErr.params }}
                   </mat-error>
                 }
 
@@ -262,7 +261,7 @@
                 <input
                   matInput
                   [matTimepicker]="departureTimePicker"
-                  [formControl]="preferredDeparture"
+                  [formControl]="preferredDepartureTime"
                 />
 
                 <mat-timepicker-toggle
@@ -271,6 +270,13 @@
                 />
 
                 <mat-timepicker #departureTimePicker />
+                @let depTimeErr = preferredDepartureTime.errors | validationError;
+
+                @if (preferredDepartureTime.invalid && depTimeErr) {
+                  <mat-error>
+                    {{ depTimeErr.key | translate: depTimeErr.params }}
+                  </mat-error>
+                }
 
               </mat-form-field>
 
@@ -296,14 +302,21 @@
                   {{ 'preferredArrivalDate' | translate }}
                 </mat-label>
 
+<!--                TODO: ZMĚNIT!!!-->
+<!--                <input-->
+<!--                  matInput-->
+<!--                  [matDatepicker]="arrivalDatePicker"-->
+<!--                  [formControl]="preferredArrivalDate"-->
+<!--                  [min]="minArrivalDate"-->
+<!--                  [errorStateMatcher]="arrivalErrorMatcher"-->
+<!--                />-->
+
                 <input
                   matInput
                   [matDatepicker]="arrivalDatePicker"
-                  [formControl]="preferredArrival"
-                  [min]="minArrivalDate"
+                  [formControl]="preferredArrivalDate"
                   [errorStateMatcher]="arrivalErrorMatcher"
                 />
-
                 <mat-datepicker-toggle
                   matIconSuffix
                   [for]="arrivalDatePicker"
@@ -311,20 +324,22 @@
 
                 <mat-datepicker #arrivalDatePicker />
 
-                @let arrErr =
-                (preferredArrival.errors ?? formGroup.errors)
-                | validationError;
+                @let arrDateErr =
+                  (preferredArrivalDate.errors ??
+                    (formGroup.hasError('arrivalBeforeDeparture')
+                      ? { arrivalBeforeDeparture: true }
+                      : null))
+                    | validationError;
 
                 @if (
-                  (preferredArrival.invalid ||
+                  (preferredArrivalDate.invalid ||
                     formGroup.hasError('arrivalBeforeDeparture')) &&
-                  arrErr
+                  arrDateErr
                   ) {
                   <mat-error>
-                    {{ arrErr.key | translate: arrErr.params }}
+                    {{ arrDateErr.key | translate: arrDateErr.params }}
                   </mat-error>
                 }
-
               </mat-form-field>
 
               <!-- Čas příjezdu -->
@@ -339,9 +354,10 @@
                 <input
                   matInput
                   [matTimepicker]="arrivalTimePicker"
-                  [formControl]="preferredArrival"
+                  [formControl]="preferredArrivalTime"
                   [errorStateMatcher]="arrivalErrorMatcher"
                 />
+
 
                 <mat-timepicker-toggle
                   matIconSuffix
@@ -349,6 +365,14 @@
                 />
 
                 <mat-timepicker #arrivalTimePicker />
+
+                @let arrTimeErr = preferredArrivalTime.errors | validationError;
+
+                @if (preferredArrivalTime.invalid && arrTimeErr) {
+                  <mat-error>
+                    {{ arrTimeErr.key | translate: arrTimeErr.params }}
+                  </mat-error>
+                }
 
               </mat-form-field>
 
